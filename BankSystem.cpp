@@ -173,8 +173,10 @@ public:
     // Implement methods for Signup, Login, Dashboard, Transaction Center, User Profile,
     // Data Analytics Dashboard, Help & Resources, Log Out, and other operations.
 };
-void LoginnSignup(BankSystem &bank)
+
+int main()
 {
+    BankSystem bank("bank_data.txt");
     while (true)
     {
         string username, password, email, phone;
@@ -207,8 +209,48 @@ void LoginnSignup(BankSystem &bank)
                 bank.setCurrentLoggedInUser(username);
                 // Redirect to the user's dashboard or other menu options
                 cout << "Login successful!" << endl;
-                // Implement the user dashboard menu here
-                // ...
+                while (true)
+                {
+                    cout << "\nDashboard Options:" << endl;
+                    cout << "1. Transaction Center" << endl;
+                    cout << "2. User Profile" << endl;
+                    cout << "3. Data Analytics Dashboard" << endl;
+                    cout << "4. Help & Resources" << endl;
+                    cout << "5. Logout" << endl;
+                    cout << "Enter your choice: ";
+
+                    int choice;
+                    cin >> choice;
+                    cin.ignore(); // Clear the newline character
+
+                    switch (choice)
+                    {
+                    case 1:
+                        // Implement Transaction Center here
+                        // You can call functions like depositFunds and withdrawFunds from the bank object
+                        break;
+                    case 2:
+                        // Implement User Profile here
+                        // Display user information and allow for profile updates if needed
+                        break;
+                    case 3:
+                        // Implement Data Analytics Dashboard here
+                        // Provide analytics and insights based on user data
+                        break;
+                    case 4:
+                        // Implement Help & Resources here
+                        // Provide user assistance and resources
+                        break;
+                    case 5:
+                        // Logout the user
+                        cout << "Logging out..." << endl;
+                        bank.setCurrentLoggedInUser("");
+                        LoginnSignup(bank);
+                        break;
+                    default:
+                        cout << "Invalid choice. Please select a valid option." << endl;
+                    }
+                }
             }
             else
             {
@@ -262,10 +304,5 @@ void LoginnSignup(BankSystem &bank)
             break;
         }
     }
-}
-int main()
-{
-    BankSystem bank("bank_data.txt");
-    LoginnSignup(bank);
     return 0;
 }
