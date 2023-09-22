@@ -179,6 +179,7 @@ int main()
     BankSystem bank("bank_data.txt");
     while (true)
     {
+    login:
         string username, password, email, phone;
         cout << "Welcome to the Bank System" << endl;
         cout << "1. Login" << endl;
@@ -245,7 +246,7 @@ int main()
                         // Logout the user
                         cout << "Logging out..." << endl;
                         bank.setCurrentLoggedInUser("");
-                        LoginnSignup(bank);
+                        goto login;
                         break;
                     default:
                         cout << "Invalid choice. Please select a valid option." << endl;
