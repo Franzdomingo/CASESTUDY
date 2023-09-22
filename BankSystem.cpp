@@ -382,10 +382,8 @@ int main()
         if (choice == 1)
         {
             cout << "Enter username: ";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             getline(cin, username);
             cout << "Enter password: ";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             getline(cin, password);
 
             // Perform user authentication here
@@ -400,6 +398,7 @@ int main()
                 cout << "Login successful!" << endl;
                 while (true)
                 {
+                dashboard:
                     cout << "\nWelcome " << username << "!" << endl;
                     cout << "Current Balance: $" << bank.getCurrentBalance(username) << endl;
                     cout << "\nDashboard Options:" << endl;
@@ -448,7 +447,7 @@ int main()
                                     continue;
                                 }
 
-                                if (bank.depositFunds(currentLoggedInUser, depositAmount))
+                                if (bank.depositFunds(username, depositAmount))
                                 {
                                     cout << "Deposit of $" << depositAmount << " successful." << endl;
                                 }
@@ -471,7 +470,7 @@ int main()
                                     continue;
                                 }
 
-                                if (bank.withdrawFunds(currentLoggedInUser, withdrawAmount))
+                                if (bank.withdrawFunds(username, withdrawAmount))
                                 {
                                     cout << "Withdrawal of $" << withdrawAmount << " successful." << endl;
                                 }
@@ -483,11 +482,11 @@ int main()
 
                             case 3:
                                 // View Transaction History
-
-                                bank.displayTransactionHistory(currentLoggedInUser);
+                                bank.displayTransactionHistory(username);
                                 break;
 
                             case 4:
+                                goto dashboard;
                                 // Back to Dashboard
                                 break;
 
@@ -530,8 +529,7 @@ int main()
             cout << "Product Application" << endl;
             cout << "Note: Press Enter Everytime After Entering a Value" << endl;
             cout << "Enter username: ";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            getline(cin, username);
+            cin >> username;
 
             // Check if the username is already taken
             bool usernameTaken = bank.isUsernameTaken(username);
@@ -541,16 +539,12 @@ int main()
                 continue;
             }
             cout << "Enter password: ";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            getline(cin, password);
-
+            cin >> password;
             cout << "Enter email: ";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            getline(cin, email);
+            cin >> email;
 
             cout << "Enter phone: ";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            getline(cin, phone);
+            cin >> phone;
 
             // Create a new user account
             bool registrationSuccess = bank.createUser(username, password, email, phone);
