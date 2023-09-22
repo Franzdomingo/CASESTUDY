@@ -1,13 +1,23 @@
-Franz1 Franz
+Franz1 Franz 
 200
 1
 Franz Franz 0
 2
 TXN169537785541 Deposit 100 1695377855
 TXN169537794441 Deposit 100 1695377944
-Franz2 Franz2
+Franz2 Franz2 
 1
 1
 Franz2 Franz2 0
 1
 TXN169537804118467 Deposit 1 1695378041
+Nina Nina 
+0
+1
+Nina@gmail.com Nina@gmail.com 0
+0
+Nino Nino Savings Account
+0
+1
+Nino@gmail.com 09457296178 0
+0

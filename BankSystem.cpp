@@ -59,6 +59,7 @@ struct User
 {
     string username;
     string password;
+    string producttype;
     double balance;
     vector<Profile> profiles;
     vector<Transaction> transactionhistory;
@@ -237,7 +238,7 @@ public:
         // Return a negative value or another suitable indicator if the user is not found
         return -1.0; // You can choose a different indicator if needed
     }
-    bool createUser(const string &username, const string &password, const string &email, const string &phone)
+    bool createUser(const string &username, const string &password, const string &email, const string &phone, const string &producttype)
     {
         // Check if the username is already taken
         if (isUsernameTaken(username))
@@ -248,6 +249,7 @@ public:
 
         // Create a new user account
         User newUser;
+        newUser.producttype = producttype;
         newUser.username = username;
         newUser.password = password;
         newUser.balance = 0.0;
@@ -336,7 +338,7 @@ public:
         for (const User &user : users)
         {
             // Save the username and password
-            file << user.username << " " << user.password << endl;
+            file << user.username << " " << user.password << " " << user.producttype << endl;
 
             // Save the balance
             file << user.balance << endl;
@@ -385,10 +387,6 @@ int main()
             getline(cin, username);
             cout << "Enter password: ";
             getline(cin, password);
-
-            // Perform user authentication here
-            // You need to check if the provided username and password match a user in your system
-            // If authentication is successful, set the 'currentLoggedInUser' variable in your BankSystem class
 
             // Example pseudo-code for authentication
             if (bank.authenticateUser(username, password))
@@ -546,8 +544,32 @@ int main()
             cout << "Enter phone: ";
             cin >> phone;
 
+            cout << "Pick account type: ";
+            cout << "1. Savings Account" << endl;
+            cout << "2. Credit Account" << endl;
+            cout << "3. Exit" << endl;
+            int acctype;
+            string accounttype; // Declare the variable here
+
+            cin >> acctype;
+
+            switch (acctype)
+            {
+            case 1:
+                accounttype = "Savings Account"; // Assign the value here
+                break;
+            case 2:
+                accounttype = "Credit Account"; // Assign the value here
+                break;
+            case 3:
+                cout << "Goodbye!" << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please select a valid option." << endl;
+            }
+
             // Create a new user account
-            bool registrationSuccess = bank.createUser(username, password, email, phone);
+            bool registrationSuccess = bank.createUser(username, password, email, phone, accounttype);
             if (registrationSuccess)
             {
                 cout << "Registration successful!" << endl;
