@@ -382,6 +382,8 @@ int main()
         }
         else if (choice == 2)
         {
+            cout << "Product Application" << endl;
+            cout << "Note: Press Enter Everytime After Entering a Value" << endl;
             cout << "Enter username: ";
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             getline(cin, username);
