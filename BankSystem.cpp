@@ -89,6 +89,111 @@ public:
         // Load data from the file into the 'users' vector during system initialization
         loadDataFromFile();
     }
+    // Display Transaction History
+    void displayTransactionHistory(const string &username) const
+    {
+        for (const User &user : users)
+        {
+            if (user.username == username)
+            {
+                cout << "Transaction History for User: " << user.username << endl;
+                cout << "--------------------------------" << endl;
+                for (const Transaction &transaction : user.transactionhistory)
+                {
+                    cout << "Transaction ID: " << transaction.transactionID << endl;
+                    cout << "Transaction Type: " << transaction.transactionType << endl;
+                    cout << "Amount: $" << transaction.amount << endl;
+                    cout << "Timestamp: " << ctime(&transaction.timestamp);
+                    cout << "--------------------------------" << endl;
+                }
+                return;
+            }
+        }
+    }
+
+    bool depositFunds(const string &username, double amount)
+    {
+        for (User &user : users)
+        {
+            if (user.username == username)
+            {
+                // Update user's transaction history
+                Transaction depositTransaction;
+                depositTransaction.transactionID = generateTransactionID(); // Call a function to generate a unique transaction ID
+                depositTransaction.transactionType = "Deposit";
+                depositTransaction.amount = amount;
+                depositTransaction.timestamp = time(nullptr);
+
+                user.transactionhistory.push_back(depositTransaction);
+
+                // Update user's balance
+                user.balance += amount;
+
+                // Save the updated user data to the file
+                saveDataToFile();
+
+                cout << "Deposit of $" << amount << " successful." << endl;
+                return true;
+            }
+        }
+
+        cout << "User not found. Deposit failed." << endl;
+        return false;
+    }
+
+    // Function to generate a unique transaction ID (you can implement this as per your needs)
+    string generateTransactionID()
+    {
+        // Implement your logic to generate a unique transaction ID
+        // Example: You can use a combination of timestamp and a random number
+        return "TXN" + to_string(time(nullptr)) + to_string(rand());
+    }
+
+    // Modify your BankSystem class to include the following functions:
+
+    // Withdraw Funds
+    bool withdrawFunds(const string &username, double amount)
+    {
+        for (User &user : users)
+        {
+            if (user.username == username)
+            {
+                if (amount <= 0.0)
+                {
+                    cout << "Invalid withdrawal amount. Please enter a positive amount." << endl;
+                    return false;
+                }
+
+                if (user.balance >= amount)
+                {
+                    // Update user's transaction history
+                    Transaction withdrawTransaction;
+                    withdrawTransaction.transactionID = generateTransactionID(); // Call a function to generate a unique transaction ID
+                    withdrawTransaction.transactionType = "Withdrawal";
+                    withdrawTransaction.amount = amount;
+                    withdrawTransaction.timestamp = time(nullptr);
+
+                    user.transactionhistory.push_back(withdrawTransaction);
+
+                    // Update user's balance
+                    user.balance -= amount;
+
+                    // Save the updated user data to the file
+                    saveDataToFile();
+
+                    return true;
+                }
+                else
+                {
+                    cout << "Insufficient balance. Withdrawal failed." << endl;
+                    return false;
+                }
+            }
+        }
+
+        cout << "User not found. Withdrawal failed." << endl;
+        return false;
+    }
 
     bool authenticateUser(const string &username, const string &password)
     {
@@ -255,45 +360,8 @@ public:
 
         file.close();
     }
-
-    bool depositFunds(const string &username, double amount)
-    {
-        for (User &user : users)
-        {
-            if (user.username == username)
-            {
-                // Update user's transaction history
-                Transaction depositTransaction;
-                depositTransaction.transactionID = generateTransactionID(); // Call a function to generate a unique transaction ID
-                depositTransaction.transactionType = "Deposit";
-                depositTransaction.amount = amount;
-                depositTransaction.timestamp = time(nullptr);
-
-                user.transactionhistory.push_back(depositTransaction);
-
-                // Update user's balance
-                user.balance += amount;
-
-                // Save the updated user data to the file
-                saveDataToFile();
-
-                cout << "Deposit of $" << amount << " successful." << endl;
-                return true;
-            }
-        }
-
-        cout << "User not found. Deposit failed." << endl;
-        return false;
-    }
-
-    // Function to generate a unique transaction ID (you can implement this as per your needs)
-    string generateTransactionID()
-    {
-        // Implement your logic to generate a unique transaction ID
-        // Example: You can use a combination of timestamp and a random number
-        return "TXN" + to_string(time(nullptr)) + to_string(rand());
-    }
 };
+
 int main()
 {
     BankSystem bank("bank_data.txt");
@@ -349,8 +417,85 @@ int main()
                     switch (choice)
                     {
                     case 1:
-                        // Implement Transaction Center here
-                        // You can call functions like depositFunds and withdrawFunds from the bank object
+                        // Inside your main function, after successful login:
+
+                        while (true)
+                        {
+                            cout << "\nTransaction Center:" << endl;
+                            cout << "1. Deposit Funds" << endl;
+                            cout << "2. Withdraw Funds" << endl;
+                            cout << "3. View Transaction History" << endl;
+                            cout << "4. Back to Dashboard" << endl;
+                            cout << "Enter your choice: ";
+                            bank.setCurrentLoggedInUser(username);
+                            int transactionChoice;
+                            string currentLoggedInUser;
+                            cin >> transactionChoice;
+                            cin.ignore(); // Clear the newline character
+
+                            switch (transactionChoice)
+                            {
+                            case 1:
+                                // Deposit Funds
+                                double depositAmount;
+                                cout << "Enter the amount to deposit: $";
+                                cin >> depositAmount;
+                                cin.ignore(); // Clear the newline character
+
+                                if (depositAmount <= 0.0)
+                                {
+                                    cout << "Invalid deposit amount. Please enter a positive amount." << endl;
+                                    continue;
+                                }
+
+                                if (bank.depositFunds(currentLoggedInUser, depositAmount))
+                                {
+                                    cout << "Deposit of $" << depositAmount << " successful." << endl;
+                                }
+                                else
+                                {
+                                    cout << "Deposit failed. Please try again." << endl;
+                                }
+                                break;
+
+                            case 2:
+                                // Withdraw Funds
+                                double withdrawAmount;
+                                cout << "Enter the amount to withdraw: $";
+                                cin >> withdrawAmount;
+                                cin.ignore(); // Clear the newline character
+
+                                if (withdrawAmount <= 0.0)
+                                {
+                                    cout << "Invalid withdrawal amount. Please enter a positive amount." << endl;
+                                    continue;
+                                }
+
+                                if (bank.withdrawFunds(currentLoggedInUser, withdrawAmount))
+                                {
+                                    cout << "Withdrawal of $" << withdrawAmount << " successful." << endl;
+                                }
+                                else
+                                {
+                                    cout << "Withdrawal failed. Please try again." << endl;
+                                }
+                                break;
+
+                            case 3:
+                                // View Transaction History
+
+                                bank.displayTransactionHistory(currentLoggedInUser);
+                                break;
+
+                            case 4:
+                                // Back to Dashboard
+                                break;
+
+                            default:
+                                cout << "Invalid choice. Please select a valid option." << endl;
+                            }
+                        }
+
                         break;
                     case 2:
                         // Implement User Profile here
