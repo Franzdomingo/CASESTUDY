@@ -544,7 +544,7 @@ int main()
             cout << "Enter phone: ";
             cin >> phone;
 
-            cout << "Pick account type: ";
+            cout << "Pick account type: " << endl;
             cout << "1. Savings Account" << endl;
             cout << "2. Credit Account" << endl;
             cout << "3. Exit" << endl;
