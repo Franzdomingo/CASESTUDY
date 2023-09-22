@@ -10,26 +10,76 @@ using namespace std;
 // Define structures for data storage
 struct Transaction
 {
+    string transactionID;
     string transactionType;
     double amount;
     time_t timestamp;
+};
+struct Profile
+{
+    string email;
+    string phone;
+    bool isTwoFactorEnabled;
+};
+
+struct ProductApplication
+{
+    string applicationID;
+    string producttype;
+};
+
+struct Session
+{
+    string sessionID;
+    time_t timestamp;
+};
+
+struct DataAnalytics
+{
+    string dataID;
+    string businessinsights;
+    string transactionpatterns;
+};
+
+struct HelpandResources
+{
+    string helpID;
+    string helpcontent;
+    string helpresources;
+    string feedback;
+};
+
+struct dashboard
+{
+    string dashboardID;
+    string dashboardcontent;
 };
 
 struct User
 {
     string username;
     string password;
-    string email;
-    string phone;
     double balance;
-    bool isTwoFactorEnabled;
-    vector<Transaction> transactionHistory;
+    vector<Profile> profiles;
+    vector<Transaction> transactionhistory;
+    vector<ProductApplication> productapplications;
+    vector<Session> sessions;
+    vector<HelpandResources> helpandresources;
+    vector<DataAnalytics> dataanalytics;
+    vector<dashboard> dashboards;
 };
 
 class BankSystem
 {
 private:
     vector<User> users;
+    vector<Profile> profiles;
+    vector<Transaction> transactionhistory;
+    vector<ProductApplication> productapplications;
+    vector<Session> sessions;
+    vector<HelpandResources> helpandresources;
+    vector<DataAnalytics> dataanalytics;
+    vector<dashboard> dashboards;
     string currentLoggedInUser;
     string dataFilePath; // Path to the data file
 
@@ -40,7 +90,6 @@ public:
         loadDataFromFile();
     }
 
-    // Authenticate a user based on username and password
     bool authenticateUser(const string &username, const string &password)
     {
         for (const User &user : users)
@@ -52,7 +101,12 @@ public:
         }
         return false; // Authentication failed
     }
-    // Check if a username is already taken
+
+    void setCurrentLoggedInUser(const string &username)
+    {
+        currentLoggedInUser = username;
+    }
+
     bool isUsernameTaken(const string &username) const
     {
         for (const User &user : users)
@@ -65,10 +119,53 @@ public:
         return false; // Username is available
     }
 
-    void setCurrentLoggedInUser(const string &username)
+    double getCurrentBalance(const string &username) const
     {
-        currentLoggedInUser = username;
+        for (const User &user : users)
+        {
+            if (user.username == username)
+            {
+                return user.balance;
+            }
+        }
+
+        // Return a negative value or another suitable indicator if the user is not found
+        return -1.0; // You can choose a different indicator if needed
     }
+    bool createUser(const string &username, const string &password, const string &email, const string &phone)
+    {
+        // Check if the username is already taken
+        if (isUsernameTaken(username))
+        {
+            cout << "Username is already taken. Please choose another one." << endl;
+            return false;
+        }
+
+        // Create a new user account
+        User newUser;
+        newUser.username = username;
+        newUser.password = password;
+        newUser.balance = 0.0;
+
+        // Create a new profile for the user
+        Profile newProfile;
+        newProfile.email = email;
+        newProfile.phone = phone;
+        newProfile.isTwoFactorEnabled = false; // You can add logic to enable 2FA if needed
+
+        // Add the new profile to the user's profiles vector
+        newUser.profiles.push_back(newProfile);
+
+        // Add the new user to the vector of users
+        users.push_back(newUser);
+
+        // Save the updated user data to the file
+        saveDataToFile();
+
+        cout << "User account created successfully." << endl;
+        return true;
+    }
+
     // Load user data from the file into memory
     void loadDataFromFile()
     {
@@ -81,8 +178,40 @@ public:
 
         users.clear();
         User user;
-        while (file >> user.username >> user.password >> user.email >> user.phone >> user.isTwoFactorEnabled)
+
+        while (true)
         {
+            // Read the username and password
+            if (!(file >> user.username >> user.password))
+                break;
+
+            // Read the balance
+            file >> user.balance;
+
+            // Read the profiles
+            int profileCount;
+            file >> profileCount;
+            user.profiles.resize(profileCount);
+            for (int i = 0; i < profileCount; ++i)
+            {
+                Profile profile;
+                file >> profile.email >> profile.phone >> profile.isTwoFactorEnabled;
+                user.profiles[i] = profile;
+            }
+
+            // Read the transaction history
+            int transactionCount;
+            file >> transactionCount;
+            user.transactionhistory.resize(transactionCount);
+            for (int i = 0; i < transactionCount; ++i)
+            {
+                Transaction transaction;
+                file >> transaction.transactionID >> transaction.transactionType >> transaction.amount >> transaction.timestamp;
+                user.transactionhistory[i] = transaction;
+            }
+
+            // Read the other data structures (ProductApplication, Session, etc.) in a similar manner
+
             users.push_back(user);
         }
 
@@ -101,41 +230,30 @@ public:
 
         for (const User &user : users)
         {
-            file << user.username << " " << user.password << " " << user.email << " " << user.phone << " " << user.balance << " " << user.isTwoFactorEnabled << endl;
+            // Save the username and password
+            file << user.username << " " << user.password << endl;
+
+            // Save the balance
+            file << user.balance << endl;
+
+            // Save the number of profiles and each profile
+            file << user.profiles.size() << endl;
+            for (const Profile &profile : user.profiles)
+            {
+                file << profile.email << " " << profile.phone << " " << profile.isTwoFactorEnabled << endl;
+            }
+
+            // Save the number of transactions and each transaction
+            file << user.transactionhistory.size() << endl;
+            for (const Transaction &transaction : user.transactionhistory)
+            {
+                file << transaction.transactionID << " " << transaction.transactionType << " " << transaction.amount << " " << transaction.timestamp << endl;
+            }
+
+            // Save the other data structures (ProductApplication, Session, etc.) in a similar manner
         }
 
         file.close();
-    }
-
-    bool createUser(const string &username, const string &password, const string &email, const string &phone)
-    {
-        // Check if the username is already taken
-        for (const User &user : users)
-        {
-            if (user.username == username)
-            {
-                cout << "Username is already taken. Please choose another one." << endl;
-                return false;
-            }
-        }
-
-        // Create a new user account
-        User newUser;
-        newUser.username = username;
-        newUser.password = password;
-        newUser.email = email;
-        newUser.phone = phone;
-        newUser.balance = 0.0;
-        newUser.isTwoFactorEnabled = false; // You can add logic to enable 2FA if needed
-
-        // Add the new user to the vector of users
-        users.push_back(newUser);
-
-        // Save the updated user data to the file
-        saveDataToFile();
-
-        cout << "User account created successfully." << endl;
-        return true;
     }
 
     bool depositFunds(const string &username, double amount)
@@ -146,14 +264,14 @@ public:
             {
                 // Update user's transaction history
                 Transaction depositTransaction;
+                depositTransaction.transactionID = generateTransactionID(); // Call a function to generate a unique transaction ID
                 depositTransaction.transactionType = "Deposit";
                 depositTransaction.amount = amount;
                 depositTransaction.timestamp = time(nullptr);
 
-                user.transactionHistory.push_back(depositTransaction);
+                user.transactionhistory.push_back(depositTransaction);
 
                 // Update user's balance
-                // Assuming you have a balance field in the User struct
                 user.balance += amount;
 
                 // Save the updated user data to the file
@@ -168,12 +286,14 @@ public:
         return false;
     }
 
-    // Other methods for implementing the bank system's functionality
-
-    // Implement methods for Signup, Login, Dashboard, Transaction Center, User Profile,
-    // Data Analytics Dashboard, Help & Resources, Log Out, and other operations.
+    // Function to generate a unique transaction ID (you can implement this as per your needs)
+    string generateTransactionID()
+    {
+        // Implement your logic to generate a unique transaction ID
+        // Example: You can use a combination of timestamp and a random number
+        return "TXN" + to_string(time(nullptr)) + to_string(rand());
+    }
 };
-
 int main()
 {
     BankSystem bank("bank_data.txt");
@@ -212,6 +332,8 @@ int main()
                 cout << "Login successful!" << endl;
                 while (true)
                 {
+                    cout << "\nWelcome " << username << "!" << endl;
+                    cout << "Current Balance: $" << bank.getCurrentBalance(username) << endl;
                     cout << "\nDashboard Options:" << endl;
                     cout << "1. Transaction Center" << endl;
                     cout << "2. User Profile" << endl;
