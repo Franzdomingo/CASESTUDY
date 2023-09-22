@@ -32,12 +32,3 @@ string decryptPass(string encrypted)
     delete[] pass;
     return encrypted;
 }
-
-
-
-int main()
-{
-    cout << encryptPass("password") << endl;
-    cout << decryptPass("rcuuyqtf") << endl;
-    return 0;
-}
