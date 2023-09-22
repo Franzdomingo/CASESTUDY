@@ -173,10 +173,8 @@ public:
     // Implement methods for Signup, Login, Dashboard, Transaction Center, User Profile,
     // Data Analytics Dashboard, Help & Resources, Log Out, and other operations.
 };
-
-int main()
+void LoginnSignup(BankSystem &bank)
 {
-    BankSystem bank("bank_data.txt");
     while (true)
     {
         string username, password, email, phone;
@@ -264,6 +262,10 @@ int main()
             break;
         }
     }
-
+}
+int main()
+{
+    BankSystem bank("bank_data.txt");
+    LoginnSignup(bank);
     return 0;
 }
