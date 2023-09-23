@@ -1,0 +1,35 @@
+#include <iostream>
+#include <regex>
+
+using namespace std;
+
+class ChatAI
+{
+public:
+    void chatBot(string message)
+    {
+
+        if (regex_match(message, regex("(forgot)(.*)(password)", regex_constants::icase)))
+            cout << "If you forgot your password, press the \'Forgot Password?\' button and fill in the details.";
+
+        if (regex_match(message, regex("(test)", regex_constants::icase)))
+            cout << "No available answer for this yet.";
+
+        if (regex_match(message, regex("(yes)", regex_constants::icase)))
+            cout << "No available answer for this yet.";
+
+        if (regex_match(message, regex("(no)", regex_constants::icase)))
+            cout << "No available answer for this yet.";
+
+        if (regex_match(message, regex("(maybe)", regex_constants::icase)))
+            cout << "No available answer for this yet.";
+    }
+};
+
+int main()
+{
+    ChatAI ai;
+    string msg = "I forgot my password, what should I do?";
+    ai.chatBot(msg);
+    return 0;
+}
