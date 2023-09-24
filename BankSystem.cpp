@@ -525,7 +525,6 @@ int main()
         else if (choice == 2)
         {
             cout << "Product Application" << endl;
-            cout << "Note: Press Enter Everytime After Entering a Value" << endl;
             cout << "Enter username: ";
             cin >> username;
 
@@ -543,11 +542,10 @@ int main()
 
             cout << "Enter phone: ";
             cin >> phone;
-
+        Cardselection:
             cout << "Pick account type: " << endl;
             cout << "1. Savings Account" << endl;
             cout << "2. Credit Account" << endl;
-            cout << "3. Exit" << endl;
             int acctype;
             string accounttype; // Declare the variable here
 
@@ -561,11 +559,11 @@ int main()
             case 2:
                 accounttype = "Credit Account"; // Assign the value here
                 break;
-            case 3:
-                cout << "Goodbye!" << endl;
-                break;
             default:
+                // go back to pick account type
                 cout << "Invalid choice. Please select a valid option." << endl;
+                goto Cardselection;
+                break;
             }
 
             // Create a new user account
