@@ -594,6 +594,7 @@ int main()
                     else if (productType == "Credit Account")
                     {
                         cout << "\nWelcome " << username << "!" << endl;
+                        break;
                     }
                 }
             }
