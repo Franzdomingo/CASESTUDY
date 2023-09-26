@@ -469,31 +469,30 @@ int main()
 
                 while (true)
                 {
-                    if (productType == "Savings Account")
+                dashboard:
+                    cout << "\nWelcome " << username << "!" << endl;
+                    cout << "Current Balance: $" << bank.getCurrentBalance(username) << endl;
+                    cout << "\nDashboard Options:" << endl;
+                    cout << "1. Transaction Center" << endl;
+                    cout << "2. User Profile" << endl;
+                    cout << "3. Data Analytics Dashboard" << endl;
+                    cout << "4. Help & Resources" << endl;
+                    cout << "5. Logout" << endl;
+                    cout << "Enter your choice: ";
+
+                    int choice;
+                    cin >> choice;
+                    cin.ignore(); // Clear the newline character
+
+                    switch (choice)
                     {
-                    dashboard:
-                        cout << "\nWelcome " << username << "!" << endl;
-                        cout << "Current Balance: $" << bank.getCurrentBalance(username) << endl;
-                        cout << "\nDashboard Options:" << endl;
-                        cout << "1. Transaction Center" << endl;
-                        cout << "2. User Profile" << endl;
-                        cout << "3. Data Analytics Dashboard" << endl;
-                        cout << "4. Help & Resources" << endl;
-                        cout << "5. Logout" << endl;
-                        cout << "Enter your choice: ";
+                    case 1:
+                        // Inside your main function, after successful login:
 
-                        int choice;
-                        cin >> choice;
-                        cin.ignore(); // Clear the newline character
-
-                        switch (choice)
+                        while (true)
                         {
-                        case 1:
-                            // Inside your main function, after successful login:
-
-                            while (true)
+                            if (productType == "Savings Account")
                             {
-
                                 cout << "\nTransaction Center:" << endl;
                                 cout << "1. Deposit Funds" << endl;
                                 cout << "2. Withdraw Funds" << endl;
@@ -568,6 +567,9 @@ int main()
                                     cout << "Invalid choice. Please select a valid option." << endl;
                                 }
                             }
+                            else if (productType == "Credit Account")
+                            {
+                            }
                             break;
                         case 2:
                             // Implement User Profile here
@@ -590,11 +592,6 @@ int main()
                         default:
                             cout << "Invalid choice. Please select a valid option." << endl;
                         }
-                    }
-                    else if (productType == "Credit Account")
-                    {
-                        cout << "\nWelcome " << username << "!" << endl;
-                        break;
                     }
                 }
             }
