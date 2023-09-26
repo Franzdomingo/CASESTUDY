@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 #include <ctime>
+#include <limits>
+#include "SecuritySys.h"
 
 using namespace std;
 
@@ -72,6 +74,7 @@ struct User
 class BankSystem
 {
 private:
+    SecuritySys system;
     vector<User> users;
     vector<Profile> profiles;
     vector<Transaction> transactionhistory;
@@ -199,7 +202,8 @@ public:
     {
         for (const User &user : users)
         {
-            if (user.username == username && user.password == password)
+            string decryptedPass = system.decryptPass(user.password);
+            if (user.username == username && decryptedPass == password)
             {
                 return true; // Authentication successful
             }
@@ -250,7 +254,7 @@ public:
         User newUser;
         newUser.producttype = producttype;
         newUser.username = username;
-        newUser.password = password;
+        newUser.password = system.encryptPass(password);
         newUser.balance = 0.0;
 
         // Create a new profile for the user
@@ -275,7 +279,7 @@ public:
     // Load user data from the file into memory
     void loadDataFromFile()
     {
-        ifstream file(dataFilePath);
+        ifstream file(dataFilePath, ios::binary); // Open file in binary mode.
         if (!file.is_open())
         {
             cout << "Error: Unable to open data file." << endl;
@@ -285,38 +289,37 @@ public:
         users.clear();
         User user;
 
-        while (true)
+        while (file >> user.username >> user.password)
         {
-            // Read the username and password
-            if (!(file >> user.username >> user.password))
-                break;
-
             // Read the balance
-            file >> user.balance;
+            if (!(file >> user.balance))
+                break;
 
             // Read the profiles
             int profileCount;
-            file >> profileCount;
+            if (!(file >> profileCount))
+                break;
             user.profiles.resize(profileCount);
             for (int i = 0; i < profileCount; ++i)
             {
                 Profile profile;
-                file >> profile.email >> profile.phone >> profile.isTwoFactorEnabled;
+                if (!(file >> profile.email >> profile.phone >> profile.isTwoFactorEnabled))
+                    break;
                 user.profiles[i] = profile;
             }
 
             // Read the transaction history
             int transactionCount;
-            file >> transactionCount;
+            if (!(file >> transactionCount))
+                break;
             user.transactionhistory.resize(transactionCount);
             for (int i = 0; i < transactionCount; ++i)
             {
                 Transaction transaction;
-                file >> transaction.transactionID >> transaction.transactionType >> transaction.amount >> transaction.timestamp;
+                if (!(file >> transaction.transactionID >> transaction.transactionType >> transaction.amount >> transaction.timestamp))
+                    break;
                 user.transactionhistory[i] = transaction;
             }
-
-            // Read the other data structures (ProductApplication, Session, etc.) in a similar manner
 
             users.push_back(user);
         }
@@ -327,7 +330,7 @@ public:
     // Save user data from memory to the file
     void saveDataToFile()
     {
-        ofstream file(dataFilePath);
+        ofstream file(dataFilePath, ios::binary); // Open file in binary mode.
         if (!file.is_open())
         {
             cout << "Error: Unable to save data to the file." << endl;
@@ -359,6 +362,7 @@ public:
             // Save the other data structures (ProductApplication, Session, etc.) in a similar manner
         }
 
+        file.flush(); // Ensure everything is written in the file.
         file.close();
     }
 };
