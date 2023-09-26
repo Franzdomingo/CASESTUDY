@@ -50,6 +50,7 @@ private:
     vector<User> users;
     string currentLoggedInUser;
     string dataFilePath;
+    string currentProductType;
 
 public:
     BankSystem(const string &dataFile) : dataFilePath(dataFile)
@@ -90,7 +91,8 @@ public:
                 {
                     cout << "Email: " << profile.email << endl;
                     cout << "Phone: " << profile.phone << endl;
-                    cout << "Two Factor Authentication: " << profile.isTwoFactorEnabled ? "Enabled" : "Disabled";
+                    cout << "Two Factor Authentication: " << endl;
+                    cout << profile.isTwoFactorEnabled ? "Enabled" : "Disabled";
                     cout << "\n--------------------------------" << endl;
                 }
             }
@@ -196,7 +198,7 @@ public:
                     {
                         cout << "Sending an OTP for 2 Factor Authentication." << endl;
                         system.sendOTP();
-
+                        cout << "Enter the OTP: ";
                         string inputOTP;
                         cin >> inputOTP;
 
@@ -343,6 +345,8 @@ public:
         {
             User user;
             user.username = item.value("username", "");
+            user.producttype = item.value("producttype", "");
+            user.name = item.value("name", "");
             user.password = item.value("password", "");
             user.balance = item.value("balance", 0.0);
 
@@ -391,6 +395,8 @@ public:
             {
                 json userJson;
                 userJson["username"] = user.username;
+                userJson["producttype"] = user.producttype;
+                userJson["name"] = user.name;
                 userJson["password"] = user.password;
                 userJson["balance"] = user.balance;
 
@@ -597,8 +603,7 @@ int main()
                             break;
                         case 4:
                             ChatAI ai;
-                            cout << "Hi! I'm your AI Assistant. How may I help you?\n"
-                                 << endl;
+                            cout << "Hi! I'm your AI Assistant. How may I help you?" << endl;
                             cin >> message;
                             cin.clear();
 
@@ -616,78 +621,79 @@ int main()
                         }
                     }
                 }
-                else
-                {
-                    cout << "Invalid username or password. Please try again." << endl;
-                }
             }
-            else if (choice == 2)
+            else
             {
-                cout << "Product Application" << endl;
-                cout << "Enter Full name: ";
-                getline(cin, name);
-                cout << "Enter username: ";
-                getline(cin, username);
-
-                // Check if the username is already taken
-                bool usernameTaken = bank.isUsernameTaken(username);
-                if (usernameTaken)
-                {
-                    cout << "Username is already taken. Please choose another one." << endl;
-                    continue;
-                }
-
-                cout << "Enter password: ";
-                cin >> password;
-
-                cout << "Enter email: ";
-                cin >> email;
-                cout << "Enter phone: ";
-                cin >> phone;
-
-                cout << "Do you want to enable 2FA?(Y/N): ";
-                cin >> enable2FA;
-
-            Cardselection:
-                cout << "Pick account type: " << endl;
-                cout << "1. Savings Account" << endl;
-                cout << "2. Credit Account" << endl;
-                cout << "Enter your choice: ";
-                int acctype;
-                string accounttype; // Declare the variable here
-
-                cin >> acctype;
-
-                switch (acctype)
-                {
-                case 1:
-                    accounttype = "Savings Account"; // Assign the value here
-                    break;
-                case 2:
-                    accounttype = "Credit Account"; // Assign the value here
-                    break;
-                default:
-                    // go back to pick account type
-                    cout << "Invalid choice. Please select a valid option." << endl;
-                    goto Cardselection;
-                    break;
-                }
-
-                // Create a new user account
-                bool registrationSuccess = bank.createUser(username, password, email, phone, enable2FA, accounttype, name);
-                if (registrationSuccess)
-                {
-                    cout << "Registration successful!" << endl;
-                }
-                else
-                {
-                    cout << "Registration failed. Please try again." << endl;
-                }
-            }
-            else if (choice == 3)
-            {
-                break;
+                cout << "Invalid username or password. Please try again." << endl;
             }
         }
-        return 0;
+        else if (choice == 2)
+        {
+            cout << "Product Application" << endl;
+            cout << "Enter Full name: ";
+            getline(cin, name);
+            cout << "Enter username: ";
+            getline(cin, username);
+
+            // Check if the username is already taken
+            bool usernameTaken = bank.isUsernameTaken(username);
+            if (usernameTaken)
+            {
+                cout << "Username is already taken. Please choose another one." << endl;
+                continue;
+            }
+
+            cout << "Enter password: ";
+            cin >> password;
+
+            cout << "Enter email: ";
+            cin >> email;
+            cout << "Enter phone: ";
+            cin >> phone;
+
+            cout << "Do you want to enable 2FA?(Y/N): ";
+            cin >> enable2FA;
+
+        Cardselection:
+            cout << "Pick account type: " << endl;
+            cout << "1. Savings Account" << endl;
+            cout << "2. Credit Account" << endl;
+            cout << "Enter your choice: ";
+            int acctype;
+            string accounttype; // Declare the variable here
+
+            cin >> acctype;
+
+            switch (acctype)
+            {
+            case 1:
+                accounttype = "Savings Account"; // Assign the value here
+                break;
+            case 2:
+                accounttype = "Credit Account"; // Assign the value here
+                break;
+            default:
+                // go back to pick account type
+                cout << "Invalid choice. Please select a valid option." << endl;
+                goto Cardselection;
+                break;
+            }
+
+            // Create a new user account
+            bool registrationSuccess = bank.createUser(username, password, email, phone, enable2FA, accounttype, name);
+            if (registrationSuccess)
+            {
+                cout << "Registration successful!" << endl;
+            }
+            else
+            {
+                cout << "Registration failed. Please try again." << endl;
+            }
+        }
+        else if (choice == 3)
+        {
+            break;
+        }
     }
+    return 0;
+}

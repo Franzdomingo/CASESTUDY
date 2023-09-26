@@ -1,7 +1,9 @@
 [
     {
         "balance": 0.0,
+        "name": "",
         "password": "XgtvkiB8;47",
+        "producttype": "",
         "profiles": [
             {
                 "email": "xerayx@gmail.com",
@@ -10,5 +12,55 @@
             }
         ],
         "username": "Xerayx"
+    },
+    {
+        "balance": 100.0,
+        "name": "",
+        "password": "4",
+        "producttype": "",
+        "profiles": [
+            {
+                "email": "2",
+                "isTwoFactorEnabled": false,
+                "phone": "2"
+            }
+        ],
+        "transactionhistory": [
+            {
+                "amount": 100.0,
+                "timestamp": 1695745579,
+                "transactionID": "TXN169574557941",
+                "transactionType": "Deposit"
+            }
+        ],
+        "username": "2"
+    },
+    {
+        "balance": 0.0,
+        "name": "1",
+        "password": "3",
+        "producttype": "Savings Account",
+        "profiles": [
+            {
+                "email": "1",
+                "isTwoFactorEnabled": true,
+                "phone": "1"
+            }
+        ],
+        "username": "1"
+    },
+    {
+        "balance": 0.0,
+        "name": "3",
+        "password": "5",
+        "producttype": "Savings Account",
+        "profiles": [
+            {
+                "email": "3",
+                "isTwoFactorEnabled": true,
+                "phone": "3"
+            }
+        ],
+        "username": "3"
     }
 ]
