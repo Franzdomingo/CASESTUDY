@@ -568,10 +568,6 @@ int main()
                                     cout << "Invalid choice. Please select a valid option." << endl;
                                 }
                             }
-                            if (productType == "Credit Account")
-                            {
-                                cout << "\nWelcome " << username << "!" << endl;
-                            }
                             break;
                         case 2:
                             // Implement User Profile here
@@ -593,6 +589,10 @@ int main()
                             break;
                         default:
                             cout << "Invalid choice. Please select a valid option." << endl;
+                        }
+                        if (productType == "Credit Account")
+                        {
+                            cout << "\nWelcome " << username << "!" << endl;
                         }
                     }
                 }
