@@ -8,7 +8,7 @@
 #include <random>
 #include <ctime>
 #include <string>
-
+    
 using namespace std;
 
 class SecuritySys
@@ -49,6 +49,7 @@ public:
         delete[] pass;
         return encrypted;
     }
+
     string generateOTP()
     {
         const int length = 6;
@@ -63,6 +64,7 @@ public:
 
         return otp;
     }
+
     bool canAttempt()
     {
         time_t currTime = time(0);
@@ -74,6 +76,7 @@ public:
 
         return true;
     }
+
     bool attemptLogin(string password, string verifyPass)
     {
         if (verifyPass == password)
@@ -83,11 +86,21 @@ public:
         lastAttempt = time(0);
         return false;
     }
+
+    bool enable2FA(char answer)
+    {
+        if(toupper(answer) == 'Y')
+            return true;
+        
+        return false;
+    }
+
     void sendOTP()
     {
         OTP = generateOTP();
         cout << "Your One-time Password is: " << OTP << ". Do not give or send this to other people." << endl;
     }
+
     bool verifyOTP(string onetimepass)
     {
         if (OTP == onetimepass)
@@ -97,6 +110,7 @@ public:
         }
         return false;
     }
+
     string getcurrDate()
     {
         time_t currTime = time(0);
@@ -107,11 +121,13 @@ public:
 
         return buf;
     }
+
     bool securityStatus()
     {
         // Need something to check if security system is running well.
         return true;
     }
+    
     void auditLog()
     {
         ofstream auditFile("audit_log.txt", ios_base::app);
