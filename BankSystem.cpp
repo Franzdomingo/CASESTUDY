@@ -58,6 +58,7 @@ struct dashboard
 
 struct User
 {
+    string name;
     string username;
     string password;
     string producttype;
@@ -84,6 +85,7 @@ private:
     vector<DataAnalytics> dataanalytics;
     vector<dashboard> dashboards;
     string currentLoggedInUser;
+    string currentProductType;
     string dataFilePath; // Path to the data file
 
 public:
@@ -215,6 +217,50 @@ public:
     {
         currentLoggedInUser = username;
     }
+    bool isValidProductType(const string &producttype)
+    {
+        // Define a list of valid product types in your system
+        vector<string> validProductTypes = {"Savings Account", "Credit Account"};
+
+        // Check if the provided product type is in the list of valid types
+        for (const string &validType : validProductTypes)
+        {
+            if (producttype == validType)
+            {
+                return true; // The product type is valid
+            }
+        }
+
+        return false; // The product type is not valid
+    }
+    void setCurrentProductType(const string &producttype)
+    {
+        // Check if the provided product type is valid before setting it
+        // You can add logic to validate product types here
+        if (isValidProductType(producttype))
+        {
+            currentProductType = producttype;
+        }
+        else
+        {
+            cout << "Invalid product type." << endl;
+            // Handle the error or return an error code as needed
+        }
+    }
+
+    string getCurrentProductType(const string &username) const
+    {
+        for (const User &user : users)
+        {
+            if (user.username == username)
+            {
+                return user.producttype;
+            }
+        }
+
+        // Return a default value or an appropriate indicator if the user is not found
+        return "Unknown"; // You can choose a different indicator if needed
+    }
 
     bool isUsernameTaken(const string &username) const
     {
@@ -241,7 +287,7 @@ public:
         // Return a negative value or another suitable indicator if the user is not found
         return -1.0; // You can choose a different indicator if needed
     }
-    bool createUser(const string &username, const string &password, const string &email, const string &phone, const string &producttype)
+    bool createUser(const string &username, const string &password, const string &email, const string &phone, const string &producttype, const string &name)
     {
         // Check if the username is already taken
         if (isUsernameTaken(username))
@@ -253,6 +299,7 @@ public:
         // Create a new user account
         User newUser;
         newUser.producttype = producttype;
+        newUser.name = name;
         newUser.username = username;
         newUser.password = system.encryptPass(password);
         newUser.balance = 0.0;
@@ -289,7 +336,7 @@ public:
         users.clear();
         User user;
 
-        while (file >> user.username >> user.password)
+        while (file >> user.username >> user.password >> user.producttype)
         {
             // Read the balance
             if (!(file >> user.balance))
@@ -370,10 +417,11 @@ public:
 int main()
 {
     BankSystem bank("bank_data.txt");
+
     while (true)
     {
     login:
-        string username, password, email, phone;
+        string username, password, email, phone, name;
         cout << "Welcome to the Bank System" << endl;
         cout << "1. Login" << endl;
         cout << "2. Product Application" << endl;
@@ -397,126 +445,155 @@ int main()
                 bank.setCurrentLoggedInUser(username);
                 // Redirect to the user's dashboard or other menu options
                 cout << "Login successful!" << endl;
+
+                // Inside your main function, after successful login:
+                string productType = bank.getCurrentProductType(username);
+
+                bank.setCurrentProductType(productType);
+
+                cout << "Login successful! You have a " << productType << " account." << endl;
+
+                // Check the account type and perform actions accordingly
+                if (productType == "Savings Account")
+                {
+                    // Perform actions specific to savings account
+                    cout << "You have a Savings Account." << endl;
+                    // Add code to handle savings account actions here
+                }
+                else if (productType == "Credit Account")
+                {
+                    // Perform actions specific to credit account
+                    cout << "You have a Credit Account." << endl;
+                    // Add code to handle credit account actions here
+                }
+
                 while (true)
                 {
-                dashboard:
-                    cout << "\nWelcome " << username << "!" << endl;
-                    cout << "Current Balance: $" << bank.getCurrentBalance(username) << endl;
-                    cout << "\nDashboard Options:" << endl;
-                    cout << "1. Transaction Center" << endl;
-                    cout << "2. User Profile" << endl;
-                    cout << "3. Data Analytics Dashboard" << endl;
-                    cout << "4. Help & Resources" << endl;
-                    cout << "5. Logout" << endl;
-                    cout << "Enter your choice: ";
-
-                    int choice;
-                    cin >> choice;
-                    cin.ignore(); // Clear the newline character
-
-                    switch (choice)
+                    if (productType == "Savings Account")
                     {
-                    case 1:
-                        // Inside your main function, after successful login:
+                    dashboard:
+                        cout << "\nWelcome " << username << "!" << endl;
+                        cout << "Current Balance: $" << bank.getCurrentBalance(username) << endl;
+                        cout << "\nDashboard Options:" << endl;
+                        cout << "1. Transaction Center" << endl;
+                        cout << "2. User Profile" << endl;
+                        cout << "3. Data Analytics Dashboard" << endl;
+                        cout << "4. Help & Resources" << endl;
+                        cout << "5. Logout" << endl;
+                        cout << "Enter your choice: ";
 
-                        while (true)
+                        int choice;
+                        cin >> choice;
+                        cin.ignore(); // Clear the newline character
+
+                        switch (choice)
                         {
-                            cout << "\nTransaction Center:" << endl;
-                            cout << "1. Deposit Funds" << endl;
-                            cout << "2. Withdraw Funds" << endl;
-                            cout << "3. View Transaction History" << endl;
-                            cout << "4. Back to Dashboard" << endl;
-                            cout << "Enter your choice: ";
-                            bank.setCurrentLoggedInUser(username);
-                            int transactionChoice;
-                            string currentLoggedInUser;
-                            cin >> transactionChoice;
-                            cin.ignore(); // Clear the newline character
+                        case 1:
+                            // Inside your main function, after successful login:
 
-                            switch (transactionChoice)
+                            while (true)
                             {
-                            case 1:
-                                // Deposit Funds
-                                double depositAmount;
-                                cout << "Enter the amount to deposit: $";
-                                cin >> depositAmount;
+
+                                cout << "\nTransaction Center:" << endl;
+                                cout << "1. Deposit Funds" << endl;
+                                cout << "2. Withdraw Funds" << endl;
+                                cout << "3. View Transaction History" << endl;
+                                cout << "4. Back to Dashboard" << endl;
+                                cout << "Enter your choice: ";
+                                bank.setCurrentLoggedInUser(username);
+                                int transactionChoice;
+                                string currentLoggedInUser;
+                                cin >> transactionChoice;
                                 cin.ignore(); // Clear the newline character
 
-                                if (depositAmount <= 0.0)
+                                switch (transactionChoice)
                                 {
-                                    cout << "Invalid deposit amount. Please enter a positive amount." << endl;
-                                    continue;
+                                case 1:
+                                    // Deposit Funds
+                                    double depositAmount;
+                                    cout << "Enter the amount to deposit: $";
+                                    cin >> depositAmount;
+                                    cin.ignore(); // Clear the newline character
+
+                                    if (depositAmount <= 0.0)
+                                    {
+                                        cout << "Invalid deposit amount. Please enter a positive amount." << endl;
+                                        continue;
+                                    }
+
+                                    if (bank.depositFunds(username, depositAmount))
+                                    {
+                                        cout << "Deposit of $" << depositAmount << " successful." << endl;
+                                    }
+                                    else
+                                    {
+                                        cout << "Deposit failed. Please try again." << endl;
+                                    }
+                                    break;
+
+                                case 2:
+                                    // Withdraw Funds
+                                    double withdrawAmount;
+                                    cout << "Enter the amount to withdraw: $";
+                                    cin >> withdrawAmount;
+                                    cin.ignore(); // Clear the newline character
+
+                                    if (withdrawAmount <= 0.0)
+                                    {
+                                        cout << "Invalid withdrawal amount. Please enter a positive amount." << endl;
+                                        continue;
+                                    }
+
+                                    if (bank.withdrawFunds(username, withdrawAmount))
+                                    {
+                                        cout << "Withdrawal of $" << withdrawAmount << " successful." << endl;
+                                    }
+                                    else
+                                    {
+                                        cout << "Withdrawal failed. Please try again." << endl;
+                                    }
+                                    break;
+
+                                case 3:
+                                    // View Transaction History
+                                    bank.displayTransactionHistory(username);
+                                    break;
+
+                                case 4:
+                                    goto dashboard;
+                                    // Back to Dashboard
+                                    break;
+
+                                default:
+                                    cout << "Invalid choice. Please select a valid option." << endl;
                                 }
-
-                                if (bank.depositFunds(username, depositAmount))
-                                {
-                                    cout << "Deposit of $" << depositAmount << " successful." << endl;
-                                }
-                                else
-                                {
-                                    cout << "Deposit failed. Please try again." << endl;
-                                }
-                                break;
-
-                            case 2:
-                                // Withdraw Funds
-                                double withdrawAmount;
-                                cout << "Enter the amount to withdraw: $";
-                                cin >> withdrawAmount;
-                                cin.ignore(); // Clear the newline character
-
-                                if (withdrawAmount <= 0.0)
-                                {
-                                    cout << "Invalid withdrawal amount. Please enter a positive amount." << endl;
-                                    continue;
-                                }
-
-                                if (bank.withdrawFunds(username, withdrawAmount))
-                                {
-                                    cout << "Withdrawal of $" << withdrawAmount << " successful." << endl;
-                                }
-                                else
-                                {
-                                    cout << "Withdrawal failed. Please try again." << endl;
-                                }
-                                break;
-
-                            case 3:
-                                // View Transaction History
-                                bank.displayTransactionHistory(username);
-                                break;
-
-                            case 4:
-                                goto dashboard;
-                                // Back to Dashboard
-                                break;
-
-                            default:
-                                cout << "Invalid choice. Please select a valid option." << endl;
                             }
+                            if (productType == "Credit Account")
+                            {
+                                cout << "\nWelcome " << username << "!" << endl;
+                            }
+                            break;
+                        case 2:
+                            // Implement User Profile here
+                            // Display user information and allow for profile updates if needed
+                            break;
+                        case 3:
+                            // Implement Data Analytics Dashboard here
+                            // Provide analytics and insights based on user data
+                            break;
+                        case 4:
+                            // Implement Help & Resources here
+                            // Provide user assistance and resources
+                            break;
+                        case 5:
+                            // Logout the user
+                            cout << "Logging out..." << endl;
+                            bank.setCurrentLoggedInUser("");
+                            goto login;
+                            break;
+                        default:
+                            cout << "Invalid choice. Please select a valid option." << endl;
                         }
-
-                        break;
-                    case 2:
-                        // Implement User Profile here
-                        // Display user information and allow for profile updates if needed
-                        break;
-                    case 3:
-                        // Implement Data Analytics Dashboard here
-                        // Provide analytics and insights based on user data
-                        break;
-                    case 4:
-                        // Implement Help & Resources here
-                        // Provide user assistance and resources
-                        break;
-                    case 5:
-                        // Logout the user
-                        cout << "Logging out..." << endl;
-                        bank.setCurrentLoggedInUser("");
-                        goto login;
-                        break;
-                    default:
-                        cout << "Invalid choice. Please select a valid option." << endl;
                     }
                 }
             }
@@ -528,6 +605,8 @@ int main()
         else if (choice == 2)
         {
             cout << "Product Application" << endl;
+            cout << "Enter Full name: ";
+            getline(cin, name);
             cout << "Enter username: ";
             cin >> username;
 
@@ -542,13 +621,13 @@ int main()
             cin >> password;
             cout << "Enter email: ";
             cin >> email;
-
             cout << "Enter phone: ";
             cin >> phone;
         Cardselection:
             cout << "Pick account type: " << endl;
             cout << "1. Savings Account" << endl;
             cout << "2. Credit Account" << endl;
+            cout << "Enter your choice: ";
             int acctype;
             string accounttype; // Declare the variable here
 
@@ -570,7 +649,7 @@ int main()
             }
 
             // Create a new user account
-            bool registrationSuccess = bank.createUser(username, password, email, phone, accounttype);
+            bool registrationSuccess = bank.createUser(username, password, email, phone, accounttype, name);
             if (registrationSuccess)
             {
                 cout << "Registration successful!" << endl;
