@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <ctime>
+#include <cstdlib>  
 
 using namespace std;
 
@@ -366,6 +367,7 @@ public:
     }
 };
 
+
 int main()
 {
     BankSystem bank("bank_data.txt");
@@ -391,6 +393,7 @@ int main()
 
         int choice;
         cin >> choice;
+        system("cls");                                    /////////CLEARS CONSOLE
         cin.ignore(); // Clear the newline character
 
         if (choice == 1)
@@ -412,10 +415,14 @@ int main()
                 // Redirect to the user's dashboard or other menu options
                 cout << " " << endl;
                 cout << "        ---Login successful!---"                 << endl;
+                cout << " " << endl;
+                system ("pause");
+                system("cls");
                 while (true)
                 {
                 dashboard:
-                    cout << "\n " << endl;
+                    cout << "_______________________________________" << endl;
+                    cout << " " << endl;
                     cout << "Welcome " << username << "!" << endl;
                     cout << "  " << endl;
                     cout << "Current Balance: $"                          << bank.getCurrentBalance(username) << endl;
@@ -435,6 +442,7 @@ int main()
 
                     int choice;
                     cin >> choice;
+                    system("cls");                                    /////////CLEARS CONSOLE
                     cin.ignore(); // Clear the newline character
 
                     switch (choice)
@@ -444,6 +452,7 @@ int main()
 
                         while (true)
                         {
+                            system ("cls");
                             cout << " " << endl;
                             cout << "+=====================================+    " << endl;
                             cout << "|         Transaction Center:         |    " << endl;
@@ -485,6 +494,10 @@ int main()
                                 {
                                     cout << "*Deposit failed. Please try again." << endl;
                                 }
+                                cout << "_______________________________________" << endl;
+                                cout << " " << endl;
+                                system ("pause");
+                                system("cls");                                    /////////CLEARS CONSOLE
                                 break;
 
                             case 2:
@@ -509,25 +522,37 @@ int main()
                                 {
                                     cout << "*Withdrawal failed. Please try again." << endl;
                                 }
+                                cout << "_______________________________________" << endl;
+                                cout << " " << endl;
+                                system ("pause");
+                                system("cls");                                    /////////CLEARS CONSOLE
                                 break;
 
                             case 3: 
+                                system ("cls");
                                 cout << " " << endl;
                                 // View Transaction History
                                 bank.displayTransactionHistory(username);
+                                cout << " " << endl;
+                                system ("pause");
+                                system("cls");
                                 break;
 
                             case 4:
+                                system("cls");
                                 goto dashboard;
                                 // Back to Dashboard
+
                                 break;
 
                             default:
                                 cout << "*Invalid choice. Please select a valid option." << endl;
                             }
+                            system("cls");                                    /////////CLEARS CONSOLE
                         }
-
+                        
                         break;
+
                     case 2:
                         // Implement User Profile here
                         // Display user information and allow for profile updates if needed
@@ -544,6 +569,7 @@ int main()
                         // Logout the user
                         cout << "Logging out..." << endl;
                         bank.setCurrentLoggedInUser("");
+                        system ("cls");
                         goto login;
                         break;
                     default:
@@ -617,6 +643,10 @@ int main()
             {
                 cout << "*Registration failed. Please try again." << endl;
             }
+            cout << "_______________________________________" << endl;
+            cout << " " << endl;
+            system ("pause");
+            system("cls");
         }
         else if (choice == 3)
         {
