@@ -1,3 +1,6 @@
+#ifndef CHATAI_H
+#define CHATAI_H
+
 #include <iostream>
 #include <regex>
 
@@ -19,17 +22,10 @@ public:
 
         if (regex_search(message, regex("(no)", regex_constants::icase)))
             cout << "No available answer for this yet.";
-        
 
         if (regex_search(message, regex("(maybe)", regex_constants::icase)))
             cout << "No available answer for this yet.";
     }
 };
 
-int main()
-{
-    ChatAI ai;
-    string msg = "I forgot my password, what should I do?";
-    ai.chatBot(msg);
-    return 0;
-}
+#endif
