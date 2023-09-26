@@ -1,12 +1,20 @@
 #include <iostream>
+#include <stdlib.h>
 #include <fstream>
 #include <vector>
 #include <string>
 #include <ctime>
-#include <limits>
+#include <chrono>
+#include <algorithm>
+#include <thread>
+#include "json.hpp"
 #include "SecuritySys.h"
+#include "ChatAI.h"
 
 using namespace std;
+using json = nlohmann::json;
+using namespace chrono;
+using namespace this_thread;
 
 // Define structures for data storage
 struct Transaction
@@ -16,44 +24,12 @@ struct Transaction
     double amount;
     time_t timestamp;
 };
+
 struct Profile
 {
     string email;
     string phone;
     bool isTwoFactorEnabled;
-};
-
-struct ProductApplication
-{
-    string applicationID;
-    string producttype;
-};
-
-struct Session
-{
-    string sessionID;
-    time_t timestamp;
-};
-
-struct DataAnalytics
-{
-    string dataID;
-    string businessinsights;
-    string transactionpatterns;
-};
-
-struct HelpandResources
-{
-    string helpID;
-    string helpcontent;
-    string helpresources;
-    string feedback;
-};
-
-struct dashboard
-{
-    string dashboardID;
-    string dashboardcontent;
 };
 
 struct User
@@ -64,11 +40,6 @@ struct User
     double balance;
     vector<Profile> profiles;
     vector<Transaction> transactionhistory;
-    vector<ProductApplication> productapplications;
-    vector<Session> sessions;
-    vector<HelpandResources> helpandresources;
-    vector<DataAnalytics> dataanalytics;
-    vector<dashboard> dashboards;
 };
 
 class BankSystem
@@ -76,24 +47,16 @@ class BankSystem
 private:
     SecuritySys system;
     vector<User> users;
-    vector<Profile> profiles;
-    vector<Transaction> transactionhistory;
-    vector<ProductApplication> productapplications;
-    vector<Session> sessions;
-    vector<HelpandResources> helpandresources;
-    vector<DataAnalytics> dataanalytics;
-    vector<dashboard> dashboards;
     string currentLoggedInUser;
-    string dataFilePath; // Path to the data file
+    string dataFilePath;
 
 public:
     BankSystem(const string &dataFile) : dataFilePath(dataFile)
     {
-        // Load data from the file into the 'users' vector during system initialization
         loadDataFromFile();
     }
     // Display Transaction History
-    void displayTransactionHistory(const string &username) const
+    void displayTransactionHistory(const string &username)
     {
         for (const User &user : users)
         {
@@ -109,7 +72,26 @@ public:
                     cout << "Timestamp: " << ctime(&transaction.timestamp);
                     cout << "--------------------------------" << endl;
                 }
-                return;
+            }
+        }
+    }
+
+    void displayProfile(const string &username)
+    {
+        for (const User &user : users)
+        {
+            if (user.username == username)
+            {
+                cout << "User Profile" << endl;
+                cout << "--------------------------------" << endl;
+                cout << "Name: " << user.username << endl;
+                for (const Profile &profile : user.profiles)
+                {
+                    cout << "Email: " << profile.email << endl;
+                    cout << "Phone: " << profile.phone << endl;
+                    cout << "Two Factor Authentication: " << profile.isTwoFactorEnabled ? "Enabled" : "Disabled";
+                    cout << "\n--------------------------------" << endl;
+                }
             }
         }
     }
@@ -151,8 +133,6 @@ public:
         // Example: You can use a combination of timestamp and a random number
         return "TXN" + to_string(time(nullptr)) + to_string(rand());
     }
-
-    // Modify your BankSystem class to include the following functions:
 
     // Withdraw Funds
     bool withdrawFunds(const string &username, double amount)
@@ -200,12 +180,34 @@ public:
 
     bool authenticateUser(const string &username, const string &password)
     {
-        for (const User &user : users)
+        auto user_it = find_if(users.begin(), users.end(), [&](const User &user)
+                               { return user.username == username; });
+
+        if (user_it != users.end())
         {
-            string decryptedPass = system.decryptPass(user.password);
-            if (user.username == username && decryptedPass == password)
+            string decryptedPass = system.decryptPass(user_it->password);
+            if (system.attemptLogin(decryptedPass, password))
             {
-                return true; // Authentication successful
+                // Check for 2FA within profiles of the user
+                for (const Profile &profile : user_it->profiles)
+                {
+                    if (profile.isTwoFactorEnabled)
+                    {
+                        cout << "Sending an OTP for 2 Factor Authentication." << endl;
+                        system.sendOTP();
+
+                        string inputOTP;
+                        cin >> inputOTP;
+
+                        if (!system.verifyOTP(inputOTP))
+                        {
+                            cout << "Incorrect OTP. Timeout for 30 seconds..." << endl;
+                            sleep_for(seconds(30));
+                            return false;
+                        }
+                    }
+                }
+                return true;
             }
         }
         return false; // Authentication failed
@@ -241,7 +243,8 @@ public:
         // Return a negative value or another suitable indicator if the user is not found
         return -1.0; // You can choose a different indicator if needed
     }
-    bool createUser(const string &username, const string &password, const string &email, const string &phone, const string &producttype)
+
+    bool createUser(const string &username, const string &password, const string &email, const string &phone, const char &twoFA, const string &producttype)
     {
         // Check if the username is already taken
         if (isUsernameTaken(username))
@@ -261,7 +264,7 @@ public:
         Profile newProfile;
         newProfile.email = email;
         newProfile.phone = phone;
-        newProfile.isTwoFactorEnabled = false; // You can add logic to enable 2FA if needed
+        newProfile.isTwoFactorEnabled = system.enable2FA(twoFA);
 
         // Add the new profile to the user's profiles vector
         newUser.profiles.push_back(newProfile);
@@ -279,101 +282,117 @@ public:
     // Load user data from the file into memory
     void loadDataFromFile()
     {
-        ifstream file(dataFilePath, ios::binary); // Open file in binary mode.
+        ifstream file(dataFilePath);
         if (!file.is_open())
         {
             cout << "Error: Unable to open data file." << endl;
             return;
         }
 
-        users.clear();
-        User user;
+        json j;
+        file >> j;
+        file.close();
 
-        while (file >> user.username >> user.password)
+        for (const auto &item : j)
         {
-            // Read the balance
-            if (!(file >> user.balance))
-                break;
+            User user;
+            user.username = item.value("username", "");
+            user.password = item.value("password", "");
+            user.balance = item.value("balance", 0.0);
 
-            // Read the profiles
-            int profileCount;
-            if (!(file >> profileCount))
-                break;
-            user.profiles.resize(profileCount);
-            for (int i = 0; i < profileCount; ++i)
+            for (const auto &profileItem : item["profiles"])
             {
                 Profile profile;
-                if (!(file >> profile.email >> profile.phone >> profile.isTwoFactorEnabled))
-                    break;
-                user.profiles[i] = profile;
+                profile.email = profileItem.value("email", "");
+                profile.phone = profileItem.value("phone", "");
+                profile.isTwoFactorEnabled = profileItem.value("isTwoFactorEnabled", false);
+                user.profiles.emplace_back(profile);
             }
 
-            // Read the transaction history
-            int transactionCount;
-            if (!(file >> transactionCount))
-                break;
-            user.transactionhistory.resize(transactionCount);
-            for (int i = 0; i < transactionCount; ++i)
+            if (item.contains("transactionhistory"))
             {
-                Transaction transaction;
-                if (!(file >> transaction.transactionID >> transaction.transactionType >> transaction.amount >> transaction.timestamp))
-                    break;
-                user.transactionhistory[i] = transaction;
+                for (const auto &transactionItem : item["transactionhistory"])
+                {
+                    Transaction transaction;
+                    transaction.transactionID = transactionItem.value("transactionID", "");
+                    transaction.transactionType = transactionItem.value("transactionType", "");
+                    transaction.amount = transactionItem.value("amount", 0.0);
+                    transaction.timestamp = transactionItem.value("timestamp", 0);
+                    user.transactionhistory.emplace_back(transaction);
+                }
             }
 
-            users.push_back(user);
+            users.emplace_back(user);
         }
-
-        file.close();
     }
 
     // Save user data from memory to the file
     void saveDataToFile()
     {
-        ofstream file(dataFilePath, ios::binary); // Open file in binary mode.
-        if (!file.is_open())
+        try
         {
-            cout << "Error: Unable to save data to the file." << endl;
-            return;
-        }
+            ofstream file(dataFilePath);
 
-        for (const User &user : users)
-        {
-            // Save the username and password
-            file << user.username << " " << user.password << " " << user.producttype << endl;
-
-            // Save the balance
-            file << user.balance << endl;
-
-            // Save the number of profiles and each profile
-            file << user.profiles.size() << endl;
-            for (const Profile &profile : user.profiles)
+            if (!file.is_open())
             {
-                file << profile.email << " " << profile.phone << " " << profile.isTwoFactorEnabled << endl;
+                cout << "Error: Unable to save data to the file." << endl;
+                return;
             }
 
-            // Save the number of transactions and each transaction
-            file << user.transactionhistory.size() << endl;
-            for (const Transaction &transaction : user.transactionhistory)
+            json j;
+
+            for (const User &user : users)
             {
-                file << transaction.transactionID << " " << transaction.transactionType << " " << transaction.amount << " " << transaction.timestamp << endl;
+                json userJson;
+                userJson["username"] = user.username;
+                userJson["password"] = user.password;
+                userJson["balance"] = user.balance;
+
+                for (const Profile &profile : user.profiles)
+                {
+                    json profileJson;
+                    profileJson["email"] = profile.email;
+                    profileJson["phone"] = profile.phone;
+                    profileJson["isTwoFactorEnabled"] = profile.isTwoFactorEnabled;
+                    userJson["profiles"].push_back(profileJson);
+                }
+
+                for (const Transaction &transaction : user.transactionhistory)
+                {
+                    json transactionJson;
+                    transactionJson["transactionID"] = transaction.transactionID;
+                    transactionJson["transactionType"] = transaction.transactionType;
+                    transactionJson["amount"] = transaction.amount;
+                    transactionJson["timestamp"] = transaction.timestamp;
+                    userJson["transactionhistory"].push_back(transactionJson);
+                }
+
+                j.push_back(userJson);
             }
 
-            // Save the other data structures (ProductApplication, Session, etc.) in a similar manner
-        }
+            file << j.dump(4);
 
-        file.flush(); // Ensure everything is written in the file.
-        file.close();
+            file.close();
+        }
+        catch (const json::exception &e) // catching specific exceptions related to the json library
+        {
+            cout << "JSON error: " << e.what() << endl;
+        }
+        catch (const exception &e) // generic C++ exceptions
+        {
+            cout << "Error saving data to file: " << e.what() << endl;
+        }
     }
 };
 
 int main()
 {
-    BankSystem bank("bank_data.txt");
+    BankSystem bank("bank_data.json");
     while (true)
     {
     login:
         string username, password, email, phone;
+        char enable2FA;
         cout << "Welcome to the Bank System" << endl;
         cout << "1. Login" << endl;
         cout << "2. Product Application" << endl;
@@ -383,7 +402,6 @@ int main()
         int choice;
         cin >> choice;
         cin.ignore(); // Clear the newline character
-
         if (choice == 1)
         {
             cout << "Enter username: ";
@@ -400,6 +418,8 @@ int main()
                 while (true)
                 {
                 dashboard:
+                    string message;
+
                     cout << "\nWelcome " << username << "!" << endl;
                     cout << "Current Balance: $" << bank.getCurrentBalance(username) << endl;
                     cout << "\nDashboard Options:" << endl;
@@ -484,6 +504,7 @@ int main()
                             case 3:
                                 // View Transaction History
                                 bank.displayTransactionHistory(username);
+                                system("pause");
                                 break;
 
                             case 4:
@@ -498,16 +519,21 @@ int main()
 
                         break;
                     case 2:
-                        // Implement User Profile here
-                        // Display user information and allow for profile updates if needed
+                        bank.displayProfile(username);
                         break;
                     case 3:
                         // Implement Data Analytics Dashboard here
                         // Provide analytics and insights based on user data
                         break;
                     case 4:
-                        // Implement Help & Resources here
-                        // Provide user assistance and resources
+                        ChatAI ai;
+                        cout << "Hi! I'm your AI Assistant. How may I help you?\n"
+                             << endl;
+                        cin >> message;
+                        cin.clear();
+
+                        ai.chatBot(message);
+
                         break;
                     case 5:
                         // Logout the user
@@ -529,7 +555,7 @@ int main()
         {
             cout << "Product Application" << endl;
             cout << "Enter username: ";
-            cin >> username;
+            getline(cin, username);
 
             // Check if the username is already taken
             bool usernameTaken = bank.isUsernameTaken(username);
@@ -538,13 +564,19 @@ int main()
                 cout << "Username is already taken. Please choose another one." << endl;
                 continue;
             }
+
             cout << "Enter password: ";
             cin >> password;
+
             cout << "Enter email: ";
             cin >> email;
 
             cout << "Enter phone: ";
             cin >> phone;
+
+            cout << "Do you want to enable 2FA?(Y/N): ";
+            cin >> enable2FA;
+
         Cardselection:
             cout << "Pick account type: " << endl;
             cout << "1. Savings Account" << endl;
@@ -570,7 +602,7 @@ int main()
             }
 
             // Create a new user account
-            bool registrationSuccess = bank.createUser(username, password, email, phone, accounttype);
+            bool registrationSuccess = bank.createUser(username, password, email, phone, enable2FA, accounttype);
             if (registrationSuccess)
             {
                 cout << "Registration successful!" << endl;
@@ -582,12 +614,6 @@ int main()
         }
         else if (choice == 3)
         {
-            cout << "Goodbye!" << endl;
-            break;
-        }
-        else
-        {
-            cout << "Invalid choice. Please select a valid option." << endl;
             break;
         }
     }
