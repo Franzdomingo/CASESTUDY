@@ -370,10 +370,20 @@ int main()
     {
     login:
         string username, password, email, phone;
-        cout << "Welcome to the Bank System" << endl;
-        cout << "1. Login" << endl;
-        cout << "2. Product Application" << endl;
-        cout << "3. Exit" << endl;
+        cout << "\n" << endl;
+        cout << "______________________________________    " << endl;
+        cout << "|  __________________________________  |   " << endl;
+        cout << "| |                                  | |   " << endl;
+        cout << "| |    Welcome to the Bank System    | |   " << endl;
+        cout << "| |__________________________________| |   " << endl;
+        cout << "|  __________________________________  |   " << endl;
+        cout << "| |                                  | |   " << endl;
+        cout << "| |  1. Login                        | |   " << endl;
+        cout << "| |  2. Product Application          | |   " << endl;
+        cout << "| |  3. Exit                         | |   " << endl;
+        cout << "| |__________________________________| |   " << endl;
+        cout << "|______________________________________|   " << endl;
+        cout << "                                                                   " << endl;
         cout << "Enter your choice: ";
 
         int choice;
@@ -523,7 +533,12 @@ int main()
         }
         else if (choice == 2)
         {
-            cout << "Product Application" << endl;
+          //cout << "                         ______________________________________    " << endl;
+            cout << "                                                                    " << endl;
+            cout << "+=====================================+    " << endl;
+            cout << "|       Product Application           |    "  << endl;
+            cout << "+=====================================+    " << endl;
+            cout << "                                                                    " << endl;
             cout << "Enter username: ";
             cin >> username;
 
@@ -542,13 +557,16 @@ int main()
             cout << "Enter phone: ";
             cin >> phone;
         Cardselection:
-            cout << "Pick account type: " << endl;
-            cout << "1. Savings Account" << endl;
-            cout << "2. Credit Account" << endl;
+            cout << "                                                  "   << endl;
+            cout << "Pick account type:     "   << endl;
+            cout << "1. Savings Account"       << endl;
+            cout << "2. Credit Account"        << endl;
             int acctype;
             string accounttype; // Declare the variable here
-
+            cout << "" << endl;
+            cout << "Enter: ";
             cin >> acctype;
+            cout << "" <<endl;
 
             switch (acctype)
             {
@@ -569,7 +587,7 @@ int main()
             bool registrationSuccess = bank.createUser(username, password, email, phone, accounttype);
             if (registrationSuccess)
             {
-                cout << "Registration successful!" << endl;
+                cout << "Registration successful!           " << endl;
             }
             else
             {
