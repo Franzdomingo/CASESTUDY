@@ -590,10 +590,10 @@ int main()
                         default:
                             cout << "Invalid choice. Please select a valid option." << endl;
                         }
-                        if (productType == "Credit Account")
-                        {
-                            cout << "\nWelcome " << username << "!" << endl;
-                        }
+                    }
+                    else if (productType == "Credit Account")
+                    {
+                        cout << "\nWelcome " << username << "!" << endl;
                     }
                 }
             }
