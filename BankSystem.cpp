@@ -47,15 +47,57 @@ class BankSystem
 private:
     SecuritySys system;
     vector<User> users;
+    vector<Profile> profiles;
+    vector<Transaction> transactionhistory;
     string currentLoggedInUser;
-    string dataFilePath;
+    string currentProductType;
+    string dataFilePath; // Path to the data file
 
 public:
     BankSystem(const string &dataFile) : dataFilePath(dataFile)
     {
         loadDataFromFile();
     }
-    // Display Transaction History
+
+    void displayMainMenu()
+    {
+        cout << "Welcome to the Bank System" << endl;
+        cout << "1. Login" << endl;
+        cout << "2. Product Application" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Enter your choice: ";
+    }
+
+    void displayDashboardMenu(const string &username)
+    {
+        for (const User &user : users)
+        {
+            if (user.username == username)
+            {
+                cout << "\nWelcome " << username << "!" << endl;
+                cout << "Current Balance: $" << getCurrentBalance(username) << endl;
+                cout << "\nDashboard Options:" << endl;
+                cout << "1. Transaction Center" << endl;
+                cout << "2. User Profile" << endl;
+                cout << "3. Data Analytics Dashboard" << endl;
+                cout << "4. Help & Resources" << endl;
+                cout << "5. Logout" << endl;
+                cout << "Enter your choice: ";
+            }
+        }
+    }
+
+    void displayTransactionMenu(const string &username)
+    {
+        cout << "\nTransaction Center:" << endl;
+        cout << "1. Deposit Funds" << endl;
+        cout << "2. Withdraw Funds" << endl;
+        cout << "3. View Transaction History" << endl;
+        cout << "4. Back to Dashboard" << endl;
+        cout << "Enter your choice: ";
+        setCurrentLoggedInUser(username);
+    }
+
     void displayTransactionHistory(const string &username)
     {
         for (const User &user : users)
@@ -74,6 +116,225 @@ public:
                 }
             }
         }
+        // Replaced system("pause") with a more portable solution
+        cout << "Press Enter to continue...";
+        cin.get();
+    }
+
+    bool loginUser(string &loggedInUsername)
+    {
+        string username, password;
+        cout << "Enter username: ";
+        getline(cin, username);
+        cout << "Enter password: ";
+        getline(cin, password);
+
+        if (authenticateUser(username, password))
+        {
+            setCurrentLoggedInUser(username);
+            cout << "Login successful!" << endl;
+            loggedInUsername = username;
+            return true;
+        }
+        else
+        {
+            cout << "Invalid username or password. Please try again." << endl;
+            return false;
+        }
+    }
+
+    void handleTransactionCenter(const string &username)
+    {
+        while (true)
+        {
+            displayTransactionMenu(username);
+
+            int transactionChoice;
+            cin >> transactionChoice;
+            cin.ignore();
+
+            switch (transactionChoice)
+            {
+            case 1:
+                processDeposit(username);
+                break;
+            case 2:
+                processWithdrawal(username);
+                break;
+            case 3:
+                displayTransactionHistory(username);
+                break;
+            case 4:
+                return; // Return to the dashboard
+            default:
+                cout << "Invalid choice. Please select a valid option." << endl;
+            }
+        }
+    }
+
+    void processDeposit(const string &username)
+    {
+        double depositAmount;
+        cout << "Enter the amount to deposit: $";
+        cin >> depositAmount;
+        cin.ignore(); // Clear the newline character
+
+        if (depositAmount <= 0.0)
+        {
+            cout << "Invalid deposit amount. Please enter a positive amount." << endl;
+            return;
+        }
+
+        if (depositFunds(username, depositAmount))
+        {
+            cout << "Deposit of $" << depositAmount << " successful." << endl;
+            cout << "Press Enter to continue...";
+            cin.get();
+        }
+        else
+        {
+            cout << "Deposit failed. Please try again." << endl;
+        }
+        cout << "Press Enter to continue...";
+        cin.get();
+    }
+
+    void processWithdrawal(const string &username)
+    {
+        double withdrawAmount;
+        cout << "Enter the amount to withdraw: $";
+        cin >> withdrawAmount;
+        cin.ignore(); // Clear the newline character
+
+        if (withdrawAmount <= 0.0)
+        {
+            cout << "Invalid withdrawal amount. Please enter a positive amount." << endl;
+            return;
+        }
+
+        if (withdrawFunds(username, withdrawAmount))
+        {
+            cout << "Withdrawal of $" << withdrawAmount << " successful." << endl;
+        }
+        else
+        {
+            cout << "Withdrawal failed. Please try again." << endl;
+        }
+        cout << "Press Enter to continue...";
+        cin.get();
+    }
+
+    void handleHelpAndResources()
+    {
+        ChatAI ai;
+        string message;
+        cout << "Hi! I'm your AI Assistant. How may I help you?\n"
+             << endl;
+        getline(cin, message);
+        ai.chatBot(message);
+    }
+
+    void handleDashboardOptions(const string &username)
+    {
+        while (true)
+        {
+            displayDashboardMenu(username);
+
+            int choice;
+            cin >> choice;
+            cin.ignore(); // Clear the newline character
+
+            switch (choice)
+            {
+            case 1:
+                handleTransactionCenter(username);
+                break;
+            case 2:
+                displayProfile(username);
+                break;
+            case 3:
+                // Data Analytics Dashboard
+                break;
+            case 4:
+                handleHelpAndResources();
+                break;
+            case 5:
+                // Logout the user
+                cout << "Logging out..." << endl;
+                setCurrentLoggedInUser("");
+                return;
+            default:
+                cout << "Invalid choice. Please select a valid option." << endl;
+            }
+        }
+    }
+
+    void applyForProduct()
+    {
+        string username, password, email, phone, accounttype;
+        int acctype;
+        char enable2FA;
+        while (true)
+        {
+            cout << "\nPress Enter to continue...";
+            cin.get();
+            cout << "Product Application" << endl;
+            cout << "Enter username: ";
+            getline(cin, username);
+
+            // Check if the username is already taken
+            bool usernameTaken = isUsernameTaken(username);
+            if (usernameTaken)
+            {
+                cout << "Username is already taken. Please choose another one." << endl;
+                continue;
+            }
+
+            cout << "Enter password: ";
+            cin >> password;
+
+            cout << "Enter email: ";
+            cin >> email;
+
+            cout << "Enter phone: ";
+            cin >> phone;
+
+            cout << "Do you want to enable 2FA?(Y/N): ";
+            cin >> enable2FA;
+
+            cout << "Pick account type: " << endl;
+            cout << "1. Savings Account" << endl;
+            cout << "2. Credit Account" << endl;
+
+            cout << "Choose your account type: ";
+            cin >> acctype;
+
+            switch (acctype)
+            {
+            case 1:
+                accounttype = "Savings Account";
+                break;
+            case 2:
+                accounttype = "Credit Account";
+                break;
+            default:
+                cout << "Invalid choice. Please select a valid option." << endl;
+                continue;
+            }
+
+            // Create a new user account
+            bool registrationSuccess = createUser(username, password, email, phone, enable2FA, accounttype);
+            if (registrationSuccess)
+            {
+                cout << "Registration successful!" << endl;
+                break;
+            }
+            else
+            {
+                cout << "Registration failed. Please try again." << endl;
+                continue;
+            }
+        }
     }
 
     void displayProfile(const string &username)
@@ -82,18 +343,23 @@ public:
         {
             if (user.username == username)
             {
-                cout << "User Profile" << endl;
-                cout << "--------------------------------" << endl;
-                cout << "Name: " << user.username << endl;
                 for (const Profile &profile : user.profiles)
                 {
+                    string show2FAStatus = profile.isTwoFactorEnabled ? "Enabled" : "Disabled";
+
+                    cout << "User Profile" << endl;
+                    cout << "--------------------------------" << endl;
+                    cout << "Name: " << user.username << endl;
                     cout << "Email: " << profile.email << endl;
                     cout << "Phone: " << profile.phone << endl;
-                    cout << "Two Factor Authentication: " << profile.isTwoFactorEnabled ? "Enabled" : "Disabled";
-                    cout << "\n--------------------------------" << endl;
+                    cout << "Account: " << user.producttype << endl;
+                    cout << "Two Factor Authentication: " << show2FAStatus << endl;
+                    cout << "--------------------------------" << endl;
                 }
             }
         }
+        cout << "Press Enter to continue...";
+        cin.get();
     }
 
     bool depositFunds(const string &username, double amount)
@@ -126,7 +392,6 @@ public:
         return false;
     }
 
-    // Function to generate a unique transaction ID (you can implement this as per your needs)
     string generateTransactionID()
     {
         // Implement your logic to generate a unique transaction ID
@@ -134,7 +399,6 @@ public:
         return "TXN" + to_string(time(nullptr)) + to_string(rand());
     }
 
-    // Withdraw Funds
     bool withdrawFunds(const string &username, double amount)
     {
         for (User &user : users)
@@ -197,6 +461,7 @@ public:
                         system.sendOTP();
 
                         string inputOTP;
+                        cout << "Enter your OTP: ";
                         cin >> inputOTP;
 
                         if (!system.verifyOTP(inputOTP))
@@ -279,7 +544,6 @@ public:
         return true;
     }
 
-    // Load user data from the file into memory
     void loadDataFromFile()
     {
         ifstream file(dataFilePath);
@@ -298,6 +562,7 @@ public:
             User user;
             user.username = item.value("username", "");
             user.password = item.value("password", "");
+            user.producttype = item.value("accounttype", "");
             user.balance = item.value("balance", 0.0);
 
             for (const auto &profileItem : item["profiles"])
@@ -326,7 +591,6 @@ public:
         }
     }
 
-    // Save user data from memory to the file
     void saveDataToFile()
     {
         try
@@ -346,6 +610,7 @@ public:
                 json userJson;
                 userJson["username"] = user.username;
                 userJson["password"] = user.password;
+                userJson["accounttype"] = user.producttype;
                 userJson["balance"] = user.balance;
 
                 for (const Profile &profile : user.profiles)
@@ -388,233 +653,31 @@ public:
 int main()
 {
     BankSystem bank("bank_data.json");
+    string loggedInUsername;
+
     while (true)
     {
-    login:
-        string username, password, email, phone;
-        char enable2FA;
-        cout << "Welcome to the Bank System" << endl;
-        cout << "1. Login" << endl;
-        cout << "2. Product Application" << endl;
-        cout << "3. Exit" << endl;
-        cout << "Enter your choice: ";
+        bank.displayMainMenu();
 
         int choice;
         cin >> choice;
         cin.ignore(); // Clear the newline character
-        if (choice == 1)
+
+        switch (choice)
         {
-            cout << "Enter username: ";
-            getline(cin, username);
-            cout << "Enter password: ";
-            getline(cin, password);
-
-            // Example pseudo-code for authentication
-            if (bank.authenticateUser(username, password))
+        case 1:
+            if (bank.loginUser(loggedInUsername))
             {
-                bank.setCurrentLoggedInUser(username);
-                // Redirect to the user's dashboard or other menu options
-                cout << "Login successful!" << endl;
-                while (true)
-                {
-                dashboard:
-                    string message;
-
-                    cout << "\nWelcome " << username << "!" << endl;
-                    cout << "Current Balance: $" << bank.getCurrentBalance(username) << endl;
-                    cout << "\nDashboard Options:" << endl;
-                    cout << "1. Transaction Center" << endl;
-                    cout << "2. User Profile" << endl;
-                    cout << "3. Data Analytics Dashboard" << endl;
-                    cout << "4. Help & Resources" << endl;
-                    cout << "5. Logout" << endl;
-                    cout << "Enter your choice: ";
-
-                    int choice;
-                    cin >> choice;
-                    cin.ignore(); // Clear the newline character
-
-                    switch (choice)
-                    {
-                    case 1:
-                        // Inside your main function, after successful login:
-
-                        while (true)
-                        {
-                            cout << "\nTransaction Center:" << endl;
-                            cout << "1. Deposit Funds" << endl;
-                            cout << "2. Withdraw Funds" << endl;
-                            cout << "3. View Transaction History" << endl;
-                            cout << "4. Back to Dashboard" << endl;
-                            cout << "Enter your choice: ";
-                            bank.setCurrentLoggedInUser(username);
-                            int transactionChoice;
-                            string currentLoggedInUser;
-                            cin >> transactionChoice;
-                            cin.ignore(); // Clear the newline character
-
-                            switch (transactionChoice)
-                            {
-                            case 1:
-                                // Deposit Funds
-                                double depositAmount;
-                                cout << "Enter the amount to deposit: $";
-                                cin >> depositAmount;
-                                cin.ignore(); // Clear the newline character
-
-                                if (depositAmount <= 0.0)
-                                {
-                                    cout << "Invalid deposit amount. Please enter a positive amount." << endl;
-                                    continue;
-                                }
-
-                                if (bank.depositFunds(username, depositAmount))
-                                {
-                                    cout << "Deposit of $" << depositAmount << " successful." << endl;
-                                }
-                                else
-                                {
-                                    cout << "Deposit failed. Please try again." << endl;
-                                }
-                                break;
-
-                            case 2:
-                                // Withdraw Funds
-                                double withdrawAmount;
-                                cout << "Enter the amount to withdraw: $";
-                                cin >> withdrawAmount;
-                                cin.ignore(); // Clear the newline character
-
-                                if (withdrawAmount <= 0.0)
-                                {
-                                    cout << "Invalid withdrawal amount. Please enter a positive amount." << endl;
-                                    continue;
-                                }
-
-                                if (bank.withdrawFunds(username, withdrawAmount))
-                                {
-                                    cout << "Withdrawal of $" << withdrawAmount << " successful." << endl;
-                                }
-                                else
-                                {
-                                    cout << "Withdrawal failed. Please try again." << endl;
-                                }
-                                break;
-
-                            case 3:
-                                // View Transaction History
-                                bank.displayTransactionHistory(username);
-                                system("pause");
-                                break;
-
-                            case 4:
-                                goto dashboard;
-                                // Back to Dashboard
-                                break;
-
-                            default:
-                                cout << "Invalid choice. Please select a valid option." << endl;
-                            }
-                        }
-
-                        break;
-                    case 2:
-                        bank.displayProfile(username);
-                        break;
-                    case 3:
-                        // Implement Data Analytics Dashboard here
-                        // Provide analytics and insights based on user data
-                        break;
-                    case 4:
-                        ChatAI ai;
-                        cout << "Hi! I'm your AI Assistant. How may I help you?\n"
-                             << endl;
-                        cin >> message;
-                        cin.clear();
-
-                        ai.chatBot(message);
-
-                        break;
-                    case 5:
-                        // Logout the user
-                        cout << "Logging out..." << endl;
-                        bank.setCurrentLoggedInUser("");
-                        goto login;
-                        break;
-                    default:
-                        cout << "Invalid choice. Please select a valid option." << endl;
-                    }
-                }
+                bank.handleDashboardOptions(loggedInUsername);
             }
-            else
-            {
-                cout << "Invalid username or password. Please try again." << endl;
-            }
-        }
-        else if (choice == 2)
-        {
-            cout << "Product Application" << endl;
-            cout << "Enter username: ";
-            getline(cin, username);
-
-            // Check if the username is already taken
-            bool usernameTaken = bank.isUsernameTaken(username);
-            if (usernameTaken)
-            {
-                cout << "Username is already taken. Please choose another one." << endl;
-                continue;
-            }
-
-            cout << "Enter password: ";
-            cin >> password;
-
-            cout << "Enter email: ";
-            cin >> email;
-
-            cout << "Enter phone: ";
-            cin >> phone;
-
-            cout << "Do you want to enable 2FA?(Y/N): ";
-            cin >> enable2FA;
-
-        Cardselection:
-            cout << "Pick account type: " << endl;
-            cout << "1. Savings Account" << endl;
-            cout << "2. Credit Account" << endl;
-            int acctype;
-            string accounttype; // Declare the variable here
-
-            cin >> acctype;
-
-            switch (acctype)
-            {
-            case 1:
-                accounttype = "Savings Account"; // Assign the value here
-                break;
-            case 2:
-                accounttype = "Credit Account"; // Assign the value here
-                break;
-            default:
-                // go back to pick account type
-                cout << "Invalid choice. Please select a valid option." << endl;
-                goto Cardselection;
-                break;
-            }
-
-            // Create a new user account
-            bool registrationSuccess = bank.createUser(username, password, email, phone, enable2FA, accounttype);
-            if (registrationSuccess)
-            {
-                cout << "Registration successful!" << endl;
-            }
-            else
-            {
-                cout << "Registration failed. Please try again." << endl;
-            }
-        }
-        else if (choice == 3)
-        {
             break;
+        case 2:
+            bank.applyForProduct();
+            break;
+        case 3:
+            return 0; // Exit the program
+        default:
+            cout << "Invalid choice. Please select a valid option." << endl;
         }
     }
     return 0;
