@@ -34,6 +34,7 @@ struct Profile
 
 struct User
 {
+    string name;
     string username;
     string password;
     string producttype;
@@ -459,7 +460,7 @@ public:
                     {
                         cout << "Sending an OTP for 2 Factor Authentication." << endl;
                         system.sendOTP();
-
+                        cout << "Enter the OTP: ";
                         string inputOTP;
                         cout << "Enter your OTP: ";
                         cin >> inputOTP;
@@ -481,6 +482,50 @@ public:
     void setCurrentLoggedInUser(const string &username)
     {
         currentLoggedInUser = username;
+    }
+    bool isValidProductType(const string &producttype)
+    {
+        // Define a list of valid product types in your system
+        vector<string> validProductTypes = {"Savings Account", "Credit Account"};
+
+        // Check if the provided product type is in the list of valid types
+        for (const string &validType : validProductTypes)
+        {
+            if (producttype == validType)
+            {
+                return true; // The product type is valid
+            }
+        }
+
+        return false; // The product type is not valid
+    }
+    void setCurrentProductType(const string &producttype)
+    {
+        // Check if the provided product type is valid before setting it
+        // You can add logic to validate product types here
+        if (isValidProductType(producttype))
+        {
+            currentProductType = producttype;
+        }
+        else
+        {
+            cout << "Invalid product type." << endl;
+            // Handle the error or return an error code as needed
+        }
+    }
+
+    string getCurrentProductType(const string &username) const
+    {
+        for (const User &user : users)
+        {
+            if (user.username == username)
+            {
+                return user.producttype;
+            }
+        }
+
+        // Return a default value or an appropriate indicator if the user is not found
+        return "Unknown"; // You can choose a different indicator if needed
     }
 
     bool isUsernameTaken(const string &username) const
@@ -509,7 +554,7 @@ public:
         return -1.0; // You can choose a different indicator if needed
     }
 
-    bool createUser(const string &username, const string &password, const string &email, const string &phone, const char &twoFA, const string &producttype)
+    bool createUser(const string &username, const string &password, const string &email, const string &phone, const char &twoFA, const string &producttype, const string &name)
     {
         // Check if the username is already taken
         if (isUsernameTaken(username))
@@ -521,6 +566,7 @@ public:
         // Create a new user account
         User newUser;
         newUser.producttype = producttype;
+        newUser.name = name;
         newUser.username = username;
         newUser.password = system.encryptPass(password);
         newUser.balance = 0.0;
@@ -561,6 +607,8 @@ public:
         {
             User user;
             user.username = item.value("username", "");
+            user.producttype = item.value("producttype", "");
+            user.name = item.value("name", "");
             user.password = item.value("password", "");
             user.producttype = item.value("accounttype", "");
             user.balance = item.value("balance", 0.0);
@@ -609,6 +657,8 @@ public:
             {
                 json userJson;
                 userJson["username"] = user.username;
+                userJson["producttype"] = user.producttype;
+                userJson["name"] = user.name;
                 userJson["password"] = user.password;
                 userJson["accounttype"] = user.producttype;
                 userJson["balance"] = user.balance;
@@ -658,11 +708,9 @@ int main()
     while (true)
     {
         bank.displayMainMenu();
-
         int choice;
         cin >> choice;
         cin.ignore(); // Clear the newline character
-
         switch (choice)
         {
         case 1:
