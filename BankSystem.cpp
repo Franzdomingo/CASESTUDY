@@ -138,7 +138,7 @@ public:
 
             setCurrentLoggedInUser(loggedInUsername);
             setCurrentProductType(productType);
-            cout << "Login successful!" << endl;   
+            cout << "Login successful!" << endl;
             return true;
         }
         else
@@ -330,7 +330,7 @@ public:
             }
 
             // Create a new user account
-            bool registrationSuccess = createUser(name ,username, password, email, phone, enable2FA, accounttype);
+            bool registrationSuccess = createUser(name, username, password, email, phone, enable2FA, accounttype);
             if (registrationSuccess)
             {
                 cout << "Registration successful!" << endl;

@@ -1,66 +1,48 @@
 [
     {
         "balance": 0.0,
-        "name": "",
-        "password": "XgtvkiB8;47",
-        "producttype": "",
-        "profiles": [
-            {
-                "email": "xerayx@gmail.com",
-                "isTwoFactorEnabled": true,
-                "phone": "09123456789"
-            }
-        ],
-        "username": "Xerayx"
-    },
-    {
-        "balance": 100.0,
-        "name": "",
-        "password": "4",
-        "producttype": "",
-        "profiles": [
-            {
-                "email": "2",
-                "isTwoFactorEnabled": false,
-                "phone": "2"
-            }
-        ],
-        "transactionhistory": [
-            {
-                "amount": 100.0,
-                "timestamp": 1695745579,
-                "transactionID": "TXN169574557941",
-                "transactionType": "Deposit"
-            }
-        ],
-        "username": "2"
-    },
-    {
-        "balance": 0.0,
-        "name": "1",
-        "password": "3",
+        "name": "Franz",
+        "password": "Htcp|4",
         "producttype": "Savings Account",
         "profiles": [
             {
-                "email": "1",
+                "email": "Franz@gmail.com",
                 "isTwoFactorEnabled": true,
-                "phone": "1"
+                "phone": "09457296178"
             }
         ],
-        "username": "1"
-    },
-    {
-        "balance": 0.0,
-        "name": "3",
-        "password": "5",
-        "producttype": "Savings Account",
-        "profiles": [
+        "sessions": [
             {
-                "email": "3",
-                "isTwoFactorEnabled": true,
-                "phone": "3"
+                "sessionID": "SSN169582217241",
+                "timestamp": 1695822172,
+                "username": "Franz"
+            },
+            {
+                "sessionID": "SSN169582226218467",
+                "timestamp": 1695822262,
+                "username": "Franz"
+            },
+            {
+                "sessionID": "SSN16958223006334",
+                "timestamp": 1695822300,
+                "username": "Franz"
+            },
+            {
+                "sessionID": "SSN169582238741",
+                "timestamp": 1695822387,
+                "username": "Franz"
+            },
+            {
+                "sessionID": "SSN169582248841",
+                "timestamp": 1695822488,
+                "username": "Franz"
+            },
+            {
+                "sessionID": "SSN169582264141",
+                "timestamp": 1695822641,
+                "username": "Franz"
             }
         ],
-        "username": "3"
+        "username": "Franz"
     }
 ]

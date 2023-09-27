@@ -4,7 +4,8 @@
     "ostream": "cpp",
     "iostream": "cpp",
     "*.tcc": "cpp",
-    "limits": "cpp"
+    "limits": "cpp",
+    "iosfwd": "cpp"
   },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cCompilerPath": "gcc",
