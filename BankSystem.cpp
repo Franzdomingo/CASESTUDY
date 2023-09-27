@@ -22,6 +22,7 @@ struct Transaction
     string transactionID;
     string transactionType;
     double amount;
+    string description;
     time_t timestamp;
 };
 
@@ -132,8 +133,6 @@ public:
     // Function to generate a unique transaction ID (you can implement this as per your needs)
     string generateTransactionID()
     {
-        // Implement your logic to generate a unique transaction ID
-        // Example: You can use a combination of timestamp and a random number
         return "TXN" + to_string(time(nullptr)) + to_string(rand());
     }
 
@@ -178,6 +177,96 @@ public:
         }
 
         cout << "User not found. Withdrawal failed." << endl;
+        return false;
+    }
+    // Function to make a purchase
+    bool makePurchase(const string &username, double amount, const string &purchaseDescription)
+    {
+        for (User &user : users)
+        {
+            if (user.username == username)
+            {
+                if (amount <= 0.0)
+                {
+                    cout << "Invalid purchase amount. Please enter a positive amount." << endl;
+                    return false;
+                }
+
+                // Check if the user's balance will go below -5000 after the purchase
+                if (user.balance - amount < -5000.0)
+                {
+                    cout << "Insufficient credit limit. Purchase failed." << endl;
+                    return false;
+                }
+
+                // Update user's transaction history
+                Transaction purchaseTransaction;
+                purchaseTransaction.transactionID = generateTransactionID();
+                purchaseTransaction.transactionType = "Purchase";
+                purchaseTransaction.amount = amount;
+                purchaseTransaction.timestamp = time(nullptr);
+                purchaseTransaction.description = purchaseDescription;
+
+                user.transactionhistory.push_back(purchaseTransaction);
+
+                // Update user's balance (subtract the purchase amount for a credit card)
+                user.balance -= amount;
+
+                // Save the updated user data to the file
+                saveDataToFile();
+
+                cout << "Purchase of $" << amount << " successful. Description: " << purchaseDescription << endl;
+                return true;
+            }
+        }
+
+        cout << "User not found. Purchase failed." << endl;
+        return false;
+    }
+
+    // Function to pay bills
+    bool payBills(const string &username, double amount, const string &billDescription)
+    {
+        for (User &user : users)
+        {
+            if (user.username == username)
+            {
+                if (amount <= 0.0)
+                {
+                    cout << "Invalid bill amount. Please enter a positive amount." << endl;
+                    return false;
+                }
+
+                if (user.balance >= amount)
+                {
+                    // Update user's transaction history
+                    Transaction billTransaction;
+                    billTransaction.transactionID = generateTransactionID();
+                    billTransaction.transactionType = "Bill Payment";
+                    billTransaction.amount = amount;
+                    billTransaction.timestamp = time(nullptr);
+                    billTransaction.description = billDescription;
+
+                    user.transactionhistory.push_back(billTransaction);
+
+                    // Update user's balance
+                    user.balance -= amount;
+
+                    // Save the updated user data to the file
+                    saveDataToFile();
+
+                    cout << "Bill payment of $" << amount << " successful. Description: " << billDescription << endl;
+                    return true;
+                }
+                else
+                {
+                    cout << "Insufficient balance. Bill payment failed." << endl;
+                    return false;
+                }
+            }
+        }
+
+        cout << "User not found. Bill payment failed." << endl;
         return false;
     }
 
@@ -493,7 +582,6 @@ int main()
                 {
                 dashboard:
                     string message;
-
                     cout << "\nWelcome " << username << "!" << endl;
                     cout << "Current Balance: $" << bank.getCurrentBalance(username) << endl;
                     cout << "\nDashboard Options:" << endl;
@@ -517,6 +605,7 @@ int main()
                         {
                             if (productType == "Savings Account")
                             {
+                                cout << "Current Balance: $" << bank.getCurrentBalance(username) << endl;
                                 cout << "\nTransaction Center:" << endl;
                                 cout << "1. Deposit Funds" << endl;
                                 cout << "2. Withdraw Funds" << endl;
@@ -590,6 +679,111 @@ int main()
 
                                 default:
                                     cout << "Invalid choice. Please select a valid option." << endl;
+                                }
+                            }
+                            else if (productType == "Credit Account")
+                            {
+                                cout << "Current Balance: $" << bank.getCurrentBalance(username) << endl;
+                                cout << "\nTransaction Center:" << endl;
+                                cout << "1. Make a Purchase" << endl;
+                                cout << "2. Pay bills" << endl;
+                                cout << "3. View Transaction History" << endl;
+                                cout << "4. Back to Dashboard" << endl;
+                                cout << "Enter your choice: ";
+
+                                int transactionChoice;
+                                cin >> transactionChoice;
+
+                                // Check for invalid input
+                                if (cin.fail())
+                                {
+                                    cin.clear();
+                                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                                    cout << "Invalid input. Please enter a valid number." << endl;
+                                    continue;
+                                }
+
+                                string currentLoggedInUser;
+
+                                switch (transactionChoice)
+                                {
+                                case 1:
+                                    // Purchase
+                                    double purchaseAmount;
+                                    cout << "Enter the purchase amount: $";
+                                    cin >> purchaseAmount;
+
+                                    if (cin.fail())
+                                    {
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                                        cout << "Invalid amount. Please enter a valid number." << endl;
+                                        continue;
+                                    }
+
+                                    cin.ignore(); // Clear the newline character
+
+                                    if (purchaseAmount <= 0.0)
+                                    {
+                                        cout << "Invalid transaction amount. Please enter a positive amount." << endl;
+                                        continue;
+                                    }
+
+                                    if (bank.makePurchase(username, purchaseAmount, "Purchase description"))
+                                    {
+                                        cout << "Purchase of $" << purchaseAmount << " successful." << endl;
+                                    }
+                                    else
+                                    {
+                                        cout << "Purchase failed. Please try again." << endl;
+                                    }
+                                    break;
+
+                                case 2:
+                                    // Pay bills
+                                    double billAmount;
+                                    cout << "Enter the bill amount: $";
+                                    cin >> billAmount;
+
+                                    if (cin.fail())
+                                    {
+                                        cin.clear();
+                                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                                        cout << "Invalid amount. Please enter a valid number." << endl;
+                                        continue;
+                                    }
+
+                                    cin.ignore(); // Clear the newline character
+
+                                    if (billAmount <= 0.0)
+                                    {
+                                        cout << "Invalid amount. Please enter a positive amount." << endl;
+                                        continue;
+                                    }
+
+                                    if (bank.payBills(username, billAmount, "Bill description"))
+                                    {
+                                        cout << "Bill payment of $" << billAmount << " successful." << endl;
+                                    }
+                                    else
+                                    {
+                                        cout << "Bill payment failed. Please try again." << endl;
+                                    }
+                                    break;
+
+                                case 3:
+                                    // View Transaction History
+                                    bank.displayTransactionHistory(username);
+                                    system("pause");
+                                    break;
+
+                                case 4:
+                                    goto dashboard; // Back to Dashboard
+                                    break;
+
+                                default:
+                                    cout << "Invalid choice. Please select a valid option." << endl;
+                                    break;
                                 }
                             }
 

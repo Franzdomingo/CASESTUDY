@@ -62,5 +62,39 @@
             }
         ],
         "username": "3"
+    },
+    {
+        "balance": -5000.0,
+        "name": "4",
+        "password": "6",
+        "producttype": "Credit Account",
+        "profiles": [
+            {
+                "email": "4",
+                "isTwoFactorEnabled": false,
+                "phone": "4"
+            }
+        ],
+        "transactionhistory": [
+            {
+                "amount": 100.0,
+                "timestamp": 1695803341,
+                "transactionID": "TXN169580334141",
+                "transactionType": "Purchase"
+            },
+            {
+                "amount": 100.0,
+                "timestamp": 1695803642,
+                "transactionID": "TXN169580364241",
+                "transactionType": "Purchase"
+            },
+            {
+                "amount": 4800.0,
+                "timestamp": 1695803847,
+                "transactionID": "TXN169580384741",
+                "transactionType": "Purchase"
+            }
+        ],
+        "username": "4"
     }
 ]
