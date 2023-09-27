@@ -47,6 +47,23 @@
                 "phone": "1"
             }
         ],
+        "sessions": [
+            {
+                "sessionID": "SSN169581630441",
+                "timestamp": 1695816304,
+                "username": "1"
+            },
+            {
+                "sessionID": "SSN169581636018467",
+                "timestamp": 1695816360,
+                "username": "1"
+            },
+            {
+                "sessionID": "SSN169581657441",
+                "timestamp": 1695816574,
+                "username": "1"
+            }
+        ],
         "username": "1"
     },
     {

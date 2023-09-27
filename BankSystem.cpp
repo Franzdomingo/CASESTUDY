@@ -17,6 +17,13 @@ using namespace chrono;
 using namespace this_thread;
 
 // Define structures for data storage
+struct Session
+{
+    string sessionID;
+    string username;
+    time_t timestamp;
+};
+
 struct Transaction
 {
     string transactionID;
@@ -42,6 +49,7 @@ struct User
     double balance;
     vector<Profile> profiles;
     vector<Transaction> transactionhistory;
+    vector<Session> sessions;
 };
 
 class BankSystem
@@ -50,6 +58,7 @@ private:
     SecuritySys system;
     vector<User> users;
     string currentLoggedInUser;
+    string currentSessionID;
     string dataFilePath;
     string currentProductType;
 
@@ -78,7 +87,26 @@ public:
             }
         }
     }
-
+    // display session history
+    void displaySessions(const string &username)
+    {
+        for (const User &user : users)
+        {
+            if (user.username == username)
+            {
+                cout << "Session History for User: " << user.username << endl;
+                cout << "--------------------------------" << endl;
+                for (const Session &session : user.sessions)
+                {
+                    cout << "Session ID: " << session.sessionID << endl;
+                    cout << "Username: " << session.username << endl;
+                    cout << "Timestamp: " << ctime(&session.timestamp);
+                    cout << "--------------------------------" << endl;
+                }
+            }
+        }
+    }
+    // display profile
     void displayProfile(const string &username)
     {
         for (const User &user : users)
@@ -135,6 +163,11 @@ public:
     string generateTransactionID()
     {
         return "TXN" + to_string(time(nullptr)) + to_string(rand());
+    }
+
+    string generateSessionID()
+    {
+        return "SSN" + to_string(time(nullptr)) + to_string(rand());
     }
 
     // Withdraw Funds
@@ -310,6 +343,31 @@ public:
     {
         currentLoggedInUser = username;
     }
+
+    void setCurrentSessionID(const string &sessionID)
+    {
+        currentSessionID = sessionID;
+    }
+
+    void SaveSession(const string &username)
+    {
+        for (User &user : users)
+        {
+            if (user.username == username)
+            {
+                Session session;
+                session.sessionID = generateSessionID();
+                session.username = username;
+                session.timestamp = time(nullptr);
+
+                user.sessions.push_back(session);
+
+                // Save the updated user data to the file
+                saveDataToFile();
+            }
+        }
+    }
+
     bool isValidProductType(const string &producttype)
     {
         // Define a list of valid product types in your system
@@ -326,6 +384,7 @@ public:
 
         return false; // The product type is not valid
     }
+
     void setCurrentProductType(const string &producttype)
     {
         // Check if the provided product type is valid before setting it
@@ -461,6 +520,17 @@ public:
                     user.transactionhistory.emplace_back(transaction);
                 }
             }
+            if (item.contains("sessions"))
+            {
+                for (const auto &sessionItem : item["sessions"])
+                {
+                    Session session;
+                    session.sessionID = sessionItem.value("sessionID", "");
+                    session.username = sessionItem.value("username", "");
+                    session.timestamp = sessionItem.value("timestamp", 0);
+                    user.sessions.emplace_back(session);
+                }
+            }
 
             users.emplace_back(user);
         }
@@ -508,6 +578,14 @@ public:
                     transactionJson["timestamp"] = transaction.timestamp;
                     userJson["transactionhistory"].push_back(transactionJson);
                 }
+                for (const Session &session : user.sessions)
+                {
+                    json sessionJson;
+                    sessionJson["sessionID"] = session.sessionID;
+                    sessionJson["username"] = session.username;
+                    sessionJson["timestamp"] = session.timestamp;
+                    userJson["sessions"].push_back(sessionJson);
+                }
 
                 j.push_back(userJson);
             }
@@ -554,6 +632,7 @@ int main()
             // Example pseudo-code for authentication
             if (bank.authenticateUser(username, password))
             {
+                bank.SaveSession(username);
                 bank.setCurrentLoggedInUser(username);
                 // Redirect to the user's dashboard or other menu options
                 cout << "Login successful!" << endl;
@@ -614,6 +693,7 @@ int main()
                                 cout << "4. Back to Dashboard" << endl;
                                 cout << "Enter your choice: ";
                                 bank.setCurrentLoggedInUser(username);
+                                bank.setCurrentSessionID(bank.generateSessionID());
                                 int transactionChoice;
                                 string currentLoggedInUser;
                                 cin >> transactionChoice;
@@ -791,7 +871,8 @@ int main()
                             break;
                         case 2:
                             bank.displayProfile(username);
-                            // Implement User Profile management here
+
+                            bank.displaySessions(username);
                             break;
                         case 3:
                             // Implement Data Analytics Dashboard here
