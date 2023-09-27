@@ -25,6 +25,13 @@
                 "phone": "2"
             }
         ],
+        "sessions": [
+            {
+                "sessionID": "SSN169581684141",
+                "timestamp": 1695816841,
+                "username": "2"
+            }
+        ],
         "transactionhistory": [
             {
                 "amount": 100.0,
@@ -37,14 +44,19 @@
     },
     {
         "balance": 0.0,
-        "name": "1",
-        "password": "3",
+        "name": "",
+        "password": "4",
         "producttype": "Savings Account",
         "profiles": [
             {
                 "email": "1",
                 "isTwoFactorEnabled": true,
                 "phone": "1"
+            },
+            {
+                "email": "",
+                "isTwoFactorEnabled": false,
+                "phone": ""
             }
         ],
         "sessions": [
@@ -61,6 +73,21 @@
             {
                 "sessionID": "SSN169581657441",
                 "timestamp": 1695816574,
+                "username": "1"
+            },
+            {
+                "sessionID": "SSN169581958841",
+                "timestamp": 1695819588,
+                "username": "1"
+            },
+            {
+                "sessionID": "SSN16958196376334",
+                "timestamp": 1695819637,
+                "username": "1"
+            },
+            {
+                "sessionID": "SSN169581992441",
+                "timestamp": 1695819924,
                 "username": "1"
             }
         ],
@@ -127,5 +154,103 @@
             }
         ],
         "username": "Franz123"
+    },
+    {
+        "balance": 0.0,
+        "name": "7",
+        "password": "9",
+        "producttype": "Credit Account",
+        "profiles": [
+            {
+                "email": "7",
+                "isTwoFactorEnabled": true,
+                "phone": "7"
+            }
+        ],
+        "sessions": [
+            {
+                "sessionID": "SSN169581694418467",
+                "timestamp": 1695816944,
+                "username": "7"
+            }
+        ],
+        "username": "7"
+    },
+    {
+        "balance": 0.0,
+        "name": "9",
+        "password": ";",
+        "producttype": "Credit Account",
+        "profiles": [
+            {
+                "email": "9",
+                "isTwoFactorEnabled": true,
+                "phone": "9"
+            }
+        ],
+        "sessions": [
+            {
+                "sessionID": "SSN169581874841",
+                "timestamp": 1695818748,
+                "username": "9"
+            },
+            {
+                "sessionID": "SSN169581878218467",
+                "timestamp": 1695818782,
+                "username": "9"
+            }
+        ],
+        "username": "9"
+    },
+    {
+        "balance": 0.0,
+        "name": "",
+        "password": "4",
+        "producttype": "Savings Account",
+        "profiles": [
+            {
+                "email": "1",
+                "isTwoFactorEnabled": true,
+                "phone": "1"
+            },
+            {
+                "email": "",
+                "isTwoFactorEnabled": false,
+                "phone": ""
+            }
+        ],
+        "sessions": [
+            {
+                "sessionID": "SSN169581630441",
+                "timestamp": 1695816304,
+                "username": "1"
+            },
+            {
+                "sessionID": "SSN169581636018467",
+                "timestamp": 1695816360,
+                "username": "1"
+            },
+            {
+                "sessionID": "SSN169581657441",
+                "timestamp": 1695816574,
+                "username": "1"
+            },
+            {
+                "sessionID": "SSN169581958841",
+                "timestamp": 1695819588,
+                "username": "1"
+            },
+            {
+                "sessionID": "SSN169581963726500",
+                "timestamp": 1695819637,
+                "username": "1"
+            },
+            {
+                "sessionID": "SSN169581992418467",
+                "timestamp": 1695819924,
+                "username": "1"
+            }
+        ],
+        "username": "1"
     }
 ]

@@ -333,6 +333,7 @@ public:
                         }
                     }
                 }
+                SaveSession(username);
                 return true;
             }
         }
@@ -474,6 +475,38 @@ public:
 
         cout << "User account created successfully." << endl;
         return true;
+    }
+
+    void ChangeUserInfo(const string &username, const string &password, const string &email, const string &phone, const char &twoFA, const string &producttype, const string &name)
+    {
+        for (User &user : users)
+        {
+            if (user.username == username)
+            {
+                user.producttype = producttype;
+                user.name = name;
+                user.username = username;
+                user.password = system.encryptPass(password);
+                user.balance = 0.0;
+
+                // Create a new profile for the user
+                Profile newProfile;
+                newProfile.email = email;
+                newProfile.phone = phone;
+                newProfile.isTwoFactorEnabled = system.enable2FA(twoFA);
+
+                // Add the new profile to the user's profiles vector
+                user.profiles.push_back(newProfile);
+
+                // Add the new user to the vector of users
+                users.push_back(user);
+
+                // Save the updated user data to the file
+                saveDataToFile();
+
+                cout << "User account created successfully." << endl;
+            }
+        }
     }
 
     // Load user data from the file into memory
@@ -632,7 +665,6 @@ int main()
             // Example pseudo-code for authentication
             if (bank.authenticateUser(username, password))
             {
-                bank.SaveSession(username);
                 bank.setCurrentLoggedInUser(username);
                 // Redirect to the user's dashboard or other menu options
                 cout << "Login successful!" << endl;
@@ -643,20 +675,6 @@ int main()
                 bank.setCurrentProductType(productType);
 
                 cout << "Login successful! You have a " << productType << " account." << endl;
-
-                // Check the account type and perform actions accordingly
-                if (productType == "Savings Account")
-                {
-                    // Perform actions specific to savings account
-                    cout << "You have a Savings Account." << endl;
-                    // Add code to handle savings account actions here
-                }
-                else if (productType == "Credit Account")
-                {
-                    // Perform actions specific to credit account
-                    cout << "You have a Credit Account." << endl;
-                    // Add code to handle credit account actions here
-                }
 
                 while (true)
                 {
@@ -870,7 +888,99 @@ int main()
 
                             break;
                         case 2:
+                            // User Profile
+                            cout << "User Profile" << endl;
                             bank.displayProfile(username);
+                            cout << "1. Manage Account" << endl;
+                            cout << "2. Back to Dashboard" << endl;
+                            int pchoice;
+                            cin >> pchoice;
+
+                            if (pchoice == 1)
+                            {
+                            // implement manage account
+                            pdashboard:
+                                cout << "Manage Account" << endl;
+                                cout << "1. Change Password" << endl;
+                                cout << "2. Change Email" << endl;
+                                cout << "3. Change Phone" << endl;
+                                cout << "4. Change Username" << endl;
+                                cout << "5. Enable/Disable 2FA" << endl;
+                                cout << "6. Show Activity Log " << endl;
+                                cout << "7. Back to Profile" << endl;
+                                int mchoice;
+                                cin >> mchoice;
+
+                                if (mchoice == 1)
+                                {
+                                    string newpass;
+                                    cout << "Enter new password: ";
+                                    cin >> newpass;
+                                    bank.ChangeUserInfo(username, newpass, email, phone, enable2FA, productType, name);
+                                }
+                                else if (mchoice == 2)
+                                {
+                                    string newemail;
+                                    cout << "Enter new email: ";
+                                    cin >> newemail;
+                                    bank.ChangeUserInfo(username, password, newemail, phone, enable2FA, productType, name);
+                                }
+                                else if (mchoice == 3)
+                                {
+                                    string newphone;
+                                    cout << "Enter new phone: ";
+                                    cin >> newphone;
+                                    bank.ChangeUserInfo(username, password, email, newphone, enable2FA, productType, name);
+                                }
+                                else if (mchoice == 4)
+                                {
+                                    string newusername;
+                                    cout << "Enter new username: ";
+                                    cin >> newusername;
+                                    bank.ChangeUserInfo(newusername, password, email, phone, enable2FA, productType, name);
+                                }
+                                else if (mchoice == 5)
+                                {
+                                    char new2FA;
+                                    cout << "Do you want to enable 2FA?(Y/N): ";
+                                    cin >> new2FA;
+                                    bank.ChangeUserInfo(username, password, email, phone, new2FA, productType, name);
+                                }
+                                else if (mchoice == 6)
+                                {
+                                    // show activity log
+                                    cout << "Activity Log" << endl;
+                                    cout << "1. Transaction History" << endl;
+                                    cout << "2. Session History" << endl;
+                                    int achoice;
+                                    cin >> achoice;
+
+                                    if (achoice == 1)
+                                    {
+                                        bank.displayTransactionHistory(username);
+                                    }
+                                    else if (achoice == 2)
+                                    {
+                                        bank.displaySessions(username);
+                                    }
+                                    else
+                                    {
+                                        cout << "Invalid choice. Please select a valid option." << endl;
+                                    }
+                                }
+                                else if (mchoice == 7)
+                                {
+                                    goto pdashboard;
+                                }
+                                else
+                                {
+                                    cout << "Invalid choice. Please select a valid option." << endl;
+                                }
+                            }
+                            else if (pchoice == 2)
+                            {
+                                goto dashboard;
+                            }
 
                             bank.displaySessions(username);
                             break;
