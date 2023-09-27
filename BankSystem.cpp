@@ -47,6 +47,7 @@ class BankSystem
 {
 private:
     SecuritySys system;
+    ChatAI ai;
     vector<User> users;
     vector<Profile> profiles;
     vector<Transaction> transactionhistory;
@@ -62,7 +63,7 @@ public:
 
     void displayMainMenu()
     {
-        cout << "Welcome to the Bank System" << endl;
+        cout << "\nWelcome to the Bank System" << endl;
         cout << "1. Login" << endl;
         cout << "2. Product Application" << endl;
         cout << "3. Exit" << endl;
@@ -105,7 +106,7 @@ public:
         {
             if (user.username == username)
             {
-                cout << "Transaction History for User: " << user.username << endl;
+                cout << "\nTransaction History for User: " << user.username << endl;
                 cout << "--------------------------------" << endl;
                 for (const Transaction &transaction : user.transactionhistory)
                 {
@@ -132,9 +133,12 @@ public:
 
         if (authenticateUser(username, password))
         {
-            setCurrentLoggedInUser(username);
-            cout << "Login successful!" << endl;
             loggedInUsername = username;
+            string productType = getCurrentProductType(loggedInUsername);
+
+            setCurrentLoggedInUser(loggedInUsername);
+            setCurrentProductType(productType);
+            cout << "Login successful!" << endl;   
             return true;
         }
         else
@@ -176,7 +180,7 @@ public:
     void processDeposit(const string &username)
     {
         double depositAmount;
-        cout << "Enter the amount to deposit: $";
+        cout << "\nEnter the amount to deposit: $";
         cin >> depositAmount;
         cin.ignore(); // Clear the newline character
 
@@ -203,7 +207,7 @@ public:
     void processWithdrawal(const string &username)
     {
         double withdrawAmount;
-        cout << "Enter the amount to withdraw: $";
+        cout << "\nEnter the amount to withdraw: $";
         cin >> withdrawAmount;
         cin.ignore(); // Clear the newline character
 
@@ -227,9 +231,8 @@ public:
 
     void handleHelpAndResources()
     {
-        ChatAI ai;
         string message;
-        cout << "Hi! I'm your AI Assistant. How may I help you?\n"
+        cout << "\nHi! I'm your AI Assistant. How may I help you?\n"
              << endl;
         getline(cin, message);
         ai.chatBot(message);
@@ -272,7 +275,7 @@ public:
 
     void applyForProduct()
     {
-        string username, password, email, phone, accounttype;
+        string name, username, password, email, phone, accounttype;
         int acctype;
         char enable2FA;
         while (true)
@@ -280,6 +283,9 @@ public:
             cout << "\nPress Enter to continue...";
             cin.get();
             cout << "Product Application" << endl;
+            cout << "Enter your full name: ";
+            getline(cin, name);
+
             cout << "Enter username: ";
             getline(cin, username);
 
@@ -324,7 +330,7 @@ public:
             }
 
             // Create a new user account
-            bool registrationSuccess = createUser(username, password, email, phone, enable2FA, accounttype);
+            bool registrationSuccess = createUser(name ,username, password, email, phone, enable2FA, accounttype);
             if (registrationSuccess)
             {
                 cout << "Registration successful!" << endl;
@@ -460,7 +466,7 @@ public:
                     {
                         cout << "Sending an OTP for 2 Factor Authentication." << endl;
                         system.sendOTP();
-                        cout << "Enter the OTP: ";
+
                         string inputOTP;
                         cout << "Enter your OTP: ";
                         cin >> inputOTP;
@@ -483,11 +489,11 @@ public:
     {
         currentLoggedInUser = username;
     }
+
     bool isValidProductType(const string &producttype)
     {
         // Define a list of valid product types in your system
         vector<string> validProductTypes = {"Savings Account", "Credit Account"};
-
         // Check if the provided product type is in the list of valid types
         for (const string &validType : validProductTypes)
         {
@@ -496,9 +502,9 @@ public:
                 return true; // The product type is valid
             }
         }
-
         return false; // The product type is not valid
     }
+
     void setCurrentProductType(const string &producttype)
     {
         // Check if the provided product type is valid before setting it
@@ -523,7 +529,6 @@ public:
                 return user.producttype;
             }
         }
-
         // Return a default value or an appropriate indicator if the user is not found
         return "Unknown"; // You can choose a different indicator if needed
     }
@@ -554,7 +559,8 @@ public:
         return -1.0; // You can choose a different indicator if needed
     }
 
-    bool createUser(const string &username, const string &password, const string &email, const string &phone, const char &twoFA, const string &producttype, const string &name)
+    bool createUser(const string &name, const string &username, const string &password, const string &email,
+                    const string &phone, const char &twoFA, const string &producttype)
     {
         // Check if the username is already taken
         if (isUsernameTaken(username))
@@ -565,10 +571,10 @@ public:
 
         // Create a new user account
         User newUser;
-        newUser.producttype = producttype;
         newUser.name = name;
         newUser.username = username;
         newUser.password = system.encryptPass(password);
+        newUser.producttype = producttype;
         newUser.balance = 0.0;
 
         // Create a new profile for the user
@@ -606,9 +612,8 @@ public:
         for (const auto &item : j)
         {
             User user;
-            user.username = item.value("username", "");
-            user.producttype = item.value("producttype", "");
             user.name = item.value("name", "");
+            user.username = item.value("username", "");
             user.password = item.value("password", "");
             user.producttype = item.value("accounttype", "");
             user.balance = item.value("balance", 0.0);
@@ -656,9 +661,8 @@ public:
             for (const User &user : users)
             {
                 json userJson;
-                userJson["username"] = user.username;
-                userJson["producttype"] = user.producttype;
                 userJson["name"] = user.name;
+                userJson["username"] = user.username;
                 userJson["password"] = user.password;
                 userJson["accounttype"] = user.producttype;
                 userJson["balance"] = user.balance;
@@ -708,9 +712,11 @@ int main()
     while (true)
     {
         bank.displayMainMenu();
+
         int choice;
         cin >> choice;
         cin.ignore(); // Clear the newline character
+
         switch (choice)
         {
         case 1:
