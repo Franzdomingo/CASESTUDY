@@ -1,256 +1,48 @@
 [
     {
         "balance": 0.0,
-        "name": "",
-        "password": "XgtvkiB8;47",
-        "producttype": "",
-        "profiles": [
-            {
-                "email": "xerayx@gmail.com",
-                "isTwoFactorEnabled": true,
-                "phone": "09123456789"
-            }
-        ],
-        "username": "Xerayx"
-    },
-    {
-        "balance": 100.0,
-        "name": "",
-        "password": "4",
-        "producttype": "",
-        "profiles": [
-            {
-                "email": "2",
-                "isTwoFactorEnabled": false,
-                "phone": "2"
-            }
-        ],
-        "sessions": [
-            {
-                "sessionID": "SSN169581684141",
-                "timestamp": 1695816841,
-                "username": "2"
-            }
-        ],
-        "transactionhistory": [
-            {
-                "amount": 100.0,
-                "timestamp": 1695745579,
-                "transactionID": "TXN169574557941",
-                "transactionType": "Deposit"
-            }
-        ],
-        "username": "2"
-    },
-    {
-        "balance": 0.0,
-        "name": "",
-        "password": "4",
+        "name": "Franz",
+        "password": "Htcp|4",
         "producttype": "Savings Account",
-        "profiles": [
-            {
-                "email": "1",
-                "isTwoFactorEnabled": true,
-                "phone": "1"
-            },
-            {
-                "email": "",
-                "isTwoFactorEnabled": false,
-                "phone": ""
-            }
-        ],
-        "sessions": [
-            {
-                "sessionID": "SSN169581630441",
-                "timestamp": 1695816304,
-                "username": "1"
-            },
-            {
-                "sessionID": "SSN169581636018467",
-                "timestamp": 1695816360,
-                "username": "1"
-            },
-            {
-                "sessionID": "SSN169581657441",
-                "timestamp": 1695816574,
-                "username": "1"
-            },
-            {
-                "sessionID": "SSN169581958841",
-                "timestamp": 1695819588,
-                "username": "1"
-            },
-            {
-                "sessionID": "SSN16958196376334",
-                "timestamp": 1695819637,
-                "username": "1"
-            },
-            {
-                "sessionID": "SSN169581992441",
-                "timestamp": 1695819924,
-                "username": "1"
-            }
-        ],
-        "username": "1"
-    },
-    {
-        "balance": 0.0,
-        "name": "3",
-        "password": "5",
-        "producttype": "Savings Account",
-        "profiles": [
-            {
-                "email": "3",
-                "isTwoFactorEnabled": true,
-                "phone": "3"
-            }
-        ],
-        "username": "3"
-    },
-    {
-        "balance": -5000.0,
-        "name": "4",
-        "password": "6",
-        "producttype": "Credit Account",
-        "profiles": [
-            {
-                "email": "4",
-                "isTwoFactorEnabled": false,
-                "phone": "4"
-            }
-        ],
-        "transactionhistory": [
-            {
-                "amount": 100.0,
-                "timestamp": 1695803341,
-                "transactionID": "TXN169580334141",
-                "transactionType": "Purchase"
-            },
-            {
-                "amount": 100.0,
-                "timestamp": 1695803642,
-                "transactionID": "TXN169580364241",
-                "transactionType": "Purchase"
-            },
-            {
-                "amount": 4800.0,
-                "timestamp": 1695803847,
-                "transactionID": "TXN169580384741",
-                "transactionType": "Purchase"
-            }
-        ],
-        "username": "4"
-    },
-    {
-        "balance": 0.0,
-        "name": "Franz Phillip G. Domingo",
-        "password": "Htcp|345",
-        "producttype": "Credit Account",
         "profiles": [
             {
                 "email": "Franz@gmail.com",
                 "isTwoFactorEnabled": true,
-                "phone": "09999999999"
-            }
-        ],
-        "username": "Franz123"
-    },
-    {
-        "balance": 0.0,
-        "name": "7",
-        "password": "9",
-        "producttype": "Credit Account",
-        "profiles": [
-            {
-                "email": "7",
-                "isTwoFactorEnabled": true,
-                "phone": "7"
+                "phone": "09457296178"
             }
         ],
         "sessions": [
             {
-                "sessionID": "SSN169581694418467",
-                "timestamp": 1695816944,
-                "username": "7"
+                "sessionID": "SSN169582217241",
+                "timestamp": 1695822172,
+                "username": "Franz"
+            },
+            {
+                "sessionID": "SSN169582226218467",
+                "timestamp": 1695822262,
+                "username": "Franz"
+            },
+            {
+                "sessionID": "SSN16958223006334",
+                "timestamp": 1695822300,
+                "username": "Franz"
+            },
+            {
+                "sessionID": "SSN169582238741",
+                "timestamp": 1695822387,
+                "username": "Franz"
+            },
+            {
+                "sessionID": "SSN169582248841",
+                "timestamp": 1695822488,
+                "username": "Franz"
+            },
+            {
+                "sessionID": "SSN169582264141",
+                "timestamp": 1695822641,
+                "username": "Franz"
             }
         ],
-        "username": "7"
-    },
-    {
-        "balance": 0.0,
-        "name": "9",
-        "password": ";",
-        "producttype": "Credit Account",
-        "profiles": [
-            {
-                "email": "9",
-                "isTwoFactorEnabled": true,
-                "phone": "9"
-            }
-        ],
-        "sessions": [
-            {
-                "sessionID": "SSN169581874841",
-                "timestamp": 1695818748,
-                "username": "9"
-            },
-            {
-                "sessionID": "SSN169581878218467",
-                "timestamp": 1695818782,
-                "username": "9"
-            }
-        ],
-        "username": "9"
-    },
-    {
-        "balance": 0.0,
-        "name": "",
-        "password": "4",
-        "producttype": "Savings Account",
-        "profiles": [
-            {
-                "email": "1",
-                "isTwoFactorEnabled": true,
-                "phone": "1"
-            },
-            {
-                "email": "",
-                "isTwoFactorEnabled": false,
-                "phone": ""
-            }
-        ],
-        "sessions": [
-            {
-                "sessionID": "SSN169581630441",
-                "timestamp": 1695816304,
-                "username": "1"
-            },
-            {
-                "sessionID": "SSN169581636018467",
-                "timestamp": 1695816360,
-                "username": "1"
-            },
-            {
-                "sessionID": "SSN169581657441",
-                "timestamp": 1695816574,
-                "username": "1"
-            },
-            {
-                "sessionID": "SSN169581958841",
-                "timestamp": 1695819588,
-                "username": "1"
-            },
-            {
-                "sessionID": "SSN169581963726500",
-                "timestamp": 1695819637,
-                "username": "1"
-            },
-            {
-                "sessionID": "SSN169581992418467",
-                "timestamp": 1695819924,
-                "username": "1"
-            }
-        ],
-        "username": "1"
+        "username": "Franz"
     }
 ]

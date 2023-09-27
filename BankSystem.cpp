@@ -477,34 +477,71 @@ public:
         return true;
     }
 
-    void ChangeUserInfo(const string &username, const string &password, const string &email, const string &phone, const char &twoFA, const string &producttype, const string &name)
+    void ChangePassword(const string &username, const string &password)
     {
         for (User &user : users)
         {
             if (user.username == username)
             {
-                user.producttype = producttype;
-                user.name = name;
-                user.username = username;
                 user.password = system.encryptPass(password);
-                user.balance = 0.0;
-
-                // Create a new profile for the user
-                Profile newProfile;
-                newProfile.email = email;
-                newProfile.phone = phone;
-                newProfile.isTwoFactorEnabled = system.enable2FA(twoFA);
-
-                // Add the new profile to the user's profiles vector
-                user.profiles.push_back(newProfile);
-
-                // Add the new user to the vector of users
-                users.push_back(user);
-
-                // Save the updated user data to the file
                 saveDataToFile();
+            }
+        }
+    }
 
-                cout << "User account created successfully." << endl;
+    void ChangeEmail(const string &username, const string &email)
+    {
+        for (User &user : users)
+        {
+            if (user.username == username)
+            {
+                for (Profile &profile : user.profiles)
+                {
+                    profile.email = email;
+                    saveDataToFile();
+                }
+            }
+        }
+    }
+
+    void ChangePhone(const string &username, const string &phone)
+    {
+        for (User &user : users)
+        {
+            if (user.username == username)
+            {
+                for (Profile &profile : user.profiles)
+                {
+                    profile.phone = phone;
+                    saveDataToFile();
+                }
+            }
+        }
+    }
+
+    void ChangeUsername(const string &username, const string &newusername)
+    {
+        for (User &user : users)
+        {
+            if (user.username == username)
+            {
+                user.username = newusername;
+                saveDataToFile();
+            }
+        }
+    }
+
+    void DE2FA(const string &username, const char &twoFA)
+    {
+        for (User &user : users)
+        {
+            if (user.username == username)
+            {
+                for (Profile &profile : user.profiles)
+                {
+                    profile.isTwoFactorEnabled = system.enable2FA(twoFA);
+                    saveDataToFile();
+                }
             }
         }
     }
@@ -916,35 +953,35 @@ int main()
                                     string newpass;
                                     cout << "Enter new password: ";
                                     cin >> newpass;
-                                    bank.ChangeUserInfo(username, newpass, email, phone, enable2FA, productType, name);
+                                    bank.ChangePassword(username, newpass);
                                 }
                                 else if (mchoice == 2)
                                 {
                                     string newemail;
                                     cout << "Enter new email: ";
                                     cin >> newemail;
-                                    bank.ChangeUserInfo(username, password, newemail, phone, enable2FA, productType, name);
+                                    bank.ChangeEmail(username, newemail);
                                 }
                                 else if (mchoice == 3)
                                 {
                                     string newphone;
                                     cout << "Enter new phone: ";
                                     cin >> newphone;
-                                    bank.ChangeUserInfo(username, password, email, newphone, enable2FA, productType, name);
+                                    bank.ChangePhone(username, newphone);
                                 }
                                 else if (mchoice == 4)
                                 {
                                     string newusername;
                                     cout << "Enter new username: ";
                                     cin >> newusername;
-                                    bank.ChangeUserInfo(newusername, password, email, phone, enable2FA, productType, name);
+                                    bank.ChangeUsername(username, newusername);
                                 }
                                 else if (mchoice == 5)
                                 {
                                     char new2FA;
                                     cout << "Do you want to enable 2FA?(Y/N): ";
                                     cin >> new2FA;
-                                    bank.ChangeUserInfo(username, password, email, phone, new2FA, productType, name);
+                                    bank.DE2FA(username, new2FA);
                                 }
                                 else if (mchoice == 6)
                                 {
@@ -981,8 +1018,6 @@ int main()
                             {
                                 goto dashboard;
                             }
-
-                            bank.displaySessions(username);
                             break;
                         case 3:
                             // Implement Data Analytics Dashboard here
