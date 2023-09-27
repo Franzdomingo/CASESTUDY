@@ -87,7 +87,8 @@ public:
             {
                 cout << "User Profile" << endl;
                 cout << "--------------------------------" << endl;
-                cout << "Name: " << user.username << endl;
+                cout << "Name: " << user.name << endl;
+                cout << "Username: " << user.username << endl;
                 for (const Profile &profile : user.profiles)
                 {
                     cout << "Email: " << profile.email << endl;
@@ -790,6 +791,7 @@ int main()
                             break;
                         case 2:
                             bank.displayProfile(username);
+                            // Implement User Profile management here
                             break;
                         case 3:
                             // Implement Data Analytics Dashboard here

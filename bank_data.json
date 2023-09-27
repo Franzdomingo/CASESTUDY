@@ -96,5 +96,19 @@
             }
         ],
         "username": "4"
+    },
+    {
+        "balance": 0.0,
+        "name": "Franz Phillip G. Domingo",
+        "password": "Htcp|345",
+        "producttype": "Credit Account",
+        "profiles": [
+            {
+                "email": "Franz@gmail.com",
+                "isTwoFactorEnabled": true,
+                "phone": "09999999999"
+            }
+        ],
+        "username": "Franz123"
     }
 ]
