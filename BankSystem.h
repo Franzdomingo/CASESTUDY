@@ -119,7 +119,7 @@ public:
         cout << "┃ ┃  1. Login                        ┃ ┃   " << endl;
         cout << "┃ ┃  2. Product Application          ┃ ┃   " << endl;
         cout << "┃ ┃  3. Forgot Password              ┃ ┃   " << endl;
-        cout << "┃ ┃  3. Exit                         ┃ ┃   " << endl;
+        cout << "┃ ┃  4. Exit                         ┃ ┃   " << endl;
         cout << "┃ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ ┃   " << endl;
         cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛   " << endl;
         cout << "                                           " << endl;
@@ -162,9 +162,11 @@ public:
     }
     void forgotPassword()
     {
-        cout << "Forgot Password" << endl;
+        cout << "╭────────────────────────────────────────────────────────────╮" << endl;
+        cout << "│                     Forgot Password                        │" << endl;
+        cout << "╰────────────────────────────────────────────────────────────╯" << endl;
         char choice;
-        cout << "Enter your email: ";
+        cout << "\nEnter your email: ";
         string email;
         cin >> email;
         bool emailFound = false; // To track whether the email was found or not
@@ -175,26 +177,27 @@ public:
             {
                 if (profile.email == email)
                 {
-                    cout << "Email found!" << endl;
-                    cout << "Sending an OTP for " << profile.email << " 2 Factor Authentication." << endl;
+                    cout << "\n                    ---Email found!---" << endl;
+                    cout << "\nSending an OTP for " << profile.email << " 2 Factor Authentication." << endl;
 
                     system.sendOTP();
 
                     string inputOTP;
-                    cout << "Enter your OTP: ";
+                    cout << "\nEnter your OTP: ";
                     cin >> inputOTP;
                     if (!system.verifyOTP(inputOTP))
                     {
-                        cout << "Incorrect OTP. Timeout for 30 seconds..." << endl;
+                        cout << "\n*Incorrect OTP. Timeout for 30 seconds..." << endl;
 
                         sleep_for(seconds(30));
                         return;
                     }
-                    cout << "Enter new password: ";
+                    cout << "\n──────────────────────────────────────────────────────────────" << endl;
+                    cout << "\nEnter new password: ";
                     string newpass;
                     cin >> newpass;
                     ChangePassword(user.username, newpass);
-                    cout << "Password changed successfully!" << endl;
+                    cout << "\n            ---Password changed successfully!---" << endl;
                     emailFound = true; // Mark the email as found
                 }
             }
@@ -202,8 +205,11 @@ public:
 
         if (!emailFound)
         {
-            cout << "Email not found. Please try again." << endl;
+            cout << "\n*Email not found. Please try again." << endl;
         }
+        cout << " " << endl;
+        ::system("pause");
+        ::system("cls");
     }
 
     void displayDashboardMenu(const string &username)
@@ -824,9 +830,12 @@ public:
         {
             if (user.username == username)
             {
-
-                cout << "Name: " << user.name << endl;
-                cout << "-----------------------------" << endl;
+                cout << " " << endl;
+                cout << "╔═════════════════════════════════════╗    " << endl;
+                cout << "║           Data Analytics            ║   "  << endl;
+                cout << "╚═════════════════════════════════════╝   " << endl;
+                cout << " Name: " << user.name << endl;
+                cout << "───────────────────────────────────────" << endl;
                 if (user.producttype == "Savings Account")
                 {
                     cout << "Total Networth: " << showTotalNetworth(username) << endl;
@@ -836,10 +845,9 @@ public:
                 {
                     cout << "Total Spent: " << showtotalSpent(username) << endl;
                     cout << "Total Paid: " << showtotalPaid(username) << endl;
-                    cout << endl;
                 }
 
-                cout << "-----------------------------" << endl;
+                cout << "───────────────────────────────────────" << endl;
             }
         }
         cout << " " << endl;
@@ -977,16 +985,16 @@ public:
                 {
                     if (profile.isTwoFactorEnabled)
                     {
-                        cout << "Sending an OTP for 2 Factor Authentication." << endl;
+                        cout << "\nSending an OTP for 2 Factor Authentication." << endl;
                         system.sendOTP();
 
                         string inputOTP;
-                        cout << "Enter your OTP: ";
+                        cout << "\nEnter your OTP: ";
                         cin >> inputOTP;
 
                         if (!system.verifyOTP(inputOTP))
                         {
-                            cout << "Incorrect OTP. Timeout for 30 seconds..." << endl;
+                            cout << "\n*Incorrect OTP. Timeout for 30 seconds..." << endl;
                             sleep_for(seconds(30));
                             return false;
                         }
@@ -1061,16 +1069,16 @@ public:
                 {
                     if (profile.isTwoFactorEnabled)
                     {
-                        cout << "Sending an OTP for 2 Factor Authentication." << endl;
+                        cout << "\nSending an OTP for 2 Factor Authentication." << endl;
                         system.sendOTP();
 
                         string inputOTP;
-                        cout << "Enter your OTP: ";
+                        cout << "\nEnter your OTP: ";
                         cin >> inputOTP;
 
                         if (!system.verifyOTP(inputOTP))
                         {
-                            cout << "Incorrect OTP. Timeout for 30 seconds..." << endl;
+                            cout << "\n*Incorrect OTP. Timeout for 30 seconds..." << endl;
                             sleep_for(seconds(30));
                             return false;
                         }
@@ -1125,16 +1133,16 @@ public:
                 {
                     if (profile.isTwoFactorEnabled)
                     {
-                        cout << "Sending an OTP for 2 Factor Authentication." << endl;
+                        cout << "\nSending an OTP for 2 Factor Authentication." << endl;
                         system.sendOTP();
 
                         string inputOTP;
-                        cout << "Enter your OTP: ";
+                        cout << "\nEnter your OTP: ";
                         cin >> inputOTP;
 
                         if (!system.verifyOTP(inputOTP))
                         {
-                            cout << "Incorrect OTP. Timeout for 30 seconds..." << endl;
+                            cout << "\n*Incorrect OTP. Timeout for 30 seconds..." << endl;
                             sleep_for(seconds(30));
                             return false;
                         }
