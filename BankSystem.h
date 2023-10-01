@@ -1,13 +1,16 @@
 #pragma once
 #ifndef BANK_SYSTEM_H
 #define BANK_SYSTEM_H
+
 #include <windows.h>
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <regex>
 #include <string>
 #include <ctime>
 #include <chrono>
+#include <random>
 #include <algorithm>
 #include <thread>
 #include "json.hpp"
@@ -151,8 +154,8 @@ public:
             cout << " " << endl;
             cout << "        ---Login successful!---" << endl;
             cout << " " << endl;
-            ::system("pause");
-            ::system("cls");
+            cout << "Press Enter to continue...";
+            cin.get();
             return true;
         }
         else
@@ -160,11 +163,12 @@ public:
             cout << " " << endl;
             cout << "*Invalid username or password. Please try again." << endl;
             cout << " " << endl;
-            ::system("pause");
-            ::system("cls");
+            cout << "Press Enter to continue...";
+            cin.get();
             return false;
         }
     }
+
     void forgotPassword()
     {
         cout << "╭────────────────────────────────────────────────────────────╮" << endl;
@@ -213,8 +217,8 @@ public:
             cout << "\n*Email not found. Please try again." << endl;
         }
         cout << " " << endl;
-        ::system("pause");
-        ::system("cls");
+        cout << "Press Enter to continue...";
+        cin.get();
     }
 
     void displayDashboardMenu(const string &username)
@@ -258,7 +262,6 @@ public:
 
             int choice;
             cin >> choice;
-            ::system("cls");
             cin.ignore(); // Clear the newline character
 
             switch (choice)
@@ -278,9 +281,10 @@ public:
             case 5:
                 // Logout the user
                 cout << "Logging out..." << endl;
-                ::system("cls");
                 logout(username);
                 setCurrentLoggedInUser("");
+                cout << "Press Enter to continue...";
+                cin.get();
                 return;
             default:
                 cout << "*Invalid choice. Please select a valid option." << endl;
@@ -312,7 +316,6 @@ public:
 
     void displayTransactionMenu(const string &username)
     {
-        ::system("cls");
         cout << " " << endl;
         cout << "╔═════════════════════════════════════╗    " << endl;
         cout << "║         Transaction Center:         ║    " << endl;
@@ -349,7 +352,6 @@ public:
         {
             if (user.username == username)
             {
-                ::system("cls");
                 cout << "╔═════════════════════════════════════╗    " << endl;
                 cout << "║        Transaction History          ║    " << endl;
                 cout << "╚═════════════════════════════════════╝    " << endl;
@@ -388,10 +390,8 @@ public:
             case 3:
                 displayTransactionHistory(username);
                 cout << " " << endl;
-                ::system("pause");
                 break;
             case 4:
-                ::system("cls");
                 return; // Return to the dashboard
             default:
                 cout << "*Invalid choice. Please select a valid option." << endl;
@@ -420,11 +420,10 @@ public:
             case 3:
                 displayTransactionHistory(username);
                 cout << " " << endl;
-                ::system("pause");
-                ::system("cls");
+                cout << "Press Enter to continue...";
+                cin.get();
                 break;
             case 4:
-                ::system("cls");
                 return;
             default:
                 cout << "*Invalid choice. Please select a valid option." << endl;
@@ -508,8 +507,8 @@ public:
             cout << "*Purchase failed. Please try again." << endl;
         }
         cout << " " << endl;
-        ::system("pause");
-        ::system("cls");
+        cout << "Press Enter to continue...";
+        cin.get();
     }
 
     void processPayBills(const string &username)
@@ -538,8 +537,8 @@ public:
         }
 
         cout << " " << endl;
-        ::system("pause");
-        ::system("cls");
+        cout << "Press Enter to continue...";
+        cin.get();
     }
 
     void handleHelpAndResources()
@@ -568,7 +567,6 @@ public:
             ai.chatBot(message);
             break;
         case 2:
-            ::system("cls");
             cout << " " << endl;
             cout << "╭────────────────────────────────────────────────╮" << endl;
             cout << "│                  Contact Us                    │" << endl;
@@ -579,13 +577,16 @@ public:
             cout << "╰────────────────────────────────────────────────╯" << endl;
             cout << " " << endl;
 
-            ::system("pause");
-            ::system("cls");
+            cout << "Press Enter to continue...";
+            cin.get();
             break;
         case 3:
-            ::system("cls");
+            cout << "Press Enter to continue...";
+            cin.get();
             return;
         default:
+            cout << "Press Enter to continue...";
+            cin.get();
             return;
         }
     }
@@ -614,8 +615,8 @@ public:
             {
                 cout << "\n*Username is already taken. Please choose another one." << endl;
                 cout << " " << endl;
-                ::system("pause");
-                ::system("cls");
+                cout << "Press Enter to continue...";
+                cin.get();
                 continue;
             }
 
@@ -657,8 +658,8 @@ public:
             {
                 cout << "Registration successful!" << endl;
                 cout << " " << endl;
-                ::system("pause");
-                ::system("cls");
+                cout << "Press Enter to continue...";
+                cin.get();
                 break;
             }
             else
@@ -725,12 +726,10 @@ public:
             switch (pchoice)
             {
             case 1:
-                ::system("cls");
                 handleAccountSettings(username);
                 break;
 
             case 2:
-                ::system("cls");
                 return;
                 break;
 
@@ -801,8 +800,6 @@ public:
 
         case 7:
             return;
-            ::system("cls");
-            break;
 
         default:
             cout << "*Invalid choice. Please select a valid option." << endl;
@@ -828,11 +825,9 @@ public:
         switch (achoice)
         {
         case 1:
-            ::system("cls");
             displayTransactionHistory(username);
             break;
         case 2:
-            ::system("cls");
             displaySessions(username);
             break;
         default:
@@ -868,8 +863,8 @@ public:
             }
         }
         cout << " " << endl;
-        ::system("pause");
-        ::system("cls");
+        cout << "Press Enter to continue...";
+        cin.get();
     }
 
     double showInterestEarned(const string &username)
@@ -960,7 +955,7 @@ public:
             {
                 for (const Transaction &transaction : user.transactionhistory)
                 {
-                    if (transaction.transactionType == "Purchase" or transaction.transactionType == "Deposit")
+                    if (transaction.transactionType == "Purchase" || transaction.transactionType == "Deposit")
                     {
                         totalSpent += transaction.amount;
                     }
@@ -970,6 +965,7 @@ public:
 
         return totalSpent;
     }
+
     double showTotalNetworth(const string &username)
     {
         double totalNet = 0;
@@ -1045,7 +1041,6 @@ public:
         {
             if (user.username == username)
             {
-                ::system("cls");
                 cout << " " << endl;
                 cout << "╔════════════════════════════════════════════╗    " << endl;
                 cout << "║               Session History              ║    " << endl;
@@ -1299,39 +1294,45 @@ public:
 
     bool authenticateUser(const string &username, const string &password)
     {
-        auto user_it = find_if(users.begin(), users.end(), [&](const User &user)
+        auto user_it = find_if(users.begin(), users.end(),
+                               [&](const User &user)
                                { return user.username == username; });
 
-        if (user_it != users.end())
+        // User not found.
+        if (user_it == users.end())
         {
-            string decryptedPass = system.decryptPass(user_it->password);
-            if (system.attemptLogin(decryptedPass, password))
+            return false;
+        }
+
+        string decryptedPass = system.decryptPass(user_it->password);
+
+        if (!system.attemptLogin(decryptedPass, password))
+        {
+            return false; // Incorrect password
+        }
+
+        // Check for 2FA within profiles of the user
+        for (const Profile &profile : user_it->profiles)
+        {
+            if (profile.isTwoFactorEnabled)
             {
-                // Check for 2FA within profiles of the user
-                for (const Profile &profile : user_it->profiles)
+                cout << "\n---Sending an OTP for 2 Factor Authentication---" << endl;
+                system.sendOTP();
+
+                string inputOTP;
+                cout << "\nEnter your OTP: ";
+                cin >> inputOTP;
+
+                if (!system.verifyOTP(inputOTP))
                 {
-                    if (profile.isTwoFactorEnabled)
-                    {
-                        cout << "\n---Sending an OTP for 2 Factor Authentication---" << endl;
-                        system.sendOTP();
-
-                        string inputOTP;
-                        cout << "\nEnter your OTP: ";
-                        cin >> inputOTP;
-
-                        if (!system.verifyOTP(inputOTP))
-                        {
-                            cout << "\n*Incorrect OTP. Timeout for 30 seconds..." << endl;
-                            sleep_for(seconds(30));
-                            return false;
-                        }
-                    }
+                    cout << "\n*Incorrect OTP. Timeout for 30 seconds..." << endl;
+                    sleep_for(seconds(30));
+                    return false;
                 }
-                SaveSession(username, "Login");
-                return true;
             }
         }
-        return false; // Authentication failed
+        SaveSession(username, "Login");
+        return true; // Successful authentication
     }
 
     void setCurrentLoggedInUser(const string &username)
@@ -1355,40 +1356,36 @@ public:
                 session.username = username;
                 session.timestamp = time(nullptr);
                 user.sessions.push_back(session);
+
                 // Save the updated user data to the file
                 saveDataToFile();
+                system.auditLog(true);
+                return; // Exit the function once the session is saved for the user.
             }
         }
+        // If we've reached here, it means the user wasn't found.
+        system.auditLog(false);
     }
 
     bool isValidProductType(const string &producttype)
     {
         // Define a list of valid product types in your system
         vector<string> validProductTypes = {"Savings Account", "Credit Account"};
+
         // Check if the provided product type is in the list of valid types
-        for (const string &validType : validProductTypes)
-        {
-            if (producttype == validType)
-            {
-                return true; // The product type is valid
-            }
-        }
-        return false; // The product type is not valid
+        return find(validProductTypes.begin(), validProductTypes.end(), producttype) != validProductTypes.end();
     }
 
     void setCurrentProductType(const string &producttype)
     {
-        // Check if the provided product type is valid before setting it
-        // You can add logic to validate product types here
-        if (isValidProductType(producttype))
-        {
-            currentProductType = producttype;
-        }
-        else
+        if (!isValidProductType(producttype))
         {
             cout << "Invalid product type." << endl;
-            // Handle the error or return an error code as needed
+            // Handle the error or return an error code if necessary
+            return;
         }
+
+        currentProductType = producttype;
     }
 
     string getCurrentProductType(const string &username) const
@@ -1400,20 +1397,15 @@ public:
                 return user.producttype;
             }
         }
-        // Return a default value or an appropriate indicator if the user is not found
+        // If we've reached here, the user wasn't found
         return "Unknown"; // You can choose a different indicator if needed
     }
 
     bool isUsernameTaken(const string &username) const
     {
-        for (const User &user : users)
-        {
-            if (user.username == username)
-            {
-                return true; // Username is already taken
-            }
-        }
-        return false; // Username is available
+        return std::any_of(users.begin(), users.end(),
+                           [&username](const User &user)
+                           { return user.username == username; });
     }
 
     double getCurrentBalance(const string &username) const
@@ -1426,8 +1418,8 @@ public:
             }
         }
 
-        // Return a negative value or another suitable indicator if the user is not found
-        return -1.0; // You can choose a different indicator if needed
+        // If we've reached here, the user wasn't found
+        return -1.0; // Choose a different indicator if needed
     }
 
     bool createUser(const string &name, const string &username, const string &password, const string &email,
@@ -1437,7 +1429,6 @@ public:
         if (isUsernameTaken(username))
         {
             cout << "Username is already taken. Please choose another one." << endl;
-            ::system("cls");
             return false;
         }
 
@@ -1696,20 +1687,20 @@ public:
             users.emplace_back(user);
         }
     }
+
     void logout(const string &username)
     {
-        for (User &user : users)
+        auto it = std::find_if(users.begin(), users.end(),
+                               [&username](const User &user)
+                               { return user.username == username; });
+
+        if (it != users.end())
         {
-            if (user.username == username)
-            {
-                (SaveSession(username, "Logout"));
-                cout << "Logged out successfully." << endl;
-                ::system("pause");
-                ::system("cls");
-                return;
-            }
+            SaveSession(username, "Logout");
+            cout << "Logged out successfully." << endl;
         }
     }
+
     void saveDataToFile()
     {
         try
