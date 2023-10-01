@@ -763,6 +763,27 @@ public:
         {
             if (user.username == username)
             {
+                // Check for 2FA within profiles of the user
+                for (const Profile &profile : user.profiles)
+                {
+                    if (profile.isTwoFactorEnabled)
+                    {
+                        cout << "Sending an OTP for 2 Factor Authentication." << endl;
+                        system.sendOTP();
+
+                        string inputOTP;
+                        cout << "Enter your OTP: ";
+                        cin >> inputOTP;
+
+                        if (!system.verifyOTP(inputOTP))
+                        {
+                            cout << "Incorrect OTP. Timeout for 30 seconds..." << endl;
+                            sleep_for(seconds(30));
+                            return false;
+                        }
+                    }
+                }
+
                 // Update user's transaction history
                 Transaction depositTransaction;
                 depositTransaction.transactionID = generateTransactionID(); // Call a function to generate a unique transaction ID
@@ -823,6 +844,27 @@ public:
         {
             if (user.username == username)
             {
+                // Check for 2FA within profiles of the user
+                for (const Profile &profile : user.profiles)
+                {
+                    if (profile.isTwoFactorEnabled)
+                    {
+                        cout << "Sending an OTP for 2 Factor Authentication." << endl;
+                        system.sendOTP();
+
+                        string inputOTP;
+                        cout << "Enter your OTP: ";
+                        cin >> inputOTP;
+
+                        if (!system.verifyOTP(inputOTP))
+                        {
+                            cout << "Incorrect OTP. Timeout for 30 seconds..." << endl;
+                            sleep_for(seconds(30));
+                            return false;
+                        }
+                    }
+                }
+
                 if (amount <= 0.0)
                 {
                     cout << "Invalid withdrawal amount. Please enter a positive amount." << endl;
@@ -866,17 +908,40 @@ public:
         {
             if (user.username == username)
             {
+                // Check for 2FA within profiles of the user
+                for (const Profile &profile : user.profiles)
+                {
+                    if (profile.isTwoFactorEnabled)
+                    {
+                        cout << "Sending an OTP for 2 Factor Authentication." << endl;
+                        system.sendOTP();
+
+                        string inputOTP;
+                        cout << "Enter your OTP: ";
+                        cin >> inputOTP;
+
+                        if (!system.verifyOTP(inputOTP))
+                        {
+                            cout << "Incorrect OTP. Timeout for 30 seconds..." << endl;
+                            sleep_for(seconds(30));
+                            return false;
+                        }
+                    }
+                }
+
                 if (amount <= 0.0)
                 {
                     cout << "Invalid purchase amount. Please enter a positive amount." << endl;
                     return false;
                 }
+
                 // Check if the user's balance will go below -5000 after the purchase
                 if (user.balance - amount < -5000.0)
                 {
                     cout << "Insufficient credit limit. Purchase failed." << endl;
                     return false;
                 }
+
                 // Update user's transaction history
                 Transaction purchaseTransaction;
                 purchaseTransaction.transactionID = generateTransactionID();
@@ -884,18 +949,26 @@ public:
                 purchaseTransaction.amount = amount;
                 purchaseTransaction.timestamp = time(nullptr);
                 purchaseTransaction.description = purchaseDescription;
+
                 user.transactionhistory.push_back(purchaseTransaction);
+
                 // Update user's balance (subtract the purchase amount for a credit card)
                 user.balance -= amount;
+
                 // Save the updated user data to the file
                 saveDataToFile();
+
                 cout << "Purchase of $" << amount << " successful. Description: " << purchaseDescription << endl;
+
                 return true;
             }
         }
+
         cout << "User not found. Purchase failed." << endl;
+
         return false;
     }
+
     // Function to pay bills
     bool payBills(const string &username, double amount, const string &billDescription)
     {
@@ -908,7 +981,7 @@ public:
                     cout << "Invalid bill amount. Please enter a positive amount." << endl;
                     return false;
                 }
-                if (user.balance >= amount)
+                if (user.balance <= amount)
                 {
                     // Update user's transaction history
                     Transaction billTransaction;
@@ -919,7 +992,7 @@ public:
                     billTransaction.description = billDescription;
                     user.transactionhistory.push_back(billTransaction);
                     // Update user's balance
-                    user.balance -= amount;
+                    user.balance += amount;
                     // Save the updated user data to the file
                     saveDataToFile();
                     cout << "Bill payment of $" << amount << " successful. Description: " << billDescription << endl;
