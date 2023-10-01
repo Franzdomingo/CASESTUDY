@@ -1,1 +1,1 @@
-displayMainMenu
+logout

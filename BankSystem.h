@@ -278,6 +278,7 @@ public:
                 // Logout the user
                 cout << "Logging out..." << endl;
                 ::system("cls");
+                logout(username);
                 setCurrentLoggedInUser("");
                 return;
             default:
@@ -323,7 +324,6 @@ public:
         cout << " " << endl;
         cout << "Enter your choice: ";
         setCurrentLoggedInUser(username);
-        setCurrentSessionID(generateSessionID());
     }
 
     void displayTransactionCredit(const string &username)
@@ -1058,9 +1058,20 @@ public:
         return "TXN" + to_string(time(nullptr)) + to_string(rand());
     }
 
-    string generateSessionID()
+    string generateSessionID(const string &sessiontype)
     {
-        return "SSN" + to_string(time(nullptr)) + to_string(rand());
+        if (sessiontype == "Login")
+        {
+            return "LGN" + to_string(time(nullptr)) + to_string(rand());
+        }
+        if (sessiontype == "Logout")
+        {
+            return "LGT" + to_string(time(nullptr)) + to_string(rand());
+        }
+        else
+        {
+            return "SSN" + to_string(time(nullptr)) + to_string(rand());
+        }
     }
 
     bool withdrawFunds(const string &username, double amount)
@@ -1282,7 +1293,7 @@ public:
                         }
                     }
                 }
-                SaveSession(username);
+                SaveSession(username, "Login");
                 return true;
             }
         }
@@ -1299,14 +1310,14 @@ public:
         currentSessionID = sessionID;
     }
 
-    void SaveSession(const string &username)
+    void SaveSession(const string &username, const string &sessiontype)
     {
         for (User &user : users)
         {
             if (user.username == username)
             {
                 Session session;
-                session.sessionID = generateSessionID();
+                session.sessionID = generateSessionID(sessiontype);
                 session.username = username;
                 session.timestamp = time(nullptr);
                 user.sessions.push_back(session);
@@ -1644,7 +1655,20 @@ public:
             users.emplace_back(user);
         }
     }
-
+    void logout(const string &username)
+    {
+        for (User &user : users)
+        {
+            if (user.username == username)
+            {
+                (SaveSession(username, "Logout"));
+                cout << "Logged out successfully." << endl;
+                ::system("pause");
+                ::system("cls");
+                return;
+            }
+        }
+    }
     void saveDataToFile()
     {
         try
