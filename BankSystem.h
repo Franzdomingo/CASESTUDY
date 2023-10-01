@@ -212,23 +212,26 @@ public:
         {
             if (user.username == username)
             {
+                SetConsoleOutputCP(CP_UTF8);
                 cout << " " << endl;
-                cout << "_______________________________________" << endl;
+
+                cout << "╭──────────────────────────────────────╮" << endl;
+                cout << "│             Bank System              │" << endl;
+                cout << "╰──────────────────────────────────────╯" << endl;
                 cout << " " << endl;
-                cout << "Welcome " << username << "!" << endl;
+                cout << " Welcome " << username << "!" << endl;
                 cout << "  " << endl;
-                cout << "Current Balance: $" << getCurrentBalance(username) << endl;
-                cout << "----------------"  << endl;
+                cout << " Current Balance: $" << getCurrentBalance(username) << endl;
                 cout << "                                           " << endl;
-                cout << "+=====================================+    " << endl;
-                cout << "|         Dashboard Options:          |"     << endl;
-                cout << "|=====================================|     " << endl;
-                cout << "|  1. Transaction Center              |     " << endl;
-                cout << "|  2. User Profile                    |     " << endl;
-                cout << "|  3. Data Analytics Dashboard        |     " << endl;
-                cout << "|  4. Help & Resources                |     " << endl;
-                cout << "|  5. Logout                          |     " << endl;
-                cout << "+=====================================+"      << endl;
+                cout << "╔═════════════════════════════════════╗    " << endl;
+                cout << "║         Dashboard Options:          ║     "     << endl;
+                cout << "╠═════════════════════════════════════╣    " << endl;
+                cout << "║  1. Transaction Center              ║     " << endl;
+                cout << "║  2. User Profile                    ║     " << endl;
+                cout << "║  3. Data Analytics Dashboard        ║     " << endl;
+                cout << "║  4. Help & Resources                ║     " << endl;
+                cout << "║  5. Logout                          ║     " << endl;
+                cout << "╚═════════════════════════════════════╝"      << endl;
                 cout << " " << endl;
                 cout << "Enter your choice: ";
             }
@@ -299,14 +302,14 @@ public:
     {
         ::system ("cls");
         cout << " " << endl;
-        cout << "+=====================================+    " << endl;
-        cout << "|         Transaction Center:         |    " << endl;
-        cout << "|=====================================|    " << endl;
-        cout << "|  1. Deposit Funds                   |     "<< endl;
-        cout << "|  2. Withdraw Funds                  |     "<< endl;
-        cout << "|  3. View Transaction History        |     "<< endl;
-        cout << "|  4. Back to Dashboard               |    " << endl;
-        cout << "+=====================================+    " << endl;
+        cout << "╔═════════════════════════════════════╗    " << endl;
+        cout << "║         Transaction Center:         ║    " << endl;
+        cout << "╠═════════════════════════════════════╣    " << endl;
+        cout << "║  1. Deposit Funds                   ║     "<< endl;
+        cout << "║  2. Withdraw Funds                  ║     "<< endl;
+        cout << "║  3. View Transaction History        ║     "<< endl;
+        cout << "║  4. Back to Dashboard               ║    " << endl;
+        cout << "╚═════════════════════════════════════╝    " << endl;
         cout << " " << endl;
         cout << "Enter your choice: ";
         setCurrentLoggedInUser(username);
@@ -316,14 +319,14 @@ public:
     void displayTransactionCredit(const string &username)
     {
         cout << " " << endl;
-        cout << "+=====================================+    " << endl;
-        cout << "|         Transaction Center:         |    " << endl;
-        cout << "|=====================================|    " << endl;
-        cout << "|  1. Make a Purchase                 |     "<< endl;
-        cout << "|  2. Pay Bills                       |     "<< endl;
-        cout << "|  3. View Transaction History        |     "<< endl;
-        cout << "|  4. Back to Dashboard               |    " << endl;
-        cout << "+=====================================+    " << endl;
+        cout << "╔═════════════════════════════════════╗    " << endl;
+        cout << "║         Transaction Center:         ║    " << endl;
+        cout << "╠═════════════════════════════════════╣    " << endl;
+        cout << "║  1. Make a Purchase                 ║     "<< endl;
+        cout << "║  2. Pay Bills                       ║     "<< endl;
+        cout << "║  3. View Transaction History        ║     "<< endl;
+        cout << "║  4. Back to Dashboard               ║    " << endl;
+        cout << "╚═════════════════════════════════════╝     " << endl;
         cout << " " << endl;
         cout << "Enter your choice: ";
         setCurrentLoggedInUser(username);
@@ -336,24 +339,21 @@ public:
             if (user.username == username)
             {
                 ::system("cls");
-                cout << "=======================================    " << endl;
-                cout << "         Transaction History"                << endl;
-                cout << "=======================================    " << endl;
+                cout << "╔═════════════════════════════════════╗    " << endl;
+                cout << "║        Transaction History          ║    " << endl;
+                cout << "╚═════════════════════════════════════╝    " << endl;
                 cout << " User: "<< user.username << endl;
-                cout << "---------------------------------------" << endl;
+                cout << "───────────────────────────────────────" << endl;
                 for (const Transaction &transaction : user.transactionhistory)
                 {
                     cout << "Transaction ID: " << transaction.transactionID << endl;
                     cout << "Transaction Type: " << transaction.transactionType << endl;
                     cout << "Amount: $" << transaction.amount << endl;
                     cout << "Timestamp: " << ctime(&transaction.timestamp);
-                    cout << "---------------------------------------" << endl;
+                    cout << "───────────────────────────────────────" << endl;
                 }
             }
         }
-        // Replaced system("pause") with a more portable solution
-        cout << "\nPress Enter to continue...";
-        cin.get();
     }
 
     void handleTransactionCenter(const string &username)
@@ -376,6 +376,8 @@ public:
                 break;
             case 3:
                 displayTransactionHistory(username);
+                cout << " " << endl;
+                ::system("pause");
                 break;
             case 4:
                 ::system("cls");
@@ -406,8 +408,12 @@ public:
                 break;
             case 3:
                 displayTransactionHistory(username);
+                cout << " " << endl;
+                ::system("pause");
+                ::system("cls");
                 break;
             case 4:
+                ::system("cls");
                 return;
             default:
                 cout << "*Invalid choice. Please select a valid option." << endl;
@@ -469,7 +475,7 @@ public:
     void processPurchase(const string &username)
     {
         double purchaseAmount;
-        cout << "Enter the purchase amount: $";
+        cout << "\nEnter the purchase amount: $";
         cin >> purchaseAmount;
         if (cin.fail())
         {
@@ -490,12 +496,15 @@ public:
         {
             cout << "*Purchase failed. Please try again." << endl;
         }
+     cout << " " << endl;
+     ::system("pause");
+     ::system("cls");   
     }
 
     void processPayBills(const string &username)
     {
         double billAmount;
-        cout << "Enter the bill amount: $";
+        cout << "\nEnter the bill amount: $";
         cin >> billAmount;
         if (cin.fail())
         {
@@ -516,15 +525,25 @@ public:
         {
             cout << "*Bill payment failed. Please try again." << endl;
         }
+
+        cout << " " << endl;
+        ::system("pause");
+        ::system("cls");
     }
 
     void handleHelpAndResources()
     {
-        cout << "\nHelp & Resources" << endl;
-        cout << "1. Chat with AI Assistant" << endl;
-        cout << "2. Contact Us" << endl;
-        cout << "3. Back to Dashboard" << endl;
+        cout << " " << endl;
+        cout << "╔═════════════════════════════════════╗    " << endl;
+        cout << "║          Help & Resources           ║    " << endl;
+        cout << "╠═════════════════════════════════════╣    " << endl;
+        cout << "║  1. Chat with AI Assistant          ║     "<< endl;
+        cout << "║  2. Contact US                      ║     "<< endl;
+        cout << "║  3. Back to Dashboard               ║     "<< endl;
+        cout << "╚═════════════════════════════════════╝     " << endl;
+        cout << " " << endl;
         cout << "Enter your choice: ";
+
         int jhchoice;
         string message;
         cin >> jhchoice;
@@ -532,20 +551,27 @@ public:
         switch (jhchoice)
         {
         case 1:
-            cout << "\nHi! I'm your AI Assistant. How may I help you?\n"
-                 << endl;
+            cout << "\nHi! I'm your AI Assistant. How may I help you?\n" << endl;
             getline(cin, message);
             ai.chatBot(message);
             break;
         case 2:
-            cout << "Contact Us" << endl;
-            cout << "Email: Uniportal@proton.me " << endl;
-            cout << "Phone: 1-800-123-4567" << endl;
-            cout << "Address: 123 Main St, New York, NY 10001" << endl;
-            cout << "Press Enter to continue...";
-            cin.get();
+            ::system("cls");
+            cout << " " << endl;
+            cout << "╭────────────────────────────────────────────────╮" << endl;
+            cout << "│                  Contact Us                    │" << endl;
+            cout << "├────────────────────────────────────────────────┤" << endl;
+            cout << "│  Email: Uniportal@proton.me                    │" << endl;
+            cout << "│  Phone: 1-800-123-4567                         │" << endl;
+            cout << "│  Address: 123 Main St, New York, NY 10001      │" << endl;
+            cout << "╰────────────────────────────────────────────────╯" << endl;
+            cout << " " << endl;
+
+            ::system("pause");
+            ::system("cls");
             break;
         case 3:
+            ::system("cls");
             return;
         default:
             return;
@@ -560,9 +586,9 @@ public:
         while (true)
         {
             cout << " " << endl;
-            cout << "+=====================================+    " << endl;
-            cout << "|       Product Application           |    "  << endl;
-            cout << "+=====================================+    " << endl;
+            cout << "╔═════════════════════════════════════╗    " << endl;
+            cout << "║       Product Application           ║   "  << endl;
+            cout << "╚═════════════════════════════════════╝    " << endl;
             cout << " " << endl;
             cout << "Enter your full name: ";
             getline(cin, name);
@@ -640,21 +666,19 @@ public:
                 for (const Profile &profile : user.profiles)
                 {
                     string show2FAStatus = profile.isTwoFactorEnabled ? "Enabled" : "Disabled";
-
-                    cout << "User Profile" << endl;
-                    cout << "--------------------------------" << endl;
-                    cout << "Name: " << user.username << endl;
-                    cout << "Email: " << profile.email << endl;
-                    cout << "Phone: " << profile.phone << endl;
-                    cout << "Account: " << user.producttype << endl;
-                    cout << "Two Factor Authentication: " << show2FAStatus << endl;
-                    cout << "--------------------------------" << endl;
+                    cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" << endl;
+                    cout << "                      User Profile                            " << endl;
+                    cout << "══════════════════════════════════════════════════════════════" << endl;
+                    cout << "  Name: " << user.username << endl;
+                    cout << "  Email: " << profile.email << endl;
+                    cout << "  Phone: " << profile.phone << endl;
+                    cout << "  Account: " << user.producttype << endl;
+                    cout << "  Two Factor Authentication: " << show2FAStatus << endl;
+                    cout << "══════════════════════════════════════════════════════════════" << endl;
                     displayUserSettings(user.username);
                 }
             }
         }
-        cout << "Press Enter to continue...";
-        cin.get();
     }
 
     void displayUserSettings(const string &username)
@@ -662,9 +686,13 @@ public:
 
         while (true)
         {
-            cout << "\nUser Settings" << endl;
-            cout << "1. Manage Account" << endl;
-            cout << "2. Back to Dashboard" << endl;
+            cout << " " << endl;
+            cout << "╭────────────────────────╮" << endl;
+            cout << "│     User Settings      │" << endl;
+            cout << "├────────────────────────┤" << endl;
+            cout << "│ 1. Manage Account      │" << endl;
+            cout << "│ 2. Back to Dashboard   │" << endl;
+            cout << "╰────────────────────────╯" << endl;
             cout << " " << endl;
 
             int pchoice;
@@ -679,6 +707,7 @@ public:
                 break;
 
             case 2:
+                ::system("cls");
                 return;
                 break;
 
@@ -694,21 +723,23 @@ public:
         string newpass, newemail, newphone, newusername;
         char new2FA;
 
-        cout << "Manage Account" << endl;
         cout << " " << endl;
-        cout << "1. Change Password" << endl;
-        cout << "2. Change Email" << endl;
-        cout << "3. Change Phone" << endl;
-        cout << "4. Change Username" << endl;
-        cout << "5. Enable/Disable 2FA" << endl;
-        cout << "6. Show Activity Log " << endl;
-        cout << "7. Back to Profile" << endl;
-        cout << "Enter your choice: ";
+        cout << "╔═════════════════════════════════════╗    " << endl;
+        cout << "║           Manage Account            ║   "  << endl;
+        cout << "╠═════════════════════════════════════╣    " << endl;
+        cout << "║  1. Change Password                 ║" << endl;
+        cout << "║  2. Change Email                    ║" << endl;
+        cout << "║  3. Change Phone                    ║" << endl;
+        cout << "║  4. Change Username                 ║" << endl;
+        cout << "║  5. Enable/Disable 2FA              ║" << endl;
+        cout << "║  6. Show Activity Log               ║" << endl;
+        cout << "║  7. Back to Profile                 ║" << endl;
+        cout << "╚═════════════════════════════════════╝   " << endl;
+        cout << " " << endl;
 
         int mchoice;
         cout << "\nEnter: ";
         cin >> mchoice;
-        cout << endl;
         switch (mchoice)
         {
         case 1:
@@ -736,7 +767,7 @@ public:
             break;
 
         case 5:
-            cout << "Do you want to enable 2FA?(Y/N): ";
+            cout << "\nDo you want to enable 2FA?(Y/N): ";
             cin >> new2FA;
             DE2FA(username, new2FA);
             break;
@@ -758,10 +789,14 @@ public:
 
     void displayActivityLog(const string &username)
     {
-        cout << "\nActivity Log" << endl;
-        cout << "1. Transaction History" << endl;
-        cout << "2. Session History" << endl;
-        cout << "Enter your choice: ";
+        cout << " " << endl;
+        cout << "╭───────────────────────────╮" << endl;
+        cout << "│      Activity Log         │" << endl;
+        cout << "├───────────────────────────┤" << endl;
+        cout << "│ 1. Transaction History    │" << endl;
+        cout << "│ 2. Session History        │" << endl;
+        cout << "╰───────────────────────────╯" << endl;
+        cout << " " << endl;
 
         int achoice;
         cout << "Enter: ";
@@ -770,9 +805,11 @@ public:
         switch (achoice)
         {
         case 1:
+            ::system("cls");
             displayTransactionHistory(username);
             break;
         case 2:
+            ::system("cls");
             displaySessions(username);
             break;
         default:
@@ -787,14 +824,19 @@ public:
         {
             if (user.username == username)
             {
-                cout << "Name: " << user.name << endl;
-                cout << "-----------------------------" << endl;
+                cout << " " << endl;
+                cout << "╔═════════════════════════════════════╗    " << endl;
+                cout << "║           Data Analytics            ║   "  << endl;
+                cout << "╚═════════════════════════════════════╝   " << endl;
+                cout << " Name: " << user.name << endl;
+                cout << "───────────────────────────────────────" << endl;
                 cout << "Total Networth: " << showTotalNetworth(username) << endl;
-                cout << "-----------------------------" << endl;
+                cout << "───────────────────────────────────────" << endl;
             }
         }
-        cout << "Press Enter to continue...";
-        cin.get();
+        cout << " " << endl;
+        ::system("pause");
+        ::system("cls");
     }
 
     double showTotalNetworth(const string &username)
@@ -853,14 +895,19 @@ public:
         {
             if (user.username == username)
             {
-            cout << "Session History for User:" << user.username << endl;
-            cout << "----------------------------------------------" << endl;
+            ::system("cls");
+            cout << " " << endl;
+            cout << "╔════════════════════════════════════════════╗    " << endl;
+            cout << "║               Session History              ║    " << endl;
+            cout << "╚════════════════════════════════════════════╝    " << endl;
+            cout << " User: "<< user.username << endl;
+            cout << "──────────────────────────────────────────────" << endl;
                 for (const Session &session : user.sessions)
                 {
                     cout << "Session ID: " << session.sessionID << endl;
                     cout << "Username: " << session.username << endl;
-                    cout << "Timestamp: " << ctime(&session.timestamp) << endl;
-                    cout << "----------------------------------------------" << endl;
+                    cout << "Timestamp: " << ctime(&session.timestamp) ;
+                    cout << "──────────────────────────────────────────────" << endl;
                 }
             }
         }
@@ -911,7 +958,7 @@ public:
                 }
                 else
                 {
-                    cout << "*Insufficient balance. Withdrawal failed." << endl;
+                    cout << "\n*Insufficient balance. Withdrawal failed." << endl;
                     return false;
                 }
             }
