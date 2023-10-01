@@ -26,7 +26,10 @@ int main()
             bank.applyForProduct();
             break;
         case 3:
-            return 0; // Exit the program
+            bank.forgotPassword();
+            break;
+        case 4:
+            return 0;
         default:
             cout << "Invalid choice. Please select a valid option." << endl;
         }

@@ -1,2 +1,2 @@
 
-            case 1:
+        cin.ignore(); // Clear the newline character

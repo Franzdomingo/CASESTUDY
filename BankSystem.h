@@ -112,7 +112,9 @@ public:
         cout << "\nWelcome to the Bank System" << endl;
         cout << "1. Login" << endl;
         cout << "2. Product Application" << endl;
-        cout << "3. Exit" << endl;
+        cout << "3. Forgot Password" << endl;
+        cout << "4. Exit" << endl;
+
         cout << "Enter your choice: ";
     }
 
@@ -136,6 +138,51 @@ public:
         {
             cout << "Invalid username or password. Please try again." << endl;
             return false;
+        }
+    }
+    void forgotPassword()
+    {
+        cout << "Forgot Password" << endl;
+        char choice;
+        cout << "Enter your email: ";
+        string email;
+        cin >> email;
+        bool emailFound = false; // To track whether the email was found or not
+
+        for (User &user : users)
+        {
+            for (Profile &profile : user.profiles)
+            {
+                if (profile.email == email)
+                {
+                    cout << "Email found!" << endl;
+                    cout << "Sending an OTP for " << profile.email << " 2 Factor Authentication." << endl;
+
+                    system.sendOTP();
+
+                    string inputOTP;
+                    cout << "Enter your OTP: ";
+                    cin >> inputOTP;
+                    if (!system.verifyOTP(inputOTP))
+                    {
+                        cout << "Incorrect OTP. Timeout for 30 seconds..." << endl;
+
+                        sleep_for(seconds(30));
+                        return;
+                    }
+                    cout << "Enter new password: ";
+                    string newpass;
+                    cin >> newpass;
+                    ChangePassword(user.username, newpass);
+                    cout << "Password changed successfully!" << endl;
+                    emailFound = true; // Mark the email as found
+                }
+            }
+        }
+
+        if (!emailFound)
+        {
+            cout << "Email not found. Please try again." << endl;
         }
     }
 

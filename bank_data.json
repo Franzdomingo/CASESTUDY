@@ -44,5 +44,31 @@
             }
         ],
         "username": "Franz"
+    },
+    {
+        "balance": 0.0,
+        "name": "Franz Phillip G. Domingo",
+        "password": "Htcp|34",
+        "producttype": "Savings Account",
+        "profiles": [
+            {
+                "email": "Franz12@gmail.com",
+                "isTwoFactorEnabled": true,
+                "phone": "09457296178"
+            }
+        ],
+        "sessions": [
+            {
+                "sessionID": "SSN169611895941",
+                "timestamp": 1696118959,
+                "username": "Franz12"
+            },
+            {
+                "sessionID": "SSN169611951641",
+                "timestamp": 1696119516,
+                "username": "Franz12"
+            }
+        ],
+        "username": "Franz12"
     }
 ]
