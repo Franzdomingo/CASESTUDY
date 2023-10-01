@@ -198,7 +198,7 @@ public:
 
             int choice;
             cin >> choice;
-            ::system("cls"); ///////////////HATEHATEHATE
+            ::system("cls"); 
             cin.ignore(); // Clear the newline character
 
             switch (choice)
