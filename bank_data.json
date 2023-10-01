@@ -1,13 +1,13 @@
 [
     {
-        "balance": 0.0,
+        "balance": -1200.0,
         "name": "Credit Sample",
         "password": "E",
         "producttype": "Credit Account",
         "profiles": [
             {
                 "email": "C@email.com",
-                "isTwoFactorEnabled": true,
+                "isTwoFactorEnabled": false,
                 "phone": "09CCCCCCCCC"
             }
         ],
@@ -16,12 +16,63 @@
                 "sessionID": "SSN169614602341",
                 "timestamp": 1696146023,
                 "username": "C"
+            },
+            {
+                "sessionID": "SSN169614788629358",
+                "timestamp": 1696147886,
+                "username": "C"
+            },
+            {
+                "sessionID": "SSN169614800241",
+                "timestamp": 1696148002,
+                "username": "C"
+            },
+            {
+                "sessionID": "SSN169614823641",
+                "timestamp": 1696148236,
+                "username": "C"
+            },
+            {
+                "sessionID": "SSN169614883341",
+                "timestamp": 1696148833,
+                "username": "C"
+            },
+            {
+                "sessionID": "SSN169614895741",
+                "timestamp": 1696148957,
+                "username": "C"
+            }
+        ],
+        "transactionhistory": [
+            {
+                "amount": 100.0,
+                "timestamp": 1696147908,
+                "transactionID": "TXN169614790826962",
+                "transactionType": "Purchase"
+            },
+            {
+                "amount": 100.0,
+                "timestamp": 1696148012,
+                "transactionID": "TXN169614801218467",
+                "transactionType": "Purchase"
+            },
+            {
+                "amount": 2000.0,
+                "timestamp": 1696148041,
+                "transactionID": "TXN16961480416334",
+                "transactionType": "Purchase"
+            },
+            {
+                "amount": 1000.0,
+                "timestamp": 1696148062,
+                "transactionID": "TXN169614806226500",
+                "transactionType": "Bill Payment"
             }
         ],
         "username": "C"
     },
     {
-        "balance": 0.0,
+        "balance": 635.5,
         "name": "Savings Sample",
         "password": "U",
         "producttype": "Savings Account",
@@ -37,8 +88,96 @@
                 "sessionID": "SSN169614603718467",
                 "timestamp": 1696146037,
                 "username": "S"
+            },
+            {
+                "sessionID": "SSN169614812341",
+                "timestamp": 1696148123,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169614995741",
+                "timestamp": 1696149957,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169615015941",
+                "timestamp": 1696150159,
+                "username": "S"
+            }
+        ],
+        "transactionhistory": [
+            {
+                "amount": 100.0,
+                "timestamp": 1696148148,
+                "transactionID": "TXN16961481486334",
+                "transactionType": "Deposit"
+            },
+            {
+                "amount": 100.0,
+                "timestamp": 1696149972,
+                "transactionID": "TXN16961499726334",
+                "transactionType": "Deposit"
+            },
+            {
+                "amount": 300.0,
+                "timestamp": 1696149978,
+                "transactionID": "TXN169614997815724",
+                "transactionType": "Deposit"
+            },
+            {
+                "amount": 100.0,
+                "timestamp": 1696149980,
+                "transactionID": "TXN169614998029358",
+                "transactionType": "Withdrawal"
+            },
+            {
+                "amount": 100.0,
+                "timestamp": 1696150162,
+                "transactionID": "TXN16961501626334",
+                "transactionType": "Deposit"
+            },
+            {
+                "amount": 100.0,
+                "timestamp": 1696150178,
+                "transactionID": "TXN169615017815724",
+                "transactionType": "Deposit"
             }
         ],
         "username": "S"
+    },
+    {
+        "balance": 0.0,
+        "name": "1",
+        "password": "3",
+        "producttype": "Savings Account",
+        "profiles": [
+            {
+                "email": "1",
+                "isTwoFactorEnabled": false,
+                "phone": "1"
+            }
+        ],
+        "sessions": [
+            {
+                "sessionID": "SSN169614783641",
+                "timestamp": 1696147836,
+                "username": "1"
+            }
+        ],
+        "transactionhistory": [
+            {
+                "amount": 1.0,
+                "timestamp": 1696147857,
+                "transactionID": "TXN16961478576334",
+                "transactionType": "Deposit"
+            },
+            {
+                "amount": 1.0,
+                "timestamp": 1696147861,
+                "transactionID": "TXN169614786119169",
+                "transactionType": "Withdrawal"
+            }
+        ],
+        "username": "1"
     }
 ]
