@@ -111,17 +111,20 @@ public:
     {
         SetConsoleOutputCP(CP_UTF8);
         cout << "\n" << endl;
-        cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ " << endl;
-        cout << "┃ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ ┃ " << endl;
-        cout << "┃ ┃    Welcome to the Bank System    ┃ ┃   " << endl;
-        cout << "┃ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ ┃  " << endl;
-        cout << "┃ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ ┃   " << endl;
-        cout << "┃ ┃  1. Login                        ┃ ┃   " << endl;
-        cout << "┃ ┃  2. Product Application          ┃ ┃   " << endl;
-        cout << "┃ ┃  3. Forgot Password              ┃ ┃   " << endl;
-        cout << "┃ ┃  4. Exit                         ┃ ┃   " << endl;
-        cout << "┃ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ ┃   " << endl;
-        cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛   " << endl;
+        cout << "════════════════════════════════════════    " << endl;
+        cout << "┌──────────────────────────────────────┐ " << endl;
+        cout << "│             Bank System              │   " << endl;
+        cout << "└──────────────────────────────────────┘   " << endl;
+        cout << "════════════════════════════════════════    " << endl;
+        cout << "                                            " << endl;
+        cout << "┌──────────────────────────────────────┐ " << endl;
+        cout << "│ ┌──────────────────────────────────┐ │   " << endl;
+        cout << "│ │  1. Login                        │ │   " << endl;
+        cout << "│ │  2. Product Application          │ │   " << endl;
+        cout << "│ │  3. Forgot Password              │ │   " << endl;
+        cout << "│ │  4. Exit                         │ │   " << endl;
+        cout << "│ └──────────────────────────────────┘ │   " << endl;
+        cout << "└──────────────────────────────────────┘   " << endl;
         cout << "                                           " << endl;
         cout << "Enter your choice: ";
     }
