@@ -471,11 +471,36 @@ public:
 
     void handleHelpAndResources()
     {
+        cout << "\nHelp & Resources" << endl;
+        cout << "1. Chat with AI Assistant" << endl;
+        cout << "2. Contact Us" << endl;
+        cout << "3. Back to Dashboard" << endl;
+        cout << "Enter your choice: ";
+        int jhchoice;
         string message;
-        cout << "\nHi! I'm your AI Assistant. How may I help you?\n"
-             << endl;
-        getline(cin, message);
-        ai.chatBot(message);
+        cin >> jhchoice;
+        cout << endl;
+        switch (jhchoice)
+        {
+        case 1:
+            cout << "\nHi! I'm your AI Assistant. How may I help you?\n"
+                 << endl;
+            getline(cin, message);
+            ai.chatBot(message);
+            break;
+        case 2:
+            cout << "Contact Us" << endl;
+            cout << "Email: Uniportal@proton.me " << endl;
+            cout << "Phone: 1-800-123-4567" << endl;
+            cout << "Address: 123 Main St, New York, NY 10001" << endl;
+            cout << "Press Enter to continue...";
+            cin.get();
+            break;
+        case 3:
+            return;
+        default:
+            return;
+        }
     }
 
     void applyForProduct()
@@ -577,15 +602,18 @@ public:
 
     void displayUserSettings(const string &username)
     {
+
         while (true)
         {
+
             cout << "User Settings" << endl;
             cout << "1. Manage Account" << endl;
             cout << "2. Back to Dashboard" << endl;
+            cout << "Enter your choice: ";
 
             int pchoice;
             cin >> pchoice;
-
+            cout << endl;
             switch (pchoice)
             {
             case 1:
@@ -616,10 +644,11 @@ public:
         cout << "5. Enable/Disable 2FA" << endl;
         cout << "6. Show Activity Log " << endl;
         cout << "7. Back to Profile" << endl;
+        cout << "Enter your choice: ";
 
         int mchoice;
         cin >> mchoice;
-
+        cout << endl;
         switch (mchoice)
         {
         case 1:
@@ -671,6 +700,7 @@ public:
         cout << "Activity Log" << endl;
         cout << "1. Transaction History" << endl;
         cout << "2. Session History" << endl;
+        cout << "Enter your choice: ";
 
         int achoice;
         cin >> achoice;
@@ -1138,6 +1168,8 @@ public:
                 for (Profile &profile : user.profiles)
                 {
                     profile.isTwoFactorEnabled = system.enable2FA(twoFA);
+                    string show2FAStatus = profile.isTwoFactorEnabled ? "Enabled" : "Disabled";
+                    cout << "Two Factor Authentication: " << show2FAStatus << endl;
                     saveDataToFile();
                 }
             }

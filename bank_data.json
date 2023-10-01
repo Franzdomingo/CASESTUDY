@@ -46,9 +46,9 @@
         "username": "Franz"
     },
     {
-        "balance": 0.0,
+        "balance": 500.0,
         "name": "Franz Phillip G. Domingo",
-        "password": "Htcp|34",
+        "password": "Htcp|35",
         "producttype": "Savings Account",
         "profiles": [
             {
@@ -67,8 +67,103 @@
                 "sessionID": "SSN169611951641",
                 "timestamp": 1696119516,
                 "username": "Franz12"
+            },
+            {
+                "sessionID": "SSN169612401141",
+                "timestamp": 1696124011,
+                "username": "Franz12"
+            },
+            {
+                "sessionID": "SSN169612430341",
+                "timestamp": 1696124303,
+                "username": "Franz12"
+            },
+            {
+                "sessionID": "SSN169612443341",
+                "timestamp": 1696124433,
+                "username": "Franz12"
+            },
+            {
+                "sessionID": "SSN169612457141",
+                "timestamp": 1696124571,
+                "username": "Franz12"
+            },
+            {
+                "sessionID": "SSN169612462841",
+                "timestamp": 1696124628,
+                "username": "Franz12"
+            },
+            {
+                "sessionID": "SSN169612468441",
+                "timestamp": 1696124684,
+                "username": "Franz12"
+            },
+            {
+                "sessionID": "SSN169612478941",
+                "timestamp": 1696124789,
+                "username": "Franz12"
+            },
+            {
+                "sessionID": "SSN169612488241",
+                "timestamp": 1696124882,
+                "username": "Franz12"
+            },
+            {
+                "sessionID": "SSN169612491818467",
+                "timestamp": 1696124918,
+                "username": "Franz12"
+            }
+        ],
+        "transactionhistory": [
+            {
+                "amount": 1000.0,
+                "timestamp": 1696125123,
+                "transactionID": "TXN169612512326500",
+                "transactionType": "Deposit"
+            },
+            {
+                "amount": 500.0,
+                "timestamp": 1696125127,
+                "transactionID": "TXN169612512715724",
+                "transactionType": "Withdrawal"
             }
         ],
         "username": "Franz12"
+    },
+    {
+        "balance": 0.0,
+        "name": "Franz13",
+        "password": "Htcp|35",
+        "producttype": "Credit Account",
+        "profiles": [
+            {
+                "email": "Franz13@gmail.com",
+                "isTwoFactorEnabled": true,
+                "phone": "099999999999"
+            }
+        ],
+        "sessions": [
+            {
+                "sessionID": "SSN169612633141",
+                "timestamp": 1696126331,
+                "username": "Franz13"
+            },
+            {
+                "sessionID": "SSN169612718441",
+                "timestamp": 1696127184,
+                "username": "Franz13"
+            },
+            {
+                "sessionID": "SSN169612724541",
+                "timestamp": 1696127245,
+                "username": "Franz13"
+            },
+            {
+                "sessionID": "SSN169612730541",
+                "timestamp": 1696127305,
+                "username": "Franz13"
+            }
+        ],
+        "username": "Franz13"
     }
 ]
