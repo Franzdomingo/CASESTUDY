@@ -110,7 +110,8 @@ public:
     void displayMainMenu()
     {
         SetConsoleOutputCP(CP_UTF8);
-        cout << "\n" << endl;
+        cout << "\n"
+             << endl;
         cout << "════════════════════════════════════════    " << endl;
         cout << "┌──────────────────────────────────────┐ " << endl;
         cout << "│             Bank System              │   " << endl;
@@ -132,7 +133,7 @@ public:
     bool loginUser(string &loggedInUsername)
     {
         cout << "╔═════════════════════════════════════╗    " << endl;
-        cout << "║                Login                ║    "  << endl;
+        cout << "║                Login                ║    " << endl;
         cout << "╚═════════════════════════════════════╝    " << endl;
         cout << "  " << endl;
         string username, password;
@@ -147,7 +148,7 @@ public:
 
             setCurrentLoggedInUser(loggedInUsername);
             cout << " " << endl;
-            cout << "        ---Login successful!---"        << endl;
+            cout << "        ---Login successful!---" << endl;
             cout << " " << endl;
             ::system("pause");
             ::system("cls");
@@ -228,19 +229,19 @@ public:
                 cout << "│             Bank System              │" << endl;
                 cout << "╰──────────────────────────────────────╯" << endl;
                 cout << " " << endl;
-                cout << " Welcome " << username << "!" << endl;
+                cout << " Welcome " << user.name << "!" << endl;
                 cout << "  " << endl;
                 cout << " Current Balance: $" << getCurrentBalance(username) << endl;
                 cout << "                                           " << endl;
                 cout << "╔═════════════════════════════════════╗    " << endl;
-                cout << "║         Dashboard Options:          ║     "     << endl;
+                cout << "║         Dashboard Options:          ║     " << endl;
                 cout << "╠═════════════════════════════════════╣    " << endl;
                 cout << "║  1. Transaction Center              ║     " << endl;
                 cout << "║  2. User Profile                    ║     " << endl;
                 cout << "║  3. Data Analytics Dashboard        ║     " << endl;
                 cout << "║  4. Help & Resources                ║     " << endl;
                 cout << "║  5. Logout                          ║     " << endl;
-                cout << "╚═════════════════════════════════════╝"      << endl;
+                cout << "╚═════════════════════════════════════╝" << endl;
                 cout << " " << endl;
                 cout << "Enter your choice: ";
             }
@@ -256,7 +257,7 @@ public:
 
             int choice;
             cin >> choice;
-            ::system("cls"); 
+            ::system("cls");
             cin.ignore(); // Clear the newline character
 
             switch (choice)
@@ -309,14 +310,14 @@ public:
 
     void displayTransactionMenu(const string &username)
     {
-        ::system ("cls");
+        ::system("cls");
         cout << " " << endl;
         cout << "╔═════════════════════════════════════╗    " << endl;
         cout << "║         Transaction Center:         ║    " << endl;
         cout << "╠═════════════════════════════════════╣    " << endl;
-        cout << "║  1. Deposit Funds                   ║     "<< endl;
-        cout << "║  2. Withdraw Funds                  ║     "<< endl;
-        cout << "║  3. View Transaction History        ║     "<< endl;
+        cout << "║  1. Deposit Funds                   ║     " << endl;
+        cout << "║  2. Withdraw Funds                  ║     " << endl;
+        cout << "║  3. View Transaction History        ║     " << endl;
         cout << "║  4. Back to Dashboard               ║    " << endl;
         cout << "╚═════════════════════════════════════╝    " << endl;
         cout << " " << endl;
@@ -331,9 +332,9 @@ public:
         cout << "╔═════════════════════════════════════╗    " << endl;
         cout << "║         Transaction Center:         ║    " << endl;
         cout << "╠═════════════════════════════════════╣    " << endl;
-        cout << "║  1. Make a Purchase                 ║     "<< endl;
-        cout << "║  2. Pay Bills                       ║     "<< endl;
-        cout << "║  3. View Transaction History        ║     "<< endl;
+        cout << "║  1. Make a Purchase                 ║     " << endl;
+        cout << "║  2. Pay Bills                       ║     " << endl;
+        cout << "║  3. View Transaction History        ║     " << endl;
         cout << "║  4. Back to Dashboard               ║    " << endl;
         cout << "╚═════════════════════════════════════╝     " << endl;
         cout << " " << endl;
@@ -351,7 +352,7 @@ public:
                 cout << "╔═════════════════════════════════════╗    " << endl;
                 cout << "║        Transaction History          ║    " << endl;
                 cout << "╚═════════════════════════════════════╝    " << endl;
-                cout << " User: "<< user.username << endl;
+                cout << " User: " << user.username << endl;
                 cout << "───────────────────────────────────────" << endl;
                 for (const Transaction &transaction : user.transactionhistory)
                 {
@@ -505,9 +506,9 @@ public:
         {
             cout << "*Purchase failed. Please try again." << endl;
         }
-     cout << " " << endl;
-     ::system("pause");
-     ::system("cls");   
+        cout << " " << endl;
+        ::system("pause");
+        ::system("cls");
     }
 
     void processPayBills(const string &username)
@@ -546,9 +547,9 @@ public:
         cout << "╔═════════════════════════════════════╗    " << endl;
         cout << "║          Help & Resources           ║    " << endl;
         cout << "╠═════════════════════════════════════╣    " << endl;
-        cout << "║  1. Chat with AI Assistant          ║     "<< endl;
-        cout << "║  2. Contact US                      ║     "<< endl;
-        cout << "║  3. Back to Dashboard               ║     "<< endl;
+        cout << "║  1. Chat with AI Assistant          ║     " << endl;
+        cout << "║  2. Contact US                      ║     " << endl;
+        cout << "║  3. Back to Dashboard               ║     " << endl;
         cout << "╚═════════════════════════════════════╝     " << endl;
         cout << " " << endl;
         cout << "Enter your choice: ";
@@ -560,7 +561,8 @@ public:
         switch (jhchoice)
         {
         case 1:
-            cout << "\nHi! I'm your AI Assistant. How may I help you?\n" << endl;
+            cout << "\nHi! I'm your AI Assistant. How may I help you?\n"
+                 << endl;
             getline(cin, message);
             ai.chatBot(message);
             break;
@@ -596,7 +598,7 @@ public:
         {
             cout << " " << endl;
             cout << "╔═════════════════════════════════════╗    " << endl;
-            cout << "║       Product Application           ║   "  << endl;
+            cout << "║       Product Application           ║   " << endl;
             cout << "╚═════════════════════════════════════╝    " << endl;
             cout << " " << endl;
             cout << "Enter your full name: ";
@@ -711,7 +713,7 @@ public:
             switch (pchoice)
             {
             case 1:
-            ::system("cls");
+                ::system("cls");
                 handleAccountSettings(username);
                 break;
 
@@ -734,7 +736,7 @@ public:
 
         cout << " " << endl;
         cout << "╔═════════════════════════════════════╗    " << endl;
-        cout << "║           Manage Account            ║   "  << endl;
+        cout << "║           Manage Account            ║   " << endl;
         cout << "╠═════════════════════════════════════╣    " << endl;
         cout << "║  1. Change Password                 ║" << endl;
         cout << "║  2. Change Email                    ║" << endl;
@@ -835,7 +837,7 @@ public:
             {
                 cout << " " << endl;
                 cout << "╔═════════════════════════════════════╗    " << endl;
-                cout << "║           Data Analytics            ║   "  << endl;
+                cout << "║           Data Analytics            ║   " << endl;
                 cout << "╚═════════════════════════════════════╝   " << endl;
                 cout << " Name: " << user.name << endl;
                 cout << "───────────────────────────────────────" << endl;
@@ -1031,18 +1033,18 @@ public:
         {
             if (user.username == username)
             {
-            ::system("cls");
-            cout << " " << endl;
-            cout << "╔════════════════════════════════════════════╗    " << endl;
-            cout << "║               Session History              ║    " << endl;
-            cout << "╚════════════════════════════════════════════╝    " << endl;
-            cout << " User: "<< user.username << endl;
-            cout << "──────────────────────────────────────────────" << endl;
+                ::system("cls");
+                cout << " " << endl;
+                cout << "╔════════════════════════════════════════════╗    " << endl;
+                cout << "║               Session History              ║    " << endl;
+                cout << "╚════════════════════════════════════════════╝    " << endl;
+                cout << " User: " << user.username << endl;
+                cout << "──────────────────────────────────────────────" << endl;
                 for (const Session &session : user.sessions)
                 {
                     cout << "Session ID: " << session.sessionID << endl;
                     cout << "Username: " << session.username << endl;
-                    cout << "Timestamp: " << ctime(&session.timestamp) ;
+                    cout << "Timestamp: " << ctime(&session.timestamp);
                     cout << "──────────────────────────────────────────────" << endl;
                 }
             }
@@ -1197,6 +1199,26 @@ public:
         {
             if (user.username == username)
             {
+                for (const Profile &profile : user.profiles)
+                {
+                    if (profile.isTwoFactorEnabled)
+                    {
+                        cout << "\nSending an OTP for 2 Factor Authentication." << endl;
+                        system.sendOTP();
+
+                        string inputOTP;
+                        cout << "\nEnter your OTP: ";
+                        cin >> inputOTP;
+
+                        if (!system.verifyOTP(inputOTP))
+                        {
+                            cout << "\n*Incorrect OTP. Timeout for 30 seconds..." << endl;
+                            sleep_for(seconds(30));
+                            return false;
+                        }
+                    }
+                }
+
                 if (amount <= 0.0)
                 {
                     cout << "*Invalid bill amount. Please enter a positive amount." << endl;
@@ -1407,8 +1429,29 @@ public:
         {
             if (user.username == username)
             {
-                user.password = system.encryptPass(password);
-                saveDataToFile();
+                for (Profile &profile : user.profiles)
+                {
+                    if (profile.isTwoFactorEnabled)
+                    {
+                        cout << "\nSending an OTP for 2 Factor Authentication." << endl;
+                        system.sendOTP();
+
+                        string inputOTP;
+                        cout << "\nEnter your OTP: ";
+                        cin >> inputOTP;
+
+                        if (!system.verifyOTP(inputOTP))
+                        {
+                            cout << "\n*Incorrect OTP. Timeout for 30 seconds..." << endl;
+                            sleep_for(seconds(30));
+                            return;
+                        }
+                    }
+                    user.password = system.encryptPass(password);
+                    string decrypass = system.decryptPass(user.password);
+                    cout << "Password changed to " << decrypass << " successfully." << endl;
+                    saveDataToFile();
+                }
             }
         }
     }
@@ -1421,7 +1464,24 @@ public:
             {
                 for (Profile &profile : user.profiles)
                 {
+                    if (profile.isTwoFactorEnabled)
+                    {
+                        cout << "\nSending an OTP for 2 Factor Authentication." << endl;
+                        system.sendOTP();
+
+                        string inputOTP;
+                        cout << "\nEnter your OTP: ";
+                        cin >> inputOTP;
+
+                        if (!system.verifyOTP(inputOTP))
+                        {
+                            cout << "\n*Incorrect OTP. Timeout for 30 seconds..." << endl;
+                            sleep_for(seconds(30));
+                            return;
+                        }
+                    }
                     profile.email = email;
+                    cout << "Email changed to " << profile.email << " successfully." << endl;
                     saveDataToFile();
                 }
             }
@@ -1436,7 +1496,24 @@ public:
             {
                 for (Profile &profile : user.profiles)
                 {
+                    if (profile.isTwoFactorEnabled)
+                    {
+                        cout << "\nSending an OTP for 2 Factor Authentication." << endl;
+                        system.sendOTP();
+
+                        string inputOTP;
+                        cout << "\nEnter your OTP: ";
+                        cin >> inputOTP;
+
+                        if (!system.verifyOTP(inputOTP))
+                        {
+                            cout << "\n*Incorrect OTP. Timeout for 30 seconds..." << endl;
+                            sleep_for(seconds(30));
+                            return;
+                        }
+                    }
                     profile.phone = phone;
+                    cout << "Phone changed to " << profile.phone << " successfully." << endl;
                     saveDataToFile();
                 }
             }
@@ -1449,8 +1526,28 @@ public:
         {
             if (user.username == username)
             {
-                user.username = newusername;
-                saveDataToFile();
+                for (Profile &profile : user.profiles)
+                {
+                    if (profile.isTwoFactorEnabled)
+                    {
+                        cout << "\nSending an OTP for 2 Factor Authentication." << endl;
+                        system.sendOTP();
+
+                        string inputOTP;
+                        cout << "\nEnter your OTP: ";
+                        cin >> inputOTP;
+
+                        if (!system.verifyOTP(inputOTP))
+                        {
+                            cout << "\n*Incorrect OTP. Timeout for 30 seconds..." << endl;
+                            sleep_for(seconds(30));
+                            return;
+                        }
+                    }
+                    user.username = newusername;
+                    cout << "Username changed to " << user.username << " successfully." << endl;
+                    saveDataToFile();
+                }
             }
         }
     }
@@ -1463,6 +1560,22 @@ public:
             {
                 for (Profile &profile : user.profiles)
                 {
+                    if (profile.isTwoFactorEnabled)
+                    {
+                        cout << "\nSending an OTP for 2 Factor Authentication." << endl;
+                        system.sendOTP();
+
+                        string inputOTP;
+                        cout << "\nEnter your OTP: ";
+                        cin >> inputOTP;
+
+                        if (!system.verifyOTP(inputOTP))
+                        {
+                            cout << "\n*Incorrect OTP. Timeout for 30 seconds..." << endl;
+                            sleep_for(seconds(30));
+                            return;
+                        }
+                    }
                     profile.isTwoFactorEnabled = system.enable2FA(twoFA);
                     string show2FAStatus = profile.isTwoFactorEnabled ? "Enabled" : "Disabled";
                     cout << "Two Factor Authentication: " << show2FAStatus << endl;

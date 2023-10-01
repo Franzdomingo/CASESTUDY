@@ -72,15 +72,15 @@
         "username": "C"
     },
     {
-        "balance": 635.5,
+        "balance": 1068.5,
         "name": "Savings Sample",
         "password": "U",
         "producttype": "Savings Account",
         "profiles": [
             {
-                "email": "S@email.com",
+                "email": "SSSS@gmail.com",
                 "isTwoFactorEnabled": true,
-                "phone": "09SSSSSSSSSS"
+                "phone": "0999"
             }
         ],
         "sessions": [
@@ -102,6 +102,71 @@
             {
                 "sessionID": "SSN169615015941",
                 "timestamp": 1696150159,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169616086641",
+                "timestamp": 1696160866,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169616105741",
+                "timestamp": 1696161057,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169616114941",
+                "timestamp": 1696161149,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169616127041",
+                "timestamp": 1696161270,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169616133741",
+                "timestamp": 1696161337,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169616144641",
+                "timestamp": 1696161446,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169616153141",
+                "timestamp": 1696161531,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169616163541",
+                "timestamp": 1696161635,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169616190741",
+                "timestamp": 1696161907,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169616195941",
+                "timestamp": 1696161959,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169616218641",
+                "timestamp": 1696162186,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169616251941",
+                "timestamp": 1696162519,
+                "username": "S"
+            },
+            {
+                "sessionID": "SSN169616268741",
+                "timestamp": 1696162687,
                 "username": "S"
             }
         ],
@@ -140,6 +205,18 @@
                 "amount": 100.0,
                 "timestamp": 1696150178,
                 "transactionID": "TXN169615017815724",
+                "transactionType": "Deposit"
+            },
+            {
+                "amount": 100.0,
+                "timestamp": 1696161987,
+                "transactionID": "TXN16961619876334",
+                "transactionType": "Deposit"
+            },
+            {
+                "amount": 333.0,
+                "timestamp": 1696162006,
+                "transactionID": "TXN169616200615724",
                 "transactionType": "Deposit"
             }
         ],
