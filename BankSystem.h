@@ -71,6 +71,14 @@ struct dashboard
     string dashboardcontent;
 };
 
+struct Administrator
+{
+    string adminID;
+    string name;
+    string username;
+    string password;
+};
+
 struct User
 {
     string userID;
@@ -78,6 +86,7 @@ struct User
     string username;
     string password;
     string producttype;
+    bool isadmin; // To check if the user is an admin or not
     double balance;
     vector<Profile> profiles;
     vector<Transaction> transactionhistory;
@@ -133,6 +142,17 @@ public:
         cout << "                                           " << endl;
         cout << "Enter your choice: ";
     }
+    bool isadmin(const string &username)
+    {
+        for (const User &user : users)
+        {
+            if (user.username == username)
+            {
+                return user.isadmin;
+            }
+        }
+        return false; // Add this line
+    }
 
     bool loginUser(string &loggedInUsername)
     {
@@ -145,6 +165,16 @@ public:
         getline(cin, username);
         cout << "Enter password: ";
         getline(cin, password);
+
+        if (isadmin(username))
+        {
+            cout << " " << endl;
+            cout << "        ---Administrator---" << endl;
+            cout << " " << endl;
+            cout << "Press Enter to continue...";
+            cin.get();
+            return true;
+        }
 
         if (authenticateUser(username, password))
         {
@@ -683,7 +713,8 @@ public:
                         cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" << endl;
                         cout << "                      User Profile                            " << endl;
                         cout << "══════════════════════════════════════════════════════════════" << endl;
-                        cout << "  Name: " << user.username << endl;
+                        cout << "  Name: " << user.name << endl;
+                        cout << "  Username: " << user.username << endl;
                         cout << "  Email: " << profile.email << endl;
                         cout << "  Phone: " << profile.phone << endl;
                         cout << "  Account: " << user.producttype << endl;
@@ -1438,6 +1469,7 @@ public:
         newUser.name = name;
         newUser.username = username;
         newUser.password = system.encryptPass(password);
+        newUser.isadmin = false;
         newUser.producttype = producttype;
         newUser.balance = 0.0;
 
@@ -1643,9 +1675,10 @@ public:
         for (const auto &item : j)
         {
             User user;
-            user.userID = item.value("id", 0);
+            user.userID = item.value("id", "");
             user.name = item.value("name", "");
             user.username = item.value("username", "");
+            user.isadmin = item.value("isadmin", false);
             user.password = item.value("password", "");
             user.producttype = item.value("producttype", "");
             user.balance = item.value("balance", 0.0);
@@ -1681,6 +1714,27 @@ public:
                     session.username = sessionItem.value("username", "");
                     session.timestamp = sessionItem.value("timestamp", 0);
                     user.sessions.emplace_back(session);
+                }
+            }
+            if (item.contains("productapplications"))
+            {
+                for (const auto &productapplicationItem : item["productapplications"])
+                {
+                    ProductApplication productapplication;
+                    productapplication.producttype = productapplicationItem.value("producttype", "");
+                    productapplication.productID = productapplicationItem.value("productID", "");
+                    user.productapplications.emplace_back(productapplication);
+                }
+            }
+            if (item.contains("helpandresources"))
+            {
+                for (const auto &helpandresourcesItem : item["helpandresources"])
+                {
+                    HelpandResources helpandresources;
+                    helpandresources.helpID = helpandresourcesItem.value("helpandresourcesID", "");
+                    helpandresources.helpandresourcesType = helpandresourcesItem.value("helpandresourcesType", "");
+                    helpandresources.helpandresourcesDescription = helpandresourcesItem.value("helpandresourcesDescription", "");
+                    user.helpandresources.emplace_back(helpandresources);
                 }
             }
 
@@ -1722,6 +1776,7 @@ public:
                 userJson["name"] = user.name;
                 userJson["username"] = user.username;
                 userJson["password"] = user.password;
+                userJson["isadmin"] = user.isadmin;
                 userJson["producttype"] = user.producttype;
                 userJson["balance"] = user.balance;
 

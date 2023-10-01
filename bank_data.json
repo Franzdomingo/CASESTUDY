@@ -1,12 +1,13 @@
 [
     {
         "balance": 0.0,
-        "id": "USR169617278141",
+        "id": "USR169617474841",
+        "isadmin": true,
         "name": "C",
         "password": "E",
         "productapplications": [
             {
-                "productID": "CRD169617278118467",
+                "productID": "CRD169617474818467",
                 "producttype": "Credit Account"
             }
         ],
@@ -20,8 +21,8 @@
         ],
         "sessions": [
             {
-                "sessionID": "LGN16961727886334",
-                "timestamp": 1696172788,
+                "sessionID": "LGN16961747516334",
+                "timestamp": 1696174751,
                 "username": "C"
             }
         ],
