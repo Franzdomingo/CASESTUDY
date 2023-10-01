@@ -214,6 +214,7 @@ public:
 
             int choice;
             cin >> choice;
+            cout << endl;
             cin.ignore(); // Clear the newline character
 
             switch (choice)
