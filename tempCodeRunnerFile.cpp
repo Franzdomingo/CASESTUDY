@@ -1,2 +1,1 @@
-
-            case 1:
+displayMainMenu

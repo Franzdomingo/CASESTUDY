@@ -118,6 +118,7 @@ public:
         cout << "┃ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ ┃   " << endl;
         cout << "┃ ┃  1. Login                        ┃ ┃   " << endl;
         cout << "┃ ┃  2. Product Application          ┃ ┃   " << endl;
+        cout << "┃ ┃  3. Forgot Password              ┃ ┃   " << endl;
         cout << "┃ ┃  3. Exit                         ┃ ┃   " << endl;
         cout << "┃ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ ┃   " << endl;
         cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛   " << endl;
@@ -157,6 +158,51 @@ public:
             ::system("pause");
             ::system("cls");
             return false;
+        }
+    }
+    void forgotPassword()
+    {
+        cout << "Forgot Password" << endl;
+        char choice;
+        cout << "Enter your email: ";
+        string email;
+        cin >> email;
+        bool emailFound = false; // To track whether the email was found or not
+
+        for (User &user : users)
+        {
+            for (Profile &profile : user.profiles)
+            {
+                if (profile.email == email)
+                {
+                    cout << "Email found!" << endl;
+                    cout << "Sending an OTP for " << profile.email << " 2 Factor Authentication." << endl;
+
+                    system.sendOTP();
+
+                    string inputOTP;
+                    cout << "Enter your OTP: ";
+                    cin >> inputOTP;
+                    if (!system.verifyOTP(inputOTP))
+                    {
+                        cout << "Incorrect OTP. Timeout for 30 seconds..." << endl;
+
+                        sleep_for(seconds(30));
+                        return;
+                    }
+                    cout << "Enter new password: ";
+                    string newpass;
+                    cin >> newpass;
+                    ChangePassword(user.username, newpass);
+                    cout << "Password changed successfully!" << endl;
+                    emailFound = true; // Mark the email as found
+                }
+            }
+        }
+
+        if (!emailFound)
+        {
+            cout << "Email not found. Please try again." << endl;
         }
     }
 
@@ -474,11 +520,36 @@ public:
 
     void handleHelpAndResources()
     {
+        cout << "\nHelp & Resources" << endl;
+        cout << "1. Chat with AI Assistant" << endl;
+        cout << "2. Contact Us" << endl;
+        cout << "3. Back to Dashboard" << endl;
+        cout << "Enter your choice: ";
+        int jhchoice;
         string message;
-        cout << "\nHi! I'm your AI Assistant. How may I help you?\n"
-             << endl;
-        getline(cin, message);
-        ai.chatBot(message);
+        cin >> jhchoice;
+        cout << endl;
+        switch (jhchoice)
+        {
+        case 1:
+            cout << "\nHi! I'm your AI Assistant. How may I help you?\n"
+                 << endl;
+            getline(cin, message);
+            ai.chatBot(message);
+            break;
+        case 2:
+            cout << "Contact Us" << endl;
+            cout << "Email: Uniportal@proton.me " << endl;
+            cout << "Phone: 1-800-123-4567" << endl;
+            cout << "Address: 123 Main St, New York, NY 10001" << endl;
+            cout << "Press Enter to continue...";
+            cin.get();
+            break;
+        case 3:
+            return;
+        default:
+            return;
+        }
     }
 
     void applyForProduct()
@@ -588,6 +659,7 @@ public:
 
     void displayUserSettings(const string &username)
     {
+
         while (true)
         {
             cout << "\nUser Settings" << endl;
@@ -598,7 +670,7 @@ public:
             int pchoice;
             cout << "Enter: ";
             cin >> pchoice;
-
+            cout << endl;
             switch (pchoice)
             {
             case 1:
@@ -631,11 +703,12 @@ public:
         cout << "5. Enable/Disable 2FA" << endl;
         cout << "6. Show Activity Log " << endl;
         cout << "7. Back to Profile" << endl;
+        cout << "Enter your choice: ";
 
         int mchoice;
         cout << "\nEnter: ";
         cin >> mchoice;
-
+        cout << endl;
         switch (mchoice)
         {
         case 1:
@@ -688,6 +761,7 @@ public:
         cout << "\nActivity Log" << endl;
         cout << "1. Transaction History" << endl;
         cout << "2. Session History" << endl;
+        cout << "Enter your choice: ";
 
         int achoice;
         cout << "Enter: ";
@@ -1157,6 +1231,8 @@ public:
                 for (Profile &profile : user.profiles)
                 {
                     profile.isTwoFactorEnabled = system.enable2FA(twoFA);
+                    string show2FAStatus = profile.isTwoFactorEnabled ? "Enabled" : "Disabled";
+                    cout << "Two Factor Authentication: " << show2FAStatus << endl;
                     saveDataToFile();
                 }
             }
