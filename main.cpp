@@ -12,6 +12,7 @@ int main()
 
         int choice;
         cin >> choice;
+        system("cls");       
         cin.ignore(); // Clear the newline character
 
         switch (choice)

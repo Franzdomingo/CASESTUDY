@@ -1,7 +1,7 @@
 #pragma once
 #ifndef BANK_SYSTEM_H
 #define BANK_SYSTEM_H
-
+#include <windows.h>
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -109,15 +109,28 @@ public:
 
     void displayMainMenu()
     {
-        cout << "\nWelcome to the Bank System" << endl;
-        cout << "1. Login" << endl;
-        cout << "2. Product Application" << endl;
-        cout << "3. Exit" << endl;
+        SetConsoleOutputCP(CP_UTF8);
+        cout << "\n" << endl;
+        cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ " << endl;
+        cout << "┃ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ ┃ " << endl;
+        cout << "┃ ┃    Welcome to the Bank System    ┃ ┃   " << endl;
+        cout << "┃ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ ┃  " << endl;
+        cout << "┃ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ ┃   " << endl;
+        cout << "┃ ┃  1. Login                        ┃ ┃   " << endl;
+        cout << "┃ ┃  2. Product Application          ┃ ┃   " << endl;
+        cout << "┃ ┃  3. Exit                         ┃ ┃   " << endl;
+        cout << "┃ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ ┃   " << endl;
+        cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛   " << endl;
+        cout << "                                           " << endl;
         cout << "Enter your choice: ";
     }
 
     bool loginUser(string &loggedInUsername)
     {
+        cout << "╔═════════════════════════════════════╗    " << endl;
+        cout << "║                Login                ║    "  << endl;
+        cout << "╚═════════════════════════════════════╝    " << endl;
+        cout << "  " << endl;
         string username, password;
         cout << "Enter username: ";
         getline(cin, username);
@@ -129,12 +142,20 @@ public:
             loggedInUsername = username;
 
             setCurrentLoggedInUser(loggedInUsername);
-            cout << "Login successful!" << endl;
+            cout << " " << endl;
+            cout << "        ---Login successful!---"        << endl;
+            cout << " " << endl;
+            ::system("pause");
+            ::system("cls");
             return true;
         }
         else
         {
-            cout << "Invalid username or password. Please try again." << endl;
+            cout << " " << endl;
+            cout << "*Invalid username or password. Please try again." << endl;
+            cout << " " << endl;
+            ::system("pause");
+            ::system("cls");
             return false;
         }
     }
@@ -145,14 +166,24 @@ public:
         {
             if (user.username == username)
             {
-                cout << "\nWelcome " << username << "!" << endl;
+                cout << " " << endl;
+                cout << "_______________________________________" << endl;
+                cout << " " << endl;
+                cout << "Welcome " << username << "!" << endl;
+                cout << "  " << endl;
                 cout << "Current Balance: $" << getCurrentBalance(username) << endl;
-                cout << "\nDashboard Options:" << endl;
-                cout << "1. Transaction Center" << endl;
-                cout << "2. User Profile" << endl;
-                cout << "3. Data Analytics Dashboard" << endl;
-                cout << "4. Help & Resources" << endl;
-                cout << "5. Logout" << endl;
+                cout << "----------------"  << endl;
+                cout << "                                           " << endl;
+                cout << "+=====================================+    " << endl;
+                cout << "|         Dashboard Options:          |"     << endl;
+                cout << "|=====================================|     " << endl;
+                cout << "|  1. Transaction Center              |     " << endl;
+                cout << "|  2. User Profile                    |     " << endl;
+                cout << "|  3. Data Analytics Dashboard        |     " << endl;
+                cout << "|  4. Help & Resources                |     " << endl;
+                cout << "|  5. Logout                          |     " << endl;
+                cout << "+=====================================+"      << endl;
+                cout << " " << endl;
                 cout << "Enter your choice: ";
             }
         }
@@ -167,6 +198,7 @@ public:
 
             int choice;
             cin >> choice;
+            ::system("cls"); ///////////////HATEHATEHATE
             cin.ignore(); // Clear the newline character
 
             switch (choice)
@@ -186,10 +218,11 @@ public:
             case 5:
                 // Logout the user
                 cout << "Logging out..." << endl;
+                ::system("cls");
                 setCurrentLoggedInUser("");
                 return;
             default:
-                cout << "Invalid choice. Please select a valid option." << endl;
+                cout << "*Invalid choice. Please select a valid option." << endl;
             }
         }
     }
@@ -218,11 +251,17 @@ public:
 
     void displayTransactionMenu(const string &username)
     {
-        cout << "\nTransaction Center:" << endl;
-        cout << "1. Deposit Funds" << endl;
-        cout << "2. Withdraw Funds" << endl;
-        cout << "3. View Transaction History" << endl;
-        cout << "4. Back to Dashboard" << endl;
+        ::system ("cls");
+        cout << " " << endl;
+        cout << "+=====================================+    " << endl;
+        cout << "|         Transaction Center:         |    " << endl;
+        cout << "|=====================================|    " << endl;
+        cout << "|  1. Deposit Funds                   |     "<< endl;
+        cout << "|  2. Withdraw Funds                  |     "<< endl;
+        cout << "|  3. View Transaction History        |     "<< endl;
+        cout << "|  4. Back to Dashboard               |    " << endl;
+        cout << "+=====================================+    " << endl;
+        cout << " " << endl;
         cout << "Enter your choice: ";
         setCurrentLoggedInUser(username);
         setCurrentSessionID(generateSessionID());
@@ -230,11 +269,16 @@ public:
 
     void displayTransactionCredit(const string &username)
     {
-        cout << "\nTransaction Center:" << endl;
-        cout << "1. Make a Purchase" << endl;
-        cout << "2. Pay Bills" << endl;
-        cout << "3. View Transaction History" << endl;
-        cout << "4. Back to Dashboard" << endl;
+        cout << " " << endl;
+        cout << "+=====================================+    " << endl;
+        cout << "|         Transaction Center:         |    " << endl;
+        cout << "|=====================================|    " << endl;
+        cout << "|  1. Make a Purchase                 |     "<< endl;
+        cout << "|  2. Pay Bills                       |     "<< endl;
+        cout << "|  3. View Transaction History        |     "<< endl;
+        cout << "|  4. Back to Dashboard               |    " << endl;
+        cout << "+=====================================+    " << endl;
+        cout << " " << endl;
         cout << "Enter your choice: ";
         setCurrentLoggedInUser(username);
     }
@@ -245,20 +289,24 @@ public:
         {
             if (user.username == username)
             {
+                ::system("cls");
+                cout << "=======================================    " << endl;
+                cout << "         Transaction History"                << endl;
+                cout << "=======================================    " << endl;
+                cout << " User: "<< user.username << endl;
+                cout << "---------------------------------------" << endl;
                 for (const Transaction &transaction : user.transactionhistory)
                 {
-                    cout << "\nTransaction History for User: " << user.username << endl;
-                    cout << "--------------------------------" << endl;
                     cout << "Transaction ID: " << transaction.transactionID << endl;
                     cout << "Transaction Type: " << transaction.transactionType << endl;
                     cout << "Amount: $" << transaction.amount << endl;
                     cout << "Timestamp: " << ctime(&transaction.timestamp);
-                    cout << "--------------------------------" << endl;
+                    cout << "---------------------------------------" << endl;
                 }
             }
         }
         // Replaced system("pause") with a more portable solution
-        cout << "Press Enter to continue...";
+        cout << "\nPress Enter to continue...";
         cin.get();
     }
 
@@ -284,9 +332,10 @@ public:
                 displayTransactionHistory(username);
                 break;
             case 4:
+                ::system("cls");
                 return; // Return to the dashboard
             default:
-                cout << "Invalid choice. Please select a valid option." << endl;
+                cout << "*Invalid choice. Please select a valid option." << endl;
             }
         }
     }
@@ -315,7 +364,7 @@ public:
             case 4:
                 return;
             default:
-                cout << "Invalid choice. Please select a valid option." << endl;
+                cout << "*Invalid choice. Please select a valid option." << endl;
             }
         }
     }
@@ -329,19 +378,20 @@ public:
 
         if (depositAmount <= 0.0)
         {
-            cout << "Invalid deposit amount. Please enter a positive amount." << endl;
+            cout << "*Invalid deposit amount. Please enter a positive amount." << endl;
             return;
         }
 
         if (depositFunds(username, depositAmount))
         {
+            cout << " " << endl;
             cout << "Deposit of $" << depositAmount << " successful." << endl;
         }
         else
         {
-            cout << "Deposit failed. Please try again." << endl;
+            cout << "*Deposit failed. Please try again." << endl;
         }
-        cout << "Press Enter to continue...";
+        cout << "\nPress Enter to continue...";
         cin.get();
     }
 
@@ -354,19 +404,19 @@ public:
 
         if (withdrawAmount <= 0.0)
         {
-            cout << "Invalid withdrawal amount. Please enter a positive amount." << endl;
+            cout << "*Invalid withdrawal amount. Please enter a positive amount." << endl;
             return;
         }
 
         if (withdrawFunds(username, withdrawAmount))
         {
-            cout << "Withdrawal of $" << withdrawAmount << " successful." << endl;
+            cout << "\nWithdrawal of $" << withdrawAmount << " successful." << endl;
         }
         else
         {
-            cout << "Withdrawal failed. Please try again." << endl;
+            cout << "*Withdrawal failed. Please try again." << endl;
         }
-        cout << "Press Enter to continue...";
+        cout << "\nPress Enter to continue...";
         cin.get();
     }
 
@@ -379,12 +429,12 @@ public:
         {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid amount. Please enter a valid number." << endl;
+            cout << "*Invalid amount. Please enter a valid number." << endl;
         }
         cin.ignore(); // Clear the newline character
         if (purchaseAmount <= 0.0)
         {
-            cout << "Invalid transaction amount. Please enter a positive amount." << endl;
+            cout << "*Invalid transaction amount. Please enter a positive amount." << endl;
         }
         if (makePurchase(username, purchaseAmount, "Purchase description"))
         {
@@ -392,7 +442,7 @@ public:
         }
         else
         {
-            cout << "Purchase failed. Please try again." << endl;
+            cout << "*Purchase failed. Please try again." << endl;
         }
     }
 
@@ -405,12 +455,12 @@ public:
         {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid amount. Please enter a valid number." << endl;
+            cout << "*Invalid amount. Please enter a valid number." << endl;
         }
         cin.ignore(); // Clear the newline character
         if (billAmount <= 0.0)
         {
-            cout << "Invalid amount. Please enter a positive amount." << endl;
+            cout << "*Invalid amount. Please enter a positive amount." << endl;
         }
         if (payBills(username, billAmount, "Bill description"))
         {
@@ -418,7 +468,7 @@ public:
         }
         else
         {
-            cout << "Bill payment failed. Please try again." << endl;
+            cout << "*Bill payment failed. Please try again." << endl;
         }
     }
 
@@ -438,9 +488,11 @@ public:
         char enable2FA;
         while (true)
         {
-            cout << "\nPress Enter to continue...";
-            cin.get();
-            cout << "Product Application" << endl;
+            cout << " " << endl;
+            cout << "+=====================================+    " << endl;
+            cout << "|       Product Application           |    "  << endl;
+            cout << "+=====================================+    " << endl;
+            cout << " " << endl;
             cout << "Enter your full name: ";
             getline(cin, name);
 
@@ -451,7 +503,10 @@ public:
             bool usernameTaken = isUsernameTaken(username);
             if (usernameTaken)
             {
-                cout << "Username is already taken. Please choose another one." << endl;
+                cout << "\n*Username is already taken. Please choose another one." << endl;
+                cout << " " << endl;
+                ::system("pause");
+                ::system("cls");
                 continue;
             }
 
@@ -464,14 +519,14 @@ public:
             cout << "Enter phone: ";
             cin >> phone;
 
-            cout << "Do you want to enable 2FA?(Y/N): ";
+            cout << "\nDo you want to enable 2FA?(Y/N): ";
             cin >> enable2FA;
 
-            cout << "Pick account type: " << endl;
+            cout << "\nPick account type: " << endl;
             cout << "1. Savings Account" << endl;
             cout << "2. Credit Account" << endl;
 
-            cout << "Choose your account type: ";
+            cout << "\nChoose your account type: ";
             cin >> acctype;
 
             switch (acctype)
@@ -483,7 +538,7 @@ public:
                 accounttype = "Credit Account";
                 break;
             default:
-                cout << "Invalid choice. Please select a valid option." << endl;
+                cout << "*Invalid choice. Please select a valid option." << endl;
                 continue;
             }
 
@@ -492,11 +547,14 @@ public:
             if (registrationSuccess)
             {
                 cout << "Registration successful!" << endl;
+                cout << " " << endl;
+                ::system("pause");
+                ::system("cls");
                 break;
             }
             else
             {
-                cout << "Registration failed. Please try again." << endl;
+                cout << "*Registration failed. Please try again." << endl;
                 continue;
             }
         }
@@ -532,16 +590,19 @@ public:
     {
         while (true)
         {
-            cout << "User Settings" << endl;
+            cout << "\nUser Settings" << endl;
             cout << "1. Manage Account" << endl;
             cout << "2. Back to Dashboard" << endl;
+            cout << " " << endl;
 
             int pchoice;
+            cout << "Enter: ";
             cin >> pchoice;
 
             switch (pchoice)
             {
             case 1:
+            ::system("cls");
                 handleAccountSettings(username);
                 break;
 
@@ -562,6 +623,7 @@ public:
         char new2FA;
 
         cout << "Manage Account" << endl;
+        cout << " " << endl;
         cout << "1. Change Password" << endl;
         cout << "2. Change Email" << endl;
         cout << "3. Change Phone" << endl;
@@ -571,30 +633,31 @@ public:
         cout << "7. Back to Profile" << endl;
 
         int mchoice;
+        cout << "\nEnter: ";
         cin >> mchoice;
 
         switch (mchoice)
         {
         case 1:
-            cout << "Enter new password: ";
+            cout << "\nEnter new password: ";
             cin >> newpass;
             ChangePassword(username, newpass);
             break;
 
         case 2:
-            cout << "Enter new email: ";
+            cout << "\nEnter new email: ";
             cin >> newemail;
             ChangeEmail(username, newemail);
             break;
 
         case 3:
-            cout << "Enter new phone: ";
+            cout << "\nEnter new phone: ";
             cin >> newphone;
             ChangePhone(username, newphone);
             break;
 
         case 4:
-            cout << "Enter new username: ";
+            cout << "\nEnter new username: ";
             cin >> newusername;
             ChangeUsername(username, newusername);
             break;
@@ -611,21 +674,23 @@ public:
 
         case 7:
             return;
+            ::system("cls");
             break;
 
         default:
-            cout << "Invalid choice. Please select a valid option." << endl;
+            cout << "*Invalid choice. Please select a valid option." << endl;
             break;
         }
     }
 
     void displayActivityLog(const string &username)
     {
-        cout << "Activity Log" << endl;
+        cout << "\nActivity Log" << endl;
         cout << "1. Transaction History" << endl;
         cout << "2. Session History" << endl;
 
         int achoice;
+        cout << "Enter: ";
         cin >> achoice;
 
         switch (achoice)
@@ -637,7 +702,7 @@ public:
             displaySessions(username);
             break;
         default:
-            cout << "Invalid choice. Please select a valid option." << endl;
+            cout << "*Invalid choice. Please select a valid option." << endl;
             break;
         }
     }
@@ -714,10 +779,10 @@ public:
         {
             if (user.username == username)
             {
+            cout << "Session History for User:" << user.username << endl;
+            cout << "----------------------------------------------" << endl;
                 for (const Session &session : user.sessions)
                 {
-                    cout << "Session History for User:" << user.username << endl;
-                    cout << "----------------------------------------------" << endl;
                     cout << "Session ID: " << session.sessionID << endl;
                     cout << "Username: " << session.username << endl;
                     cout << "Timestamp: " << ctime(&session.timestamp) << endl;
@@ -747,7 +812,7 @@ public:
             {
                 if (amount <= 0.0)
                 {
-                    cout << "Invalid withdrawal amount. Please enter a positive amount." << endl;
+                    cout << "*Invalid withdrawal amount. Please enter a positive amount." << endl;
                     return false;
                 }
 
@@ -772,13 +837,13 @@ public:
                 }
                 else
                 {
-                    cout << "Insufficient balance. Withdrawal failed." << endl;
+                    cout << "*Insufficient balance. Withdrawal failed." << endl;
                     return false;
                 }
             }
         }
 
-        cout << "User not found. Withdrawal failed." << endl;
+        cout << "*User not found. Withdrawal failed." << endl;
         return false;
     }
 
@@ -790,13 +855,13 @@ public:
             {
                 if (amount <= 0.0)
                 {
-                    cout << "Invalid purchase amount. Please enter a positive amount." << endl;
+                    cout << "*Invalid purchase amount. Please enter a positive amount." << endl;
                     return false;
                 }
                 // Check if the user's balance will go below -5000 after the purchase
                 if (user.balance - amount < -5000.0)
                 {
-                    cout << "Insufficient credit limit. Purchase failed." << endl;
+                    cout << "*Insufficient credit limit. Purchase failed." << endl;
                     return false;
                 }
                 // Update user's transaction history
@@ -815,7 +880,7 @@ public:
                 return true;
             }
         }
-        cout << "User not found. Purchase failed." << endl;
+        cout << "*User not found. Purchase failed." << endl;
         return false;
     }
     // Function to pay bills
@@ -827,7 +892,7 @@ public:
             {
                 if (amount <= 0.0)
                 {
-                    cout << "Invalid bill amount. Please enter a positive amount." << endl;
+                    cout << "*Invalid bill amount. Please enter a positive amount." << endl;
                     return false;
                 }
                 if (user.balance >= amount)
@@ -849,12 +914,12 @@ public:
                 }
                 else
                 {
-                    cout << "Insufficient balance. Bill payment failed." << endl;
+                    cout << "*Insufficient balance. Bill payment failed." << endl;
                     return false;
                 }
             }
         }
-        cout << "User not found. Bill payment failed." << endl;
+        cout << "*User not found. Bill payment failed." << endl;
         return false;
     }
 
@@ -873,16 +938,16 @@ public:
                 {
                     if (profile.isTwoFactorEnabled)
                     {
-                        cout << "Sending an OTP for 2 Factor Authentication." << endl;
+                        cout << "\n---Sending an OTP for 2 Factor Authentication---" << endl;
                         system.sendOTP();
 
                         string inputOTP;
-                        cout << "Enter your OTP: ";
+                        cout << "\nEnter your OTP: ";
                         cin >> inputOTP;
 
                         if (!system.verifyOTP(inputOTP))
                         {
-                            cout << "Incorrect OTP. Timeout for 30 seconds..." << endl;
+                            cout << "\n*Incorrect OTP. Timeout for 30 seconds..." << endl;
                             sleep_for(seconds(30));
                             return false;
                         }
@@ -998,6 +1063,7 @@ public:
         if (isUsernameTaken(username))
         {
             cout << "Username is already taken. Please choose another one." << endl;
+            ::system("cls");
             return false;
         }
 
@@ -1024,7 +1090,7 @@ public:
         // Save the updated user data to the file
         saveDataToFile();
 
-        cout << "User account created successfully." << endl;
+        cout << "\nUser account created successfully." << endl;
         return true;
     }
 
