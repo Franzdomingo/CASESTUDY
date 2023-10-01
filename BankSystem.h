@@ -824,14 +824,22 @@ public:
         {
             if (user.username == username)
             {
-                cout << " " << endl;
-                cout << "╔═════════════════════════════════════╗    " << endl;
-                cout << "║           Data Analytics            ║   "  << endl;
-                cout << "╚═════════════════════════════════════╝   " << endl;
-                cout << " Name: " << user.name << endl;
-                cout << "───────────────────────────────────────" << endl;
-                cout << "Total Networth: " << showTotalNetworth(username) << endl;
-                cout << "───────────────────────────────────────" << endl;
+
+                cout << "Name: " << user.name << endl;
+                cout << "-----------------------------" << endl;
+                if (user.producttype == "Savings Account")
+                {
+                    cout << "Total Networth: " << showTotalNetworth(username) << endl;
+                    cout << "Total Interest Earned: " << showInterestEarned(username) << endl;
+                }
+                else if (user.producttype == "Credit Account")
+                {
+                    cout << "Total Spent: " << showtotalSpent(username) << endl;
+                    cout << "Total Paid: " << showtotalPaid(username) << endl;
+                    cout << endl;
+                }
+
+                cout << "-----------------------------" << endl;
             }
         }
         cout << " " << endl;
@@ -839,6 +847,104 @@ public:
         ::system("cls");
     }
 
+    double showInterestEarned(const string &username)
+    {
+        double interestRate = 0.05; // Annual interest rate
+        double interestEarned = 0;
+
+        time_t now = time(0); // get current time
+
+        for (const User &user : users)
+        {
+            if (user.username == username)
+            {
+                for (const Transaction &transaction : user.transactionhistory)
+                {
+                    if (transaction.transactionType == "Deposit")
+                    {
+                        // Calculate interest for this deposit
+                        double principal = transaction.amount;
+                        int years = difftime(now, transaction.timestamp) / (60 * 60 * 24 * 365.25); // convert seconds to years
+                        double amount = principal * pow(1 + interestRate, years);
+                        double interest = amount - principal;
+
+                        // Add to total interest earned
+                        interestEarned += interest;
+                    }
+                }
+            }
+        }
+
+        return interestEarned;
+    }
+
+    /*Payment Status: If your payBills function includes information about whether payments were made on time, you could create an indicator or list showing any late or missed payments.*/
+    double showPaymentStatus(const string &username)
+    {
+        double paymentStatus = 0;
+
+        for (const User &user : users)
+        {
+            if (user.username == username)
+            {
+                for (const Transaction &transaction : user.transactionhistory)
+                {
+                    if (transaction.transactionType == "Bill Payment")
+                    {
+                        paymentStatus += transaction.amount;
+                    }
+                }
+            }
+        }
+
+        return paymentStatus;
+    }
+
+    /*Outstanding Balance: This would be calculated as the total spent minus the total paid. If this number is positive, it means the user owes money.*/
+
+    /*Total Paid: Similarly, this could be a counter that adds up all the payments made by the user.*/
+    double showtotalPaid(const string &username)
+    {
+        double totalPaid = 0;
+
+        for (const User &user : users)
+        {
+            if (user.username == username)
+            {
+                for (const Transaction &transaction : user.transactionhistory)
+                {
+                    if (transaction.transactionType == "Bill Payment")
+                    {
+                        totalPaid += transaction.amount;
+                    }
+                }
+            }
+        }
+
+        return totalPaid;
+    }
+
+    // calculate total spent This could be a simple counter that adds up all the purchases made by the user.
+    double showtotalSpent(const string &username)
+    {
+        double totalSpent = 0;
+
+        for (const User &user : users)
+        {
+            if (user.username == username)
+            {
+                for (const Transaction &transaction : user.transactionhistory)
+                {
+                    if (transaction.transactionType == "Purchase" or transaction.transactionType == "Deposit")
+                    {
+                        totalSpent += transaction.amount;
+                    }
+                }
+            }
+        }
+
+        return totalSpent;
+    }
     double showTotalNetworth(const string &username)
     {
         double totalNet = 0;
@@ -905,8 +1011,6 @@ public:
                 return true;
             }
         }
-
-        cout << "User not found. Deposit failed." << endl;
         return false;
     }
 
