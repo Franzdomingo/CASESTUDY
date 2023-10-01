@@ -36,7 +36,7 @@ struct Profile
 
 struct ProductApplication
 {
-    string applicationID;
+    string productID;
     string producttype;
 };
 
@@ -57,8 +57,8 @@ struct DataAnalytics
 struct HelpandResources
 {
     string helpID;
-    string helpcontent;
-    string helpresources;
+    string helpandresourcesType;
+    string helpandresourcesDescription;
     string feedback;
 };
 
@@ -70,6 +70,7 @@ struct dashboard
 
 struct User
 {
+    string userID;
     string name;
     string username;
     string password;
@@ -676,17 +677,28 @@ public:
             {
                 for (const Profile &profile : user.profiles)
                 {
-                    string show2FAStatus = profile.isTwoFactorEnabled ? "Enabled" : "Disabled";
-                    cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" << endl;
-                    cout << "                      User Profile                            " << endl;
-                    cout << "══════════════════════════════════════════════════════════════" << endl;
-                    cout << "  Name: " << user.username << endl;
-                    cout << "  Email: " << profile.email << endl;
-                    cout << "  Phone: " << profile.phone << endl;
-                    cout << "  Account: " << user.producttype << endl;
-                    cout << "  Two Factor Authentication: " << show2FAStatus << endl;
-                    cout << "══════════════════════════════════════════════════════════════" << endl;
-                    displayUserSettings(user.username);
+                    for (const ProductApplication &productapplication : user.productapplications)
+                    {
+                        cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" << endl;
+                        cout << "                      User Profile                            " << endl;
+                        cout << "══════════════════════════════════════════════════════════════" << endl;
+                        cout << "  Name: " << user.username << endl;
+                        cout << "  Email: " << profile.email << endl;
+                        cout << "  Phone: " << profile.phone << endl;
+                        cout << "  Account: " << user.producttype << endl;
+                        if (productapplication.producttype == "Savings Account")
+                        {
+                            cout << "  Savings Card Number: " << productapplication.productID << endl;
+                        }
+                        else if (productapplication.producttype == "Credit Account")
+                        {
+                            cout << "  Credit Card Number: " << productapplication.productID << endl;
+                        }
+                        string show2FAStatus = (profile.isTwoFactorEnabled) ? "Enabled" : "Disabled";
+                        cout << "  Two Factor Authentication: " << show2FAStatus << endl;
+                        cout << "══════════════════════════════════════════════════════════════" << endl;
+                        displayUserSettings(user.username);
+                    }
                 }
             }
         }
@@ -1057,6 +1069,28 @@ public:
         // Example: You can use a combination of timestamp and a random number
         return "TXN" + to_string(time(nullptr)) + to_string(rand());
     }
+    string generateUserID()
+    {
+        // Implement your logic to generate a unique transaction ID
+        // Example: You can use a combination of timestamp and a random number
+        return "USR" + to_string(time(nullptr)) + to_string(rand());
+    }
+
+    string generateProductID(const string &producttype)
+    {
+        if (producttype == "Savings Account")
+        {
+            return "SAV" + to_string(time(nullptr)) + to_string(rand());
+        }
+        if (producttype == "Credit Account")
+        {
+            return "CRD" + to_string(time(nullptr)) + to_string(rand());
+        }
+        else
+        {
+            return "PRD" + to_string(time(nullptr)) + to_string(rand());
+        }
+    }
 
     string generateSessionID(const string &sessiontype)
     {
@@ -1409,6 +1443,7 @@ public:
 
         // Create a new user account
         User newUser;
+        newUser.userID = generateUserID(); // Call a function to generate a unique user ID
         newUser.name = name;
         newUser.username = username;
         newUser.password = system.encryptPass(password);
@@ -1421,6 +1456,11 @@ public:
         newProfile.phone = phone;
         newProfile.isTwoFactorEnabled = system.enable2FA(twoFA);
 
+        ProductApplication newProductApplication;
+        newProductApplication.producttype = producttype;
+        newProductApplication.productID = generateProductID(producttype);
+
+        newUser.productapplications.push_back(newProductApplication);
         // Add the new profile to the user's profiles vector
         newUser.profiles.push_back(newProfile);
 
@@ -1612,6 +1652,7 @@ public:
         for (const auto &item : j)
         {
             User user;
+            user.userID = item.value("id", 0);
             user.name = item.value("name", "");
             user.username = item.value("username", "");
             user.password = item.value("password", "");
@@ -1686,6 +1727,7 @@ public:
             for (const User &user : users)
             {
                 json userJson;
+                userJson["id"] = user.userID;
                 userJson["name"] = user.name;
                 userJson["username"] = user.username;
                 userJson["password"] = user.password;
@@ -1720,6 +1762,21 @@ public:
                     userJson["sessions"].push_back(sessionJson);
                 }
 
+                for (const ProductApplication &productapplication : user.productapplications)
+                {
+                    json productapplicationJson;
+                    productapplicationJson["producttype"] = productapplication.producttype;
+                    productapplicationJson["productID"] = productapplication.productID;
+                    userJson["productapplications"].push_back(productapplicationJson);
+                }
+                for (const HelpandResources &helpandresources : user.helpandresources)
+                {
+                    json helpandresourcesJson;
+                    helpandresourcesJson["helpandresourcesID"] = helpandresources.helpID;
+                    helpandresourcesJson["helpandresourcesType"] = helpandresources.helpandresourcesType;
+                    helpandresourcesJson["helpandresourcesDescription"] = helpandresources.helpandresourcesDescription;
+                    userJson["helpandresources"].push_back(helpandresourcesJson);
+                }
                 j.push_back(userJson);
             }
 
