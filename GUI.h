@@ -41,16 +41,6 @@ inline bool BankSystem::loginUser(string &loggedInUsername)
     cout << "Enter password: ";
     getline(cin, password);
 
-    if (isadmin(username))
-    {
-        cout << " " << endl;
-        cout << "        ---Administrator---" << endl;
-        cout << " " << endl;
-        cout << "Press Enter to continue...";
-        cin.get();
-        return true;
-    }
-
     if (authenticateUser(username, password))
     {
         loggedInUsername = username;
@@ -145,28 +135,47 @@ inline void BankSystem::displayDashboardMenu(const string &username)
     {
         if (user.username == username)
         {
-            SetConsoleOutputCP(CP_UTF8);
-            cout << " " << endl;
+            if (isadmin(username))
+            {
+                cout << "╔═════════════════════════════════════╗    " << endl;
+                cout << "║            Administrator            ║    " << endl;
+                cout << "╚═════════════════════════════════════╝    " << endl;
+                cout << "                                           " << endl;
+                cout << "╔═════════════════════════════════════╗    " << endl;
+                cout << "║         Dashboard Options:          ║     " << endl;
+                cout << "╠═════════════════════════════════════╣    " << endl;
+                cout << "║  1. Manage Users                    ║     " << endl;
+                cout << "║  2. Help & Resources                ║     " << endl;
+                cout << "║  3. Logout                          ║     " << endl;
+                cout << "╚═════════════════════════════════════╝" << endl;
+                cout << " " << endl;
+                cout << "Enter your choice: ";
+            }
+            else
+            {
+                SetConsoleOutputCP(CP_UTF8);
+                cout << " " << endl;
 
-            cout << "╭──────────────────────────────────────╮" << endl;
-            cout << "│             Bank System              │" << endl;
-            cout << "╰──────────────────────────────────────╯" << endl;
-            cout << " " << endl;
-            cout << " Welcome " << user.name << "!" << endl;
-            cout << "  " << endl;
-            cout << " Current Balance: $" << getCurrentBalance(username) << endl;
-            cout << "                                           " << endl;
-            cout << "╔═════════════════════════════════════╗    " << endl;
-            cout << "║         Dashboard Options:          ║     " << endl;
-            cout << "╠═════════════════════════════════════╣    " << endl;
-            cout << "║  1. Transaction Center              ║     " << endl;
-            cout << "║  2. User Profile                    ║     " << endl;
-            cout << "║  3. Data Analytics Dashboard        ║     " << endl;
-            cout << "║  4. Help & Resources                ║     " << endl;
-            cout << "║  5. Logout                          ║     " << endl;
-            cout << "╚═════════════════════════════════════╝" << endl;
-            cout << " " << endl;
-            cout << "Enter your choice: ";
+                cout << "╭──────────────────────────────────────╮" << endl;
+                cout << "│             Bank System              │" << endl;
+                cout << "╰──────────────────────────────────────╯" << endl;
+                cout << " " << endl;
+                cout << " Welcome " << user.name << "!" << endl;
+                cout << "  " << endl;
+                cout << " Current Balance: $" << getCurrentBalance(username) << endl;
+                cout << "                                           " << endl;
+                cout << "╔═════════════════════════════════════╗    " << endl;
+                cout << "║         Dashboard Options:          ║     " << endl;
+                cout << "╠═════════════════════════════════════╣    " << endl;
+                cout << "║  1. Transaction Center              ║     " << endl;
+                cout << "║  2. User Profile                    ║     " << endl;
+                cout << "║  3. Data Analytics Dashboard        ║     " << endl;
+                cout << "║  4. Help & Resources                ║     " << endl;
+                cout << "║  5. Logout                          ║     " << endl;
+                cout << "╚═════════════════════════════════════╝" << endl;
+                cout << " " << endl;
+                cout << "Enter your choice: ";
+            }
         }
     }
 }
@@ -181,31 +190,56 @@ inline void BankSystem::handleDashboardOptions(const string &username)
         int choice;
         cin >> choice;
         cin.ignore(); // Clear the newline character
-
-        switch (choice)
+        if (isadmin(username))
         {
-        case 1:
-            handleProductOptions(productType, username);
-            break;
-        case 2:
-            displayProfile(username);
-            break;
-        case 3:
-            viewAnalyticsDashBoard(username);
-            break;
-        case 4:
-            handleHelpAndResources();
-            break;
-        case 5:
-            // Logout the user
-            cout << "Logging out..." << endl;
-            logout(username);
-            setCurrentLoggedInUser("");
-            cout << "Press Enter to continue...";
-            cin.get();
-            return;
-        default:
-            cout << "*Invalid choice. Please select a valid option." << endl;
+            switch (choice)
+            {
+            case 1:
+                handleManageUsers(username);
+                cin.get();
+                break;
+            case 2:
+                cout << "admin" << endl;
+                break;
+            case 3:
+                // Logout the user
+                cout << "Logging out..." << endl;
+                logout(username);
+                setCurrentLoggedInUser("");
+                cout << "Press Enter to continue...";
+                cin.get();
+                return;
+            default:
+                cout << "*Invalid choice. Please select a valid option." << endl;
+            }
+        }
+        else
+        {
+            switch (choice)
+            {
+            case 1:
+                handleProductOptions(productType, username);
+                break;
+            case 2:
+                displayProfile(username);
+                break;
+            case 3:
+                viewAnalyticsDashBoard(username);
+                break;
+            case 4:
+                handleHelpAndResources();
+                break;
+            case 5:
+                // Logout the user
+                cout << "Logging out..." << endl;
+                logout(username);
+                setCurrentLoggedInUser("");
+                cout << "Press Enter to continue...";
+                cin.get();
+                return;
+            default:
+                cout << "*Invalid choice. Please select a valid option." << endl;
+            }
         }
     }
 }
@@ -480,7 +514,8 @@ inline void BankSystem::handleHelpAndResources()
     switch (jhchoice)
     {
     case 1:
-        cout << "\nHi! I'm your AI Assistant. How may I help you?\n" << endl;
+        cout << "\nHi! I'm your AI Assistant. How may I help you?\n"
+             << endl;
         getline(cin, message);
         ChatAI::chatBot(message);
         break;
@@ -646,11 +681,80 @@ inline void BankSystem::displayUserSettings(const string &username)
     }
 }
 
+inline void BankSystem::adminhandleAccountSettings(const string &username)
+{
+    string newpass, newemail, newphone, newusername;
+    char new2FA;
+    cout << " " << endl;
+    cout << "╔═════════════════════════════════════╗    " << endl;
+    cout << "║           Manage Account            ║   " << endl;
+    cout << "╠═════════════════════════════════════╣    " << endl;
+    cout << "║  1. Change Password                 ║" << endl;
+    cout << "║  2. Change Email                    ║" << endl;
+    cout << "║  3. Change Phone                    ║" << endl;
+    cout << "║  4. Change Username                 ║" << endl;
+    cout << "║  5. Enable/Disable 2FA              ║" << endl;
+    cout << "║  6. Show Activity Log               ║" << endl;
+    cout << "║  7. Make User Admin                 ║" << endl;
+    cout << "║  8. Back to Profile                 ║" << endl;
+    cout << "╚═════════════════════════════════════╝   " << endl;
+    cout << " " << endl;
+
+    int mchoice;
+    cout << "\nEnter: ";
+    cin >> mchoice;
+    switch (mchoice)
+    {
+    case 1:
+        cout << "\nEnter new password: ";
+        cin >> newpass;
+        ChangePassword(username, newpass);
+        break;
+
+    case 2:
+        cout << "\nEnter new email: ";
+        cin >> newemail;
+        ChangeEmail(username, newemail);
+        break;
+
+    case 3:
+        cout << "\nEnter new phone: ";
+        cin >> newphone;
+        ChangePhone(username, newphone);
+        break;
+
+    case 4:
+        cout << "\nEnter new username: ";
+        cin >> newusername;
+        ChangeUsername(username, newusername);
+        break;
+
+    case 5:
+        cout << "\nDo you want to enable 2FA?(Y/N): ";
+        cin >> new2FA;
+        DE2FA(username, new2FA);
+        break;
+
+    case 6:
+        displayActivityLog(username);
+        break;
+
+    case 7:
+        makeUserAdmin(username);
+        break;
+    case 8:
+        return;
+
+    default:
+        cout << "*Invalid choice. Please select a valid option." << endl;
+        break;
+    }
+}
+
 inline void BankSystem::handleAccountSettings(const string &username)
 {
     string newpass, newemail, newphone, newusername;
     char new2FA;
-
     cout << " " << endl;
     cout << "╔═════════════════════════════════════╗    " << endl;
     cout << "║           Manage Account            ║   " << endl;

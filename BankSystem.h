@@ -109,6 +109,7 @@ public:
     {
         loadDataFromFile();
     }
+    void handleManageUsers();
 
     static void displayMainMenu();
 
@@ -153,6 +154,8 @@ public:
     void displayProfile(const string &username);
 
     void displayUserSettings(const string &username);
+
+    void adminhandleAccountSettings(const string &username);
 
     void handleAccountSettings(const string &username);
 
@@ -497,6 +500,139 @@ public:
         }
         return false;
     }
+    bool deleteUserByUsername(const std::string &usernameToDelete)
+    {
+        using namespace std; // Add this line to use the std namespace
+
+        auto userToDelete = std::remove_if(users.begin(), users.end(),
+                                           [usernameToDelete](const User &user)
+                                           { return user.username == usernameToDelete; });
+
+        if (userToDelete != users.end())
+        {
+            users.erase(userToDelete, users.end());
+            cout << "User with username '" << usernameToDelete << "' has been deleted." << endl;
+            saveDataToFile(); // Save data after deletion
+            return true;
+        }
+        else
+        {
+            cout << "User with username '" << usernameToDelete << "' not found." << endl;
+            return false;
+        }
+    }
+
+    void handleManageUsers(const string &username)
+    {
+        cout << "Manage Users" << endl;
+        cout << "1. View Users Data" << endl;
+        cout << "2. Add Users" << endl;
+        cout << "3. Delete Users" << endl;
+        cout << "4. Update Users" << endl;
+        cout << "5. Exit" << endl;
+        cout << "Enter your choice: ";
+        int choice;
+        cin >> choice;
+        cin.ignore();
+        switch (choice)
+        {
+        case 1:
+            displayAllUserData();
+            break;
+        case 2:
+            applyForProduct();
+            break;
+        case 3:
+            deleteUser();
+            break;
+        case 4:
+            updateUser();
+            break;
+        case 5:
+            return;
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+            break;
+        }
+    }
+    void updateUser()
+    {
+        cout << "Update User" << endl;
+        cout << "Give me the username of the user you want to update: ";
+        string pickedusername;
+        cin >> pickedusername;
+        adminhandleAccountSettings(pickedusername);
+    }
+    void deleteUser()
+    {
+        string user;
+        cout << "Enter the username of the user to delete: ";
+        cin >> user;
+        cin.ignore();
+
+        if (deleteUserByUsername(user))
+        {
+            cout << "User with username '" << user << "' has been deleted." << endl;
+        }
+        else
+        {
+            cout << "User with username '" << user << "' not found." << endl;
+        }
+    }
+    void displayAllUserData() const
+    {
+
+        for (const User &user : users)
+        {
+            cout << "User ID: " << user.userID << endl;
+            cout << "Name: " << user.name << endl;
+            cout << "Username: " << user.username << endl;
+            cout << "Is Admin: " << (user.isadmin ? "Yes" : "No") << endl;
+            cout << "Product Type: " << user.producttype << endl;
+            cout << "Balance: " << user.balance << endl;
+
+            cout << "Profiles:" << endl;
+            for (const Profile &profile : user.profiles)
+            {
+                cout << "  Email: " << profile.email << endl;
+                cout << "  Phone: " << profile.phone << endl;
+                cout << "  Two-Factor Enabled: " << (profile.isTwoFactorEnabled ? "Yes" : "No") << endl;
+            }
+
+            cout << "Transaction History:" << endl;
+            for (const Transaction &transaction : user.transactionhistory)
+            {
+                cout << "  Transaction ID: " << transaction.transactionID << endl;
+                cout << "  Transaction Type: " << transaction.transactionType << endl;
+                cout << "  Amount: " << transaction.amount << endl;
+                cout << "  Timestamp: " << transaction.timestamp << endl;
+            }
+
+            cout << "Sessions:" << endl;
+            for (const Session &session : user.sessions)
+            {
+                cout << "  Session ID: " << session.sessionID << endl;
+                cout << "  Username: " << session.username << endl;
+                cout << "  Timestamp: " << session.timestamp << endl;
+            }
+
+            cout << "Product Applications:" << endl;
+            for (const ProductApplication &productApp : user.productapplications)
+            {
+                cout << "  Product Type: " << productApp.producttype << endl;
+                cout << "  Product ID: " << productApp.productID << endl;
+            }
+
+            cout << "Help and Resources:" << endl;
+            for (const HelpandResources &resources : user.helpandresources)
+            {
+                cout << "  Help ID: " << resources.helpID << endl;
+                cout << "  Type: " << resources.helpandresourcesType << endl;
+                cout << "  Description: " << resources.helpandresourcesDescription << endl;
+                cout << "  Feedback: " << resources.feedback << endl;
+            }
+        }
+    }
 
     bool createUser(const string &name, const string &username, const string &password, const string &email,
                     const string &phone, const char &twoFA, const string &producttype)
@@ -541,7 +677,18 @@ public:
         cout << "\nUser account created successfully." << endl;
         return true;
     }
-
+    void makeUserAdmin(const string &username)
+    {
+        for (User &user : users)
+        {
+            if (user.username == username)
+            {
+                user.isadmin = true;
+                cout << "User " << user.username << " is now an admin." << endl;
+                saveDataToFile();
+            }
+        }
+    }
     void ChangePassword(const string &username, const string &password)
     {
         for (User &user : users)

@@ -1,31 +1,41 @@
 [
     {
         "balance": 0.0,
-        "id": "USR169617474841",
+        "id": "USR169626233518467",
         "isadmin": true,
-        "name": "C",
-        "password": "E",
+        "name": "Admin",
+        "password": "Cfokp",
         "productapplications": [
             {
-                "productID": "CRD169617474818467",
-                "producttype": "Credit Account"
+                "productID": "SAV16962623356334",
+                "producttype": "Savings Account"
             }
         ],
-        "producttype": "Credit Account",
+        "producttype": "Savings Account",
         "profiles": [
             {
-                "email": "C",
+                "email": "Admin",
                 "isTwoFactorEnabled": false,
-                "phone": "C"
+                "phone": "Admin"
             }
         ],
         "sessions": [
             {
-                "sessionID": "LGN16961747516334",
-                "timestamp": 1696174751,
-                "username": "C"
+                "sessionID": "LGN169626241541",
+                "timestamp": 1696262415,
+                "username": "Admin"
+            },
+            {
+                "sessionID": "LGT169626241818467",
+                "timestamp": 1696262418,
+                "username": "Admin"
+            },
+            {
+                "sessionID": "LGN169626244719169",
+                "timestamp": 1696262447,
+                "username": "Admin"
             }
         ],
-        "username": "C"
+        "username": "Admin"
     }
 ]
