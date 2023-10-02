@@ -16,7 +16,7 @@ public:
     SecuritySys() : attempts(0), lastAttempt(0) {}
 
     // Encrypts given password by adding 2 to ASCII value of each character.
-    string encryptPass(string password)
+    static string encryptPass(string password)
     {
         const int passlength = password.length();
         char *pass = new char[passlength + 1];
@@ -32,7 +32,7 @@ public:
     }
 
     // Decrypts given password by subtracting 2 from ASCII value of each character.
-    string decryptPass(string encrypted)
+    static string decryptPass(string encrypted)
     {
         const int passlength = encrypted.length();
         char *pass = new char[passlength + 1];
@@ -48,7 +48,7 @@ public:
     }
 
     // Generates a 6 digit One-time Password.
-    string generateOTP()
+    static string generateOTP()
     {
         const int length = 6;
         random_device rand;
@@ -65,9 +65,9 @@ public:
 
     // Determines if another login attempt can be made.
     // After 3 failed attempts, user has to wait 30 seconds.
-    bool canAttempt()
+    [[maybe_unused]] bool canAttempt()
     {
-        time_t currTime = time(0);
+        time_t currTime = time(nullptr);
         if (attempts > 3 && difftime(currTime, lastAttempt) < 30)
             return false;
 
@@ -77,18 +77,18 @@ public:
         return true;
     }
 
-    // Attempts to login and tracks failed attempts.
+    // Attempts to log in and tracks failed attempts.
     bool attemptLogin(const string &password, const string &verifyPass)
     {
         if (verifyPass == password)
             return true;
 
         attempts++;
-        lastAttempt = time(0);
+        lastAttempt = time(nullptr);
         return false;
     }
 
-    bool enable2FA(const char &answer)
+    static bool enable2FA(const char &answer)
     {
         if (toupper(answer) == 'Y')
             return true;
@@ -112,10 +112,10 @@ public:
         return false;
     }
 
-    string getcurrDate()
+    static string getcurrDate()
     {
-        time_t currTime = time(0);
-        struct tm tstruct;
+        time_t currTime = time(nullptr);
+        struct tm tstruct{};
         char buf[80];
         tstruct = *localtime(&currTime);
         strftime(buf, sizeof(buf), "%Y-%m-%d %X", &tstruct);
@@ -124,7 +124,7 @@ public:
     }
 
     // Dummy function to represent security system check.
-    bool securityStatus(const bool &status)
+    static bool securityStatus(const bool &status)
     {
         if (status)
             return true;
@@ -132,7 +132,7 @@ public:
         return false;
     }
 
-    void auditLog(const bool &status)
+    static void auditLog(const bool &status)
     {
         try
         {
