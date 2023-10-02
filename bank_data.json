@@ -59,8 +59,74 @@
                 "sessionID": "LGN169626560241",
                 "timestamp": 1696265602,
                 "username": "Admin"
+            },
+            {
+                "sessionID": "LGN169626952741",
+                "timestamp": 1696269527,
+                "username": "Admin"
+            },
+            {
+                "sessionID": "LGT169626955026500",
+                "timestamp": 1696269550,
+                "username": "Admin"
+            },
+            {
+                "sessionID": "LGN169626960324464",
+                "timestamp": 1696269603,
+                "username": "Admin"
             }
         ],
         "username": "Admin"
+    },
+    {
+        "balance": 0.0,
+        "id": "USR169626954218467",
+        "isadmin": false,
+        "name": "S",
+        "password": "U",
+        "productapplications": [
+            {
+                "productID": "SAV16962695426334",
+                "producttype": "Savings Account"
+            }
+        ],
+        "producttype": "Savings Account",
+        "profiles": [
+            {
+                "email": "S",
+                "isTwoFactorEnabled": false,
+                "phone": "S"
+            }
+        ],
+        "resources": [
+            {
+                "helpandresourcesDescription": "Credit",
+                "helpandresourcesID": "HAI169626957815724",
+                "helpandresourcesType": "AI"
+            },
+            {
+                "helpandresourcesDescription": "Limit",
+                "helpandresourcesID": "HAI169626958711478",
+                "helpandresourcesType": "AI"
+            },
+            {
+                "helpandresourcesDescription": "guide",
+                "helpandresourcesID": "HAI169626959629358",
+                "helpandresourcesType": "AI"
+            }
+        ],
+        "sessions": [
+            {
+                "sessionID": "LGN169626955419169",
+                "timestamp": 1696269554,
+                "username": "S"
+            },
+            {
+                "sessionID": "LGT169626959926962",
+                "timestamp": 1696269599,
+                "username": "S"
+            }
+        ],
+        "username": "S"
     }
 ]

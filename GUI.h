@@ -227,7 +227,7 @@ inline void BankSystem::handleDashboardOptions(const string &username)
                 viewAnalyticsDashBoard(username);
                 break;
             case 4:
-                handleHelpAndResources();
+                handleHelpAndResources(username);
                 break;
             case 5:
                 // Logout the user
@@ -493,7 +493,7 @@ inline void BankSystem::processPayBills(const string &username)
     cin.get();
 }
 
-inline void BankSystem::handleHelpAndResources()
+inline void BankSystem::handleHelpAndResources(const string &username)
 {
     cout << " " << endl;
     cout << "╔═════════════════════════════════════╗    " << endl;
@@ -517,7 +517,7 @@ inline void BankSystem::handleHelpAndResources()
         cout << "\nHi! I'm your AI Assistant. How may I help you?\n"
              << endl;
         getline(cin, message);
-        ChatAI::chatBot(message);
+        chatBot(message, username);
         break;
     case 2:
         cout << " " << endl;

@@ -14,7 +14,6 @@
 #include <thread>
 #include "json.hpp"
 #include "SecuritySys.h"
-#include "ChatAI.h"
 
 using json = nlohmann::json;
 using namespace chrono;
@@ -109,6 +108,7 @@ public:
     {
         loadDataFromFile();
     }
+
     void handleManageUsers();
 
     static void displayMainMenu();
@@ -147,7 +147,7 @@ public:
 
     void processPayBills(const string &username);
 
-    static void handleHelpAndResources();
+    void handleHelpAndResources(const string &username);
 
     void applyForProduct();
 
@@ -777,7 +777,88 @@ public:
             }
         }
     }
+    void chatBot(const string &message, const string &username)
+    {
+        string feedback; // Declare the feedback variable once.
 
+        // Checks if user's message indicates they've forgotten their password.
+        if (regex_search(message, regex("(forgot)(.*)(password)", regex_constants::icase)))
+        {
+            feedback = "It seems like you've forgotten your password. Don't worry, you can reset it by clicking the 'Forgot Password?' button and following the instructions provided.";
+            cout << feedback;
+        }
+
+        // Responds to requests for a guide or tutorial.
+        if (regex_search(message, regex("(guide)", regex_constants::icase)))
+        {
+            feedback = "Looking for a guide? We have comprehensive documentation and tutorials available to help you navigate through our system.";
+            cout << feedback;
+        }
+
+        // Directs users to a transaction guide if they mention "transact".
+        if (regex_search(message, regex("(transact)", regex_constants::icase)))
+        {
+            feedback = "You're interested in making a transaction? At the moment, we don't have a specific answer for this. Please refer to our transaction guide for more details.";
+            cout << feedback;
+        }
+
+        // Provides information on how to contact customer service.
+        if (regex_search(message, regex("(contact)", regex_constants::icase)))
+        {
+            feedback = "Need to get in touch? Our customer service team is always ready to help. You can reach us through our Contact Us page.";
+            cout << feedback;
+        }
+
+        // Assists users with inquiries about their credit limit.
+        if (regex_search(message, regex("(credit)(.*)(limit)", regex_constants::icase)))
+        {
+            feedback = "Inquiring about your credit limit? You can check this information in your account settings under the 'Credit Limit' section.";
+            cout << feedback;
+        }
+
+        SaveHelpandResources(username, "AI", message, feedback);
+    }
+
+    void SaveHelpandResources(const string &username, const string &helpandresourcesType, const string &helpandresourcesDescription, const string &feedback)
+    {
+        for (User &user : users)
+        {
+            if (user.username == username)
+            {
+                // Create a new HelpandResources object
+                HelpandResources helpandresources;
+                helpandresources.helpID = generateHelpID(helpandresourcesType);
+                helpandresources.helpandresourcesType = helpandresourcesType;
+                helpandresources.helpandresourcesDescription = helpandresourcesDescription;
+                helpandresources.feedback = feedback;
+
+                // Push the new helpandresources object into the user's vector
+                user.helpandresources.push_back(helpandresources);
+
+                // Save the updated user data to the file (assuming this function exists)
+                saveDataToFile();
+
+                // Log the action as successful
+                system.auditLog(true);
+
+                return; // Exit the function once the session is saved for the user.
+            }
+        }
+        // If we've reached here, it means the user wasn't found.
+        system.auditLog(false);
+    }
+
+    string generateHelpID(const string &helpandresourcesType)
+    {
+        if (helpandresourcesType == "AI")
+        {
+            return "HAI" + to_string(time(nullptr)) + to_string(rand());
+        }
+        else
+        {
+            return "HLP" + to_string(time(nullptr)) + to_string(rand());
+        }
+    }
     bool createUser(const string &name, const string &username, const string &password, const string &email,
                     const string &phone, const char &twoFA, const string &producttype)
     {
