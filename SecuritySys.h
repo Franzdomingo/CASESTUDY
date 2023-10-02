@@ -136,7 +136,7 @@ public:
     {
         try
         {
-            ofstream auditFile("audit_log.json");
+            ofstream auditFile("audit_log.txt");
             if (!auditFile)
             {
                 cerr << "Error: Unable to open file for audit." << endl;
