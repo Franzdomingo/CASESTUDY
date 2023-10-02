@@ -199,7 +199,8 @@ inline void BankSystem::handleDashboardOptions(const string &username)
                 cin.get();
                 break;
             case 2:
-                cout << "admin" << endl;
+                displayallhelpandresources();
+                replyhelpandresources();
                 break;
             case 3:
                 // Logout the user
@@ -528,10 +529,24 @@ inline void BankSystem::handleHelpAndResources(const string &username)
         cout << "│  Phone: 1-800-123-4567                         │" << endl;
         cout << "│  Address: 123 Main St, New York, NY 10001      │" << endl;
         cout << "╰────────────────────────────────────────────────╯" << endl;
+        cout << "│          OR PRESS [1] SEND A MESSAGE           │" << endl;
+        cout << "╰────────────────────────────────────────────────╯" << endl;
         cout << " " << endl;
-
-        cout << "Press Enter to continue...";
-        cin.get();
+        int schoice;
+        cin >> schoice;
+        if (schoice == 1)
+        {
+            help(username);
+            cout << "Message sent successfully!" << endl;
+            cout << " " << endl;
+            cout << "Press Enter to continue...";
+            cin.get();
+        }
+        else
+        {
+            cout << "Press Enter to continue...";
+            cin.get();
+        }
         break;
     case 3:
         return;
@@ -847,6 +862,7 @@ inline void BankSystem::displayActivityLog(const string &username)
     cout << "├───────────────────────────┤" << endl;
     cout << "│ 1. Transaction History    │" << endl;
     cout << "│ 2. Session History        │" << endl;
+    cout << "│ 3. Help History           │" << endl;
     cout << "╰───────────────────────────╯" << endl;
     cout << " " << endl;
 
@@ -861,6 +877,9 @@ inline void BankSystem::displayActivityLog(const string &username)
         break;
     case 2:
         displaySessions(username);
+        break;
+    case 3:
+        displayHelpHistory(username);
         break;
     default:
         cout << "*Invalid choice. Please select a valid option." << endl;

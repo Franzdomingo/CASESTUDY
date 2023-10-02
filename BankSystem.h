@@ -660,6 +660,76 @@ public:
             cout << "User with username '" << user << "' not found." << endl;
         }
     }
+
+    void displayHelpHistory(const string &username)
+    {
+        for (const User &user : users)
+        {
+            if (user.username == username)
+            {
+                for (const HelpandResources &resources : user.helpandresources)
+                {
+                    cout << "Help ID: " << resources.helpID << endl;
+                    cout << "Type: " << resources.helpandresourcesType << endl;
+                    cout << "Description: " << resources.helpandresourcesDescription << endl;
+                    if (resources.feedback != "")
+                    {
+                        cout << "Feedback: " << resources.feedback << endl;
+                    }
+                    else
+                    {
+                        cout << "Feedback: No feedback yet." << endl;
+                    }
+                }
+            }
+        }
+    }
+    void displayallhelpandresources()
+    {
+        const string desiredType = "Help"; // Change this to the type you want to display
+
+        for (const User &user : users)
+        {
+            for (const HelpandResources &resources : user.helpandresources)
+            {
+                if (resources.helpandresourcesType == desiredType)
+                {
+                    cout << "Help ID: " << resources.helpID << endl;
+                    cout << "Type: " << resources.helpandresourcesType << endl;
+                    cout << "Description: " << resources.helpandresourcesDescription << endl;
+                    cout << "Feedback: " << resources.feedback << endl;
+                }
+            }
+        }
+    }
+    void replyhelpandresources()
+    {
+        string helpID;
+        cout << "Enter the help ID of the help and resources to reply to: ";
+        cin >> helpID;
+        cin.ignore();
+
+        string feedback;
+        cout << "Enter your feedback: ";
+        getline(cin, feedback);
+
+        for (User &user : users)
+        {
+            for (HelpandResources &resources : user.helpandresources)
+            {
+                if (resources.helpID == helpID)
+                {
+                    resources.feedback = feedback;
+                    cout << "Feedback saved successfully." << endl;
+                    saveDataToFile();
+                    return;
+                }
+            }
+        }
+
+        cout << "Help and resources with ID '" << helpID << "' not found." << endl;
+    }
+
     void displayUserDataByUsername(const std::string &usernameToDisplay) const
     {
 
@@ -819,6 +889,13 @@ public:
         SaveHelpandResources(username, "AI", message, feedback);
     }
 
+    void help(const string &username)
+    {
+        string message;
+        cout << "Enter your message: ";
+        getline(cin, message);
+        SaveHelpandResources(username, "Help", message, "");
+    }
     void SaveHelpandResources(const string &username, const string &helpandresourcesType, const string &helpandresourcesDescription, const string &feedback)
     {
         for (User &user : users)
@@ -854,9 +931,13 @@ public:
         {
             return "HAI" + to_string(time(nullptr)) + to_string(rand());
         }
-        else
+        else if (helpandresourcesType == "Help")
         {
             return "HLP" + to_string(time(nullptr)) + to_string(rand());
+        }
+        else
+        {
+            return "HSR" + to_string(time(nullptr)) + to_string(rand());
         }
     }
     bool createUser(const string &name, const string &username, const string &password, const string &email,
