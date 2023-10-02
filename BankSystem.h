@@ -675,6 +675,8 @@ public:
 
     void displayHelpHistory(const string &username)
     {
+        bool helpFound = false; // Initialize a boolean flag to check if any Help history is found
+
         for (const User &user : users)
         {
             if (user.username == username)
@@ -692,13 +694,22 @@ public:
                     {
                         cout << "Feedback: No feedback yet." << endl;
                     }
+
+                    helpFound = true; // Set the flag to true if Help history is found
                 }
             }
         }
+
+        if (!helpFound)
+        {
+            cout << "No Help history is available for the user " << username << "." << endl;
+        }
     }
+
     void displayallhelpandresources()
     {
         const string desiredType = "Help"; // Change this to the type you want to display
+        bool helpFound = false;            // Initialize a boolean flag to check if any Help is found
 
         for (const User &user : users)
         {
@@ -710,10 +721,18 @@ public:
                     cout << "Type: " << resources.helpandresourcesType << endl;
                     cout << "Description: " << resources.helpandresourcesDescription << endl;
                     cout << "Feedback: " << resources.feedback << endl;
+
+                    helpFound = true; // Set the flag to true if Help is found
                 }
             }
         }
+
+        if (!helpFound)
+        {
+            cout << "No Help is available." << endl;
+        }
     }
+
     void replyhelpandresources()
     {
         string helpID;
@@ -907,10 +926,15 @@ public:
     {
         string message;
         cout << "Enter your message: ";
+
+        // Clear any remaining newline characters from the input stream
+        cin.ignore();
+
         getline(cin, message);
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
         SaveHelpandResources(username, "Help", message, "");
     }
+
     void SaveHelpandResources(const string &username, const string &helpandresourcesType, const string &helpandresourcesDescription, const string &feedback)
     {
         for (User &user : users)
