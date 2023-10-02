@@ -25,14 +25,14 @@ struct Transaction
     string transactionID;
     string transactionType;
     string description;
-    double amount;
-    time_t timestamp;
+    double amount{};
+    time_t timestamp{};
 };
 struct Profile
 {
     string email;
     string phone;
-    bool isTwoFactorEnabled;
+    bool isTwoFactorEnabled{};
 };
 struct ProductApplication
 {
@@ -43,9 +43,9 @@ struct Session
 {
     string sessionID;
     string username;
-    time_t timestamp;
+    time_t timestamp{};
 };
-struct DataAnalytics
+struct [[maybe_unused]] DataAnalytics
 {
     string dataID;
     string businessinsights;
@@ -63,7 +63,7 @@ struct dashboard
     string dashboardID;
     string dashboardcontent;
 };
-struct Administrator
+struct [[maybe_unused]] Administrator
 {
     string adminID;
     string name;
@@ -78,8 +78,8 @@ struct User
     string username;
     string password;
     string producttype;
-    bool isadmin; // To check if the user is an admin or not
-    double balance;
+    bool isadmin{}; // To check if the user is an admin or not
+    double balance{};
     vector<Profile> profiles;
     vector<Transaction> transactionhistory;
     vector<ProductApplication> productapplications;
@@ -91,7 +91,6 @@ class BankSystem
 {
 private:
     SecuritySys system;
-    ChatAI ai;
     vector<User> users;
     vector<Profile> profiles;
     vector<Transaction> transactionhistory;
@@ -147,7 +146,7 @@ public:
 
     void processPayBills(const string &username);
 
-    void handleHelpAndResources();
+    static void handleHelpAndResources();
 
     void applyForProduct();
 
@@ -327,9 +326,9 @@ public:
         return false;
     }
 
-    string generateUserID();
+    static string generateUserID();
 
-    string generateProductID(const string &producttype)
+    static string generateProductID(const string &producttype)
     {
         if (producttype == "Savings Account")
         {
@@ -423,12 +422,12 @@ public:
 
                 // Save the updated user data to the file
                 saveDataToFile();
-                SecuritySys::auditLog(true);
+                system.auditLog(true);
                 return; // Exit the function once the session is saved for the user.
             }
         }
         // If we've reached here, it means the user wasn't found.
-        SecuritySys::auditLog(false);
+        system.auditLog(false);
     }
 
     static bool isValidProductType(const string &producttype)
@@ -514,7 +513,7 @@ public:
         newUser.userID = generateUserID(); // Call a function to generate a unique user ID
         newUser.name = name;
         newUser.username = username;
-        newUser.password = system.encryptPass(password);
+        newUser.password = SecuritySys::encryptPass(password);
         newUser.isadmin = false;
         newUser.producttype = producttype;
         newUser.balance = 0.0;
@@ -523,7 +522,7 @@ public:
         Profile newProfile;
         newProfile.email = email;
         newProfile.phone = phone;
-        newProfile.isTwoFactorEnabled = system.enable2FA(twoFA);
+        newProfile.isTwoFactorEnabled = SecuritySys::enable2FA(twoFA);
 
         ProductApplication newProductApplication;
         newProductApplication.producttype = producttype;
@@ -716,6 +715,7 @@ public:
         if (!file.is_open())
         {
             cout << "Error: Unable to open data file." << endl;
+            system.auditLog(false);
             return;
         }
 
@@ -783,15 +783,15 @@ public:
             {
                 for (const auto &helpandresourcesItem : item["helpandresources"])
                 {
-                    HelpandResources helpandresources;
-                    helpandresources.helpID = helpandresourcesItem.value("helpandresourcesID", "");
-                    helpandresources.helpandresourcesType = helpandresourcesItem.value("helpandresourcesType", "");
-                    helpandresources.helpandresourcesDescription = helpandresourcesItem.value("helpandresourcesDescription", "");
-                    user.helpandresources.emplace_back(helpandresources);
+                    HelpandResources resources;
+                    resources.helpID = helpandresourcesItem.value("helpandresourcesID", "");
+                    resources.helpandresourcesType = helpandresourcesItem.value("helpandresourcesType", "");
+                    resources.helpandresourcesDescription = helpandresourcesItem.value("helpandresourcesDescription", "");
+                    user.helpandresources.emplace_back(resources);
                 }
             }
-
             users.emplace_back(user);
+            system.auditLog(true);
         }
     }
 
@@ -803,6 +803,7 @@ public:
             if (!file.is_open())
             {
                 cout << "Error: Unable to save data to the file." << endl;
+                system.auditLog(true);
                 return;
             }
             json j;
@@ -849,13 +850,13 @@ public:
                     productapplicationJson["productID"] = productapplication.productID;
                     userJson["productapplications"].push_back(productapplicationJson);
                 }
-                for (const HelpandResources &helpandresources : user.helpandresources)
+                for (const HelpandResources &resources : user.helpandresources)
                 {
                     json helpandresourcesJson;
-                    helpandresourcesJson["helpandresourcesID"] = helpandresources.helpID;
-                    helpandresourcesJson["helpandresourcesType"] = helpandresources.helpandresourcesType;
-                    helpandresourcesJson["helpandresourcesDescription"] = helpandresources.helpandresourcesDescription;
-                    userJson["helpandresources"].push_back(helpandresourcesJson);
+                    helpandresourcesJson["helpandresourcesID"] = resources.helpID;
+                    helpandresourcesJson["helpandresourcesType"] = resources.helpandresourcesType;
+                    helpandresourcesJson["helpandresourcesDescription"] = resources.helpandresourcesDescription;
+                    userJson["resources"].push_back(helpandresourcesJson);
                 }
                 j.push_back(userJson);
             }
@@ -865,10 +866,12 @@ public:
         catch (const json::exception &e) // catching specific exceptions related to the json library
         {
             cout << "JSON error: " << e.what() << endl;
+            system.auditLog(false);
         }
         catch (const exception &e) // generic C++ exceptions
         {
             cout << "Error saving data to file: " << e.what() << endl;
+            system.auditLog(false);
         }
     }
 };
