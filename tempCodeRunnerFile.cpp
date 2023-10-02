@@ -1,2 +1,2 @@
 
-        int choice;
+        BankSystem::displayMainMenu();

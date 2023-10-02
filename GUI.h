@@ -151,6 +151,21 @@ inline void BankSystem::displayDashboardMenu(const string &username)
                 cout << " " << endl;
                 cout << "Enter your choice: ";
             }
+            else if (iscustomerservice(username))
+            {
+                cout << "╔═════════════════════════════════════╗    " << endl;
+                cout << "║          Customer Service           ║    " << endl;
+                cout << "╚═════════════════════════════════════╝    " << endl;
+                cout << "                                           " << endl;
+                cout << "╔═════════════════════════════════════╗    " << endl;
+                cout << "║         Dashboard Options:          ║     " << endl;
+                cout << "╠═════════════════════════════════════╣    " << endl;
+                cout << "║  1. Messages                        ║     " << endl;
+                cout << "║  2. Logout                          ║     " << endl;
+                cout << "╚═════════════════════════════════════╝" << endl;
+                cout << " " << endl;
+                cout << "Enter your choice: ";
+            }
             else
             {
                 SetConsoleOutputCP(CP_UTF8);
@@ -203,6 +218,26 @@ inline void BankSystem::handleDashboardOptions(const string &username)
                 replyhelpandresources();
                 break;
             case 3:
+                // Logout the user
+                cout << "Logging out..." << endl;
+                logout(username);
+                setCurrentLoggedInUser("");
+                cout << "Press Enter to continue...";
+                cin.get();
+                return;
+            default:
+                cout << "*Invalid choice. Please select a valid option." << endl;
+            }
+        }
+        else if (iscustomerservice(username))
+        {
+            switch (choice)
+            {
+            case 1:
+                displayallhelpandresources();
+                replyhelpandresources();
+                break;
+            case 2:
                 // Logout the user
                 cout << "Logging out..." << endl;
                 logout(username);
@@ -510,7 +545,7 @@ inline void BankSystem::handleHelpAndResources(const string &username)
     int jhchoice;
     string message;
     cin >> jhchoice;
-    cin.ignore();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cout << endl;
     switch (jhchoice)
     {
@@ -529,8 +564,9 @@ inline void BankSystem::handleHelpAndResources(const string &username)
         cout << "│  Phone: 1-800-123-4567                         │" << endl;
         cout << "│  Address: 123 Main St, New York, NY 10001      │" << endl;
         cout << "╰────────────────────────────────────────────────╯" << endl;
-        cout << "│          OR PRESS [1] SEND A MESSAGE           │" << endl;
-        cout << "╰────────────────────────────────────────────────╯" << endl;
+        cout << endl;
+        cout << "1. Send a message" << endl;
+        cout << "2. Back to Dashboard" << endl;
         cout << " " << endl;
         int schoice;
         cin >> schoice;
@@ -538,14 +574,15 @@ inline void BankSystem::handleHelpAndResources(const string &username)
         {
             help(username);
             cout << "Message sent successfully!" << endl;
-            cout << " " << endl;
-            cout << "Press Enter to continue...";
-            cin.get();
+        }
+        else if (schoice == 2)
+        {
+            break;
         }
         else
         {
-            cout << "Press Enter to continue...";
-            cin.get();
+            cout << "*Invalid choice. Please select a valid option." << endl;
+            return;
         }
         break;
     case 3:
@@ -715,11 +752,12 @@ inline void BankSystem::adminhandleAccountSettings(const string &username)
         cout << "║  5. Enable/Disable 2FA              ║" << endl;
         cout << "║  6. Show Activity Log               ║" << endl;
         cout << "║  7. Make User Admin                 ║" << endl;
-        cout << "║  8. Deposit(Savings Only)           ║" << endl;
-        cout << "║  9. Withdraw(Savings Only)          ║" << endl;
-        cout << "║  10. Make a Purchase(Credit Only)   ║" << endl;
-        cout << "║  11. Bills Payment(Credit Only)     ║" << endl;
-        cout << "║  12. Back to Profile                ║" << endl;
+        cout << "║  8. Make User Customer Service      ║" << endl;
+        cout << "║  9. Deposit(Savings Only)           ║" << endl;
+        cout << "║  10. Withdraw(Savings Only)          ║" << endl;
+        cout << "║  11. Make a Purchase(Credit Only)   ║" << endl;
+        cout << "║  12. Bills Payment(Credit Only)     ║" << endl;
+        cout << "║  13. Back to Profile                ║" << endl;
         cout << "╚═════════════════════════════════════╝   " << endl;
         cout << " " << endl;
 
@@ -766,18 +804,21 @@ inline void BankSystem::adminhandleAccountSettings(const string &username)
             makeUserAdmin(username);
             break;
         case 8:
-            admindepositFunds();
+            makeUserCustomerService(username);
             break;
         case 9:
-            adminwithdrawFunds();
+            admindepositFunds();
             break;
         case 10:
-            adminmakePurchase();
+            adminwithdrawFunds();
             break;
         case 11:
-            adminpayBills();
+            adminmakePurchase();
             break;
         case 12:
+            adminpayBills();
+            break;
+        case 13:
             cout << "Press Enter to continue..." << endl;
             return;
 

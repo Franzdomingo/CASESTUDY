@@ -3,6 +3,7 @@
         "balance": 0.0,
         "id": "USR169626233518467",
         "isadmin": true,
+        "iscustomerservice": false,
         "name": "Admin",
         "password": "Cfokp",
         "productapplications": [
@@ -89,6 +90,21 @@
                 "sessionID": "LGT169627137629358",
                 "timestamp": 1696271376,
                 "username": "Admin"
+            },
+            {
+                "sessionID": "LGN169627334441",
+                "timestamp": 1696273344,
+                "username": "Admin"
+            },
+            {
+                "sessionID": "LGN169627349041",
+                "timestamp": 1696273490,
+                "username": "Admin"
+            },
+            {
+                "sessionID": "LGT169627352318467",
+                "timestamp": 1696273523,
+                "username": "Admin"
             }
         ],
         "username": "Admin"
@@ -97,6 +113,7 @@
         "balance": 0.0,
         "id": "USR169626954218467",
         "isadmin": false,
+        "iscustomerservice": false,
         "name": "S",
         "password": "U",
         "productapplications": [
@@ -136,6 +153,7 @@
         "balance": 0.0,
         "id": "USR169627033841",
         "isadmin": false,
+        "iscustomerservice": false,
         "name": "",
         "password": "3",
         "productapplications": [
@@ -158,6 +176,7 @@
         "balance": 0.0,
         "id": "USR16962703516334",
         "isadmin": false,
+        "iscustomerservice": false,
         "name": "F",
         "password": "H",
         "productapplications": [
@@ -174,6 +193,18 @@
                 "phone": "F"
             }
         ],
+        "resources": [
+            {
+                "helpandresourcesDescription": "",
+                "helpandresourcesID": "HLP169627362615724",
+                "helpandresourcesType": "Help"
+            },
+            {
+                "helpandresourcesDescription": "",
+                "helpandresourcesID": "HLP169627363311478",
+                "helpandresourcesType": "Help"
+            }
+        ],
         "sessions": [
             {
                 "sessionID": "LGN169627037541",
@@ -183,6 +214,16 @@
             {
                 "sessionID": "LGN169627051841",
                 "timestamp": 1696270518,
+                "username": "F"
+            },
+            {
+                "sessionID": "LGN169627361819169",
+                "timestamp": 1696273618,
+                "username": "F"
+            },
+            {
+                "sessionID": "LGT169627364829358",
+                "timestamp": 1696273648,
                 "username": "F"
             }
         ],
@@ -206,6 +247,7 @@
         "balance": 0.0,
         "id": "USR169627128241",
         "isadmin": false,
+        "iscustomerservice": true,
         "name": "Sample",
         "password": "Ucorng",
         "productapplications": [
@@ -220,13 +262,6 @@
                 "email": "Sample",
                 "isTwoFactorEnabled": false,
                 "phone": "Sample"
-            }
-        ],
-        "resources": [
-            {
-                "helpandresourcesDescription": "Sample message",
-                "helpandresourcesID": "HLP169627167918467",
-                "helpandresourcesType": "Help"
             }
         ],
         "sessions": [
@@ -248,6 +283,66 @@
             {
                 "sessionID": "LGN169627164841",
                 "timestamp": 1696271648,
+                "username": "Sample"
+            },
+            {
+                "sessionID": "LGN169627193441",
+                "timestamp": 1696271934,
+                "username": "Sample"
+            },
+            {
+                "sessionID": "LGN169627200541",
+                "timestamp": 1696272005,
+                "username": "Sample"
+            },
+            {
+                "sessionID": "LGN169627219241",
+                "timestamp": 1696272192,
+                "username": "Sample"
+            },
+            {
+                "sessionID": "LGN169627227041",
+                "timestamp": 1696272270,
+                "username": "Sample"
+            },
+            {
+                "sessionID": "LGN169627235941",
+                "timestamp": 1696272359,
+                "username": "Sample"
+            },
+            {
+                "sessionID": "LGN169627241841",
+                "timestamp": 1696272418,
+                "username": "Sample"
+            },
+            {
+                "sessionID": "LGN169627258141",
+                "timestamp": 1696272581,
+                "username": "Sample"
+            },
+            {
+                "sessionID": "LGN169627264341",
+                "timestamp": 1696272643,
+                "username": "Sample"
+            },
+            {
+                "sessionID": "LGN169627296041",
+                "timestamp": 1696272960,
+                "username": "Sample"
+            },
+            {
+                "sessionID": "LGN16962735276334",
+                "timestamp": 1696273527,
+                "username": "Sample"
+            },
+            {
+                "sessionID": "LGT169627355726500",
+                "timestamp": 1696273557,
+                "username": "Sample"
+            },
+            {
+                "sessionID": "LGN169627365226962",
+                "timestamp": 1696273652,
                 "username": "Sample"
             }
         ],

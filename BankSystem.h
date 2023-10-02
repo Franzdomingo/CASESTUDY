@@ -77,6 +77,7 @@ struct User
     string username;
     string password;
     string producttype;
+    bool iscustomerservice{};
     bool isadmin{}; // To check if the user is an admin or not
     double balance{};
     vector<Profile> profiles;
@@ -581,6 +582,17 @@ public:
         }
         return false;
     }
+    bool iscustomerservice(const string &username)
+    {
+        for (const User &user : users)
+        {
+            if (user.username == username)
+            {
+                return user.iscustomerservice;
+            }
+        }
+        return false;
+    }
     bool deleteUserByUsername(const std::string &usernameToDelete)
     {
         using namespace std; // Add this line to use the std namespace
@@ -742,6 +754,7 @@ public:
                 cout << "Name: " << user.name << endl;
                 cout << "Username: " << user.username << endl;
                 cout << "Is Admin: " << (user.isadmin ? "Yes" : "No") << endl;
+                cout << "Is Customer Service: " << (user.iscustomerservice ? "Yes" : "No") << endl;
                 cout << "Product Type: " << user.producttype << endl;
                 cout << "Balance: " << user.balance << endl;
 
@@ -802,6 +815,7 @@ public:
             cout << "Name: " << user.name << endl;
             cout << "Username: " << user.username << endl;
             cout << "Is Admin: " << (user.isadmin ? "Yes" : "No") << endl;
+            cout << "Is Customer Service: " << (user.iscustomerservice ? "Yes" : "No") << endl;
             cout << "Product Type: " << user.producttype << endl;
             cout << "Balance: " << user.balance << endl;
 
@@ -894,6 +908,7 @@ public:
         string message;
         cout << "Enter your message: ";
         getline(cin, message);
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         SaveHelpandResources(username, "Help", message, "");
     }
     void SaveHelpandResources(const string &username, const string &helpandresourcesType, const string &helpandresourcesDescription, const string &feedback)
@@ -995,6 +1010,19 @@ public:
             }
         }
     }
+    void makeUserCustomerService(const string &username)
+    {
+        for (User &user : users)
+        {
+            if (user.username == username)
+            {
+                user.iscustomerservice = true;
+                cout << "User " << user.username << " is now a customer service." << endl;
+                saveDataToFile();
+            }
+        }
+    }
+
     void ChangePassword(const string &username, const string &password)
     {
         for (User &user : users)
@@ -1183,6 +1211,7 @@ public:
             user.name = item.value("name", "");
             user.username = item.value("username", "");
             user.isadmin = item.value("isadmin", false);
+            user.iscustomerservice = item.value("iscustomerservice", false);
             user.password = item.value("password", "");
             user.producttype = item.value("producttype", "");
             user.balance = item.value("balance", 0.0);
@@ -1268,6 +1297,7 @@ public:
                 userJson["username"] = user.username;
                 userJson["password"] = user.password;
                 userJson["isadmin"] = user.isadmin;
+                userJson["iscustomerservice"] = user.iscustomerservice;
                 userJson["producttype"] = user.producttype;
                 userJson["balance"] = user.balance;
 
