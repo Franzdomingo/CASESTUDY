@@ -660,6 +660,69 @@ public:
             cout << "User with username '" << user << "' not found." << endl;
         }
     }
+    void displayUserDataByUsername(const std::string &usernameToDisplay) const
+    {
+
+        for (const User &user : users)
+        {
+            if (user.username == usernameToDisplay)
+            {
+                cout << endl;
+                cout << "User ID: " << user.userID << endl;
+                cout << "Name: " << user.name << endl;
+                cout << "Username: " << user.username << endl;
+                cout << "Is Admin: " << (user.isadmin ? "Yes" : "No") << endl;
+                cout << "Product Type: " << user.producttype << endl;
+                cout << "Balance: " << user.balance << endl;
+
+                cout << "Profiles:" << endl;
+                for (const Profile &profile : user.profiles)
+                {
+                    cout << "  Email: " << profile.email << endl;
+                    cout << "  Phone: " << profile.phone << endl;
+                    cout << "  Two-Factor Enabled: " << (profile.isTwoFactorEnabled ? "Yes" : "No") << endl;
+                }
+
+                cout << "Transaction History:" << endl;
+                for (const Transaction &transaction : user.transactionhistory)
+                {
+                    cout << "  Transaction ID: " << transaction.transactionID << endl;
+                    cout << "  Transaction Type: " << transaction.transactionType << endl;
+                    cout << "  Amount: " << transaction.amount << endl;
+                    cout << "  Timestamp: " << transaction.timestamp << endl;
+                }
+
+                cout << "Sessions:" << endl;
+                for (const Session &session : user.sessions)
+                {
+                    cout << "  Session ID: " << session.sessionID << endl;
+                    cout << "  Username: " << session.username << endl;
+                    cout << "  Timestamp: " << session.timestamp << endl;
+                }
+
+                cout << "Product Applications:" << endl;
+                for (const ProductApplication &productApp : user.productapplications)
+                {
+                    cout << "  Product Type: " << productApp.producttype << endl;
+                    cout << "  Product ID: " << productApp.productID << endl;
+                }
+
+                cout << "Help and Resources:" << endl;
+                for (const HelpandResources &resources : user.helpandresources)
+                {
+                    cout << "  Help ID: " << resources.helpID << endl;
+                    cout << "  Type: " << resources.helpandresourcesType << endl;
+                    cout << "  Description: " << resources.helpandresourcesDescription << endl;
+                    cout << "  Feedback: " << resources.feedback << endl;
+                }
+
+                return; // Exit the loop once the user is found and displayed
+            }
+        }
+
+        cout << "User with username '" << usernameToDisplay << "' not found." << endl;
+    }
+
     void displayAllUserData() const
     {
 

@@ -687,6 +687,8 @@ inline void BankSystem::adminhandleAccountSettings(const string &username)
     {
         string newpass, newemail, newphone, newusername;
         char new2FA;
+        displayUserDataByUsername(username);
+
         cout << " " << endl;
         cout << "╔═════════════════════════════════════╗    " << endl;
         cout << "║           Manage Account            ║   " << endl;
@@ -698,10 +700,10 @@ inline void BankSystem::adminhandleAccountSettings(const string &username)
         cout << "║  5. Enable/Disable 2FA              ║" << endl;
         cout << "║  6. Show Activity Log               ║" << endl;
         cout << "║  7. Make User Admin                 ║" << endl;
-        cout << "║  8. Deposit                         ║" << endl;
-        cout << "║  9. Withdraw                        ║" << endl;
-        cout << "║  10. Make a Purchase                ║" << endl;
-        cout << "║  11. Bills Payment                  ║" << endl;
+        cout << "║  8. Deposit(Savings Only)           ║" << endl;
+        cout << "║  9. Withdraw(Savings Only)          ║" << endl;
+        cout << "║  10. Make a Purchase(Credit Only)   ║" << endl;
+        cout << "║  11. Bills Payment(Credit Only)     ║" << endl;
         cout << "║  12. Back to Profile                ║" << endl;
         cout << "╚═════════════════════════════════════╝   " << endl;
         cout << " " << endl;
