@@ -1,8 +1,6 @@
 #ifndef CHATAI_H
 #define CHATAI_H
 
-using namespace std;
-
 /*
  * The ChatAI class is a mockup chatbot that provides automated responses
  * based on specific keywords or phrases found within a given message.
@@ -12,7 +10,7 @@ class ChatAI
 {
 public:
     // Evaluates the user's message and responds based on predefined patterns.
-    void chatBot(string message)
+    static void chatBot(const string& message)
     {
         // Checks if user's message indicates they've forgotten their password.
         if (regex_search(message, regex("(forgot)(.*)(password)", regex_constants::icase)))
