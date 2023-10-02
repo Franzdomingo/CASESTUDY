@@ -1,48 +1,31 @@
 [
     {
         "balance": 0.0,
-        "name": "Franz",
-        "password": "Htcp|4",
-        "producttype": "Savings Account",
+        "id": "USR169617474841",
+        "isadmin": true,
+        "name": "C",
+        "password": "E",
+        "productapplications": [
+            {
+                "productID": "CRD169617474818467",
+                "producttype": "Credit Account"
+            }
+        ],
+        "producttype": "Credit Account",
         "profiles": [
             {
-                "email": "Franz@gmail.com",
-                "isTwoFactorEnabled": true,
-                "phone": "09457296178"
+                "email": "C",
+                "isTwoFactorEnabled": false,
+                "phone": "C"
             }
         ],
         "sessions": [
             {
-                "sessionID": "SSN169582217241",
-                "timestamp": 1695822172,
-                "username": "Franz"
-            },
-            {
-                "sessionID": "SSN169582226218467",
-                "timestamp": 1695822262,
-                "username": "Franz"
-            },
-            {
-                "sessionID": "SSN16958223006334",
-                "timestamp": 1695822300,
-                "username": "Franz"
-            },
-            {
-                "sessionID": "SSN169582238741",
-                "timestamp": 1695822387,
-                "username": "Franz"
-            },
-            {
-                "sessionID": "SSN169582248841",
-                "timestamp": 1695822488,
-                "username": "Franz"
-            },
-            {
-                "sessionID": "SSN169582264141",
-                "timestamp": 1695822641,
-                "username": "Franz"
+                "sessionID": "LGN16961747516334",
+                "timestamp": 1696174751,
+                "username": "C"
             }
         ],
-        "username": "Franz"
+        "username": "C"
     }
 ]

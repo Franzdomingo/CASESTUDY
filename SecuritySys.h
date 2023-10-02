@@ -2,13 +2,6 @@
 #ifndef SECURITY_SYS_H
 #define SECURITY_SYS_H
 
-#include <iostream>
-#include <fstream>
-#include <cstring>
-#include <random>
-#include <ctime>
-#include <string>
-    
 using namespace std;
 
 class SecuritySys
@@ -19,7 +12,10 @@ private:
     string OTP;
 
 public:
+    // Constructor initializes attempts and last attempt
     SecuritySys() : attempts(0), lastAttempt(0) {}
+
+    // Encrypts given password by adding 2 to ASCII value of each character.
     string encryptPass(string password)
     {
         const int passlength = password.length();
@@ -35,6 +31,7 @@ public:
         return password;
     }
 
+    // Decrypts given password by subtracting 2 from ASCII value of each character.
     string decryptPass(string encrypted)
     {
         const int passlength = encrypted.length();
@@ -50,6 +47,7 @@ public:
         return encrypted;
     }
 
+    // Generates a 6 digit One-time Password.
     string generateOTP()
     {
         const int length = 6;
@@ -65,6 +63,8 @@ public:
         return otp;
     }
 
+    // Determines if another login attempt can be made.
+    // After 3 failed attempts, user has to wait 30 seconds.
     bool canAttempt()
     {
         time_t currTime = time(0);
@@ -77,7 +77,8 @@ public:
         return true;
     }
 
-    bool attemptLogin(string password, string verifyPass)
+    // Attempts to login and tracks failed attempts.
+    bool attemptLogin(const string &password, const string &verifyPass)
     {
         if (verifyPass == password)
             return true;
@@ -87,11 +88,11 @@ public:
         return false;
     }
 
-    bool enable2FA(char answer)
+    bool enable2FA(const char &answer)
     {
-        if(toupper(answer) == 'Y')
+        if (toupper(answer) == 'Y')
             return true;
-        
+
         return false;
     }
 
@@ -101,7 +102,7 @@ public:
         cout << "Your One-time Password is: " << OTP << ". Do not give or send this to other people." << endl;
     }
 
-    bool verifyOTP(string onetimepass)
+    bool verifyOTP(const string &onetimepass)
     {
         if (OTP == onetimepass)
         {
@@ -122,26 +123,37 @@ public:
         return buf;
     }
 
-    bool securityStatus()
+    // Dummy function to represent security system check.
+    bool securityStatus(const bool &status)
     {
-        // Need something to check if security system is running well.
-        return true;
+        if (status)
+            return true;
+
+        return false;
     }
-    
-    void auditLog()
+
+    void auditLog(const bool &status)
     {
-        ofstream auditFile("audit_log.txt", ios_base::app);
-        if (!auditFile)
+        try
         {
-            cerr << "Error: Unable to open file for audit." << endl;
-            exit(0);
+            ofstream auditFile("audit_log.txt");
+            if (!auditFile)
+            {
+                cerr << "Error: Unable to open file for audit." << endl;
+                return;
+            }
+
+            bool currentStatus = securityStatus(status);
+            string statusResult = currentStatus ? "PASSED" : "FAILED";
+
+            auditFile << "[" << getcurrDate() << "]: " << statusResult << endl;
+
+            auditFile.close();
         }
-        bool runStatus = securityStatus();
-        string statusResult = runStatus ? "PASSED" : "FAILED";
-
-        auditFile << "[" << getcurrDate() << "]: " << statusResult << endl;
-
-        auditFile.close();
+        catch (const exception &e)
+        {
+            std::cerr << e.what() << '\n';
+        }
     }
 };
 
