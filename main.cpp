@@ -1,5 +1,4 @@
-#include <iostream>
-#include "BankSystem.h"
+#include "GUI.h"
 
 int main()
 {
@@ -8,11 +7,10 @@ int main()
 
     while (true)
     {
-        bank.displayMainMenu();
+        BankSystem::displayMainMenu();
 
         int choice;
         cin >> choice;
-        system("cls");
         cin.ignore(); // Clear the newline character
 
         switch (choice)
@@ -35,5 +33,4 @@ int main()
             cout << "Invalid choice. Please select a valid option." << endl;
         }
     }
-    return 0;
 }
