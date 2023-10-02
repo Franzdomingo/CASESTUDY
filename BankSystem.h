@@ -279,7 +279,88 @@ public:
 
         return totalNet;
     }
-
+    void admindepositFunds()
+    {
+        string username;
+        double amount;
+        cout << "Enter the username of the user to deposit funds: ";
+        cin >> username;
+        cin.ignore();
+        cout << "Enter the amount to deposit: ";
+        cin >> amount;
+        cin.ignore();
+        if (depositFunds(username, amount))
+        {
+            cout << "Funds deposited successfully." << endl;
+        }
+        else
+        {
+            cout << "Error: Unable to deposit funds." << endl;
+        }
+    }
+    void adminwithdrawFunds()
+    {
+        string username;
+        double amount;
+        cout << "Enter the username of the user to withdraw funds: ";
+        cin >> username;
+        cin.ignore();
+        cout << "Enter the amount to withdraw: ";
+        cin >> amount;
+        cin.ignore();
+        if (withdrawFunds(username, amount))
+        {
+            cout << "Funds withdrawn successfully." << endl;
+        }
+        else
+        {
+            cout << "Error: Unable to withdraw funds." << endl;
+        }
+    }
+    void adminmakePurchase()
+    {
+        string username;
+        double amount;
+        string purchaseDescription;
+        cout << "Enter the username of the user to make a purchase: ";
+        cin >> username;
+        cin.ignore();
+        cout << "Enter the amount to withdraw: ";
+        cin >> amount;
+        cin.ignore();
+        cout << "Enter the description of the purchase: ";
+        getline(cin, purchaseDescription);
+        if (makePurchase(username, amount, purchaseDescription))
+        {
+            cout << "Purchase made successfully." << endl;
+        }
+        else
+        {
+            cout << "Error: Unable to make purchase." << endl;
+        }
+    }
+    void adminpayBills()
+    {
+        string username;
+        double amount;
+        string billDescription;
+        cout << "Enter the username of the user to pay bills: ";
+        cin >> username;
+        cin.ignore();
+        cout << "Enter the amount to withdraw: ";
+        cin >> amount;
+        cin.ignore();
+        cout << "Enter the description of the bill: ";
+        getline(cin, billDescription);
+        if (payBills(username, amount, billDescription))
+        {
+            cout << "Bill paid successfully." << endl;
+        }
+        else
+        {
+            cout << "Error: Unable to pay bill." << endl;
+        }
+    }
     bool depositFunds(const string &username, double amount) // For Refactoring
     {
         for (User &user : users)

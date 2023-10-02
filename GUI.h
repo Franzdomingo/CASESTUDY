@@ -683,71 +683,91 @@ inline void BankSystem::displayUserSettings(const string &username)
 
 inline void BankSystem::adminhandleAccountSettings(const string &username)
 {
-    string newpass, newemail, newphone, newusername;
-    char new2FA;
-    cout << " " << endl;
-    cout << "╔═════════════════════════════════════╗    " << endl;
-    cout << "║           Manage Account            ║   " << endl;
-    cout << "╠═════════════════════════════════════╣    " << endl;
-    cout << "║  1. Change Password                 ║" << endl;
-    cout << "║  2. Change Email                    ║" << endl;
-    cout << "║  3. Change Phone                    ║" << endl;
-    cout << "║  4. Change Username                 ║" << endl;
-    cout << "║  5. Enable/Disable 2FA              ║" << endl;
-    cout << "║  6. Show Activity Log               ║" << endl;
-    cout << "║  7. Make User Admin                 ║" << endl;
-    cout << "║  8. Back to Profile                 ║" << endl;
-    cout << "╚═════════════════════════════════════╝   " << endl;
-    cout << " " << endl;
-
-    int mchoice;
-    cout << "\nEnter: ";
-    cin >> mchoice;
-    switch (mchoice)
+    while (true)
     {
-    case 1:
-        cout << "\nEnter new password: ";
-        cin >> newpass;
-        ChangePassword(username, newpass);
-        break;
+        string newpass, newemail, newphone, newusername;
+        char new2FA;
+        cout << " " << endl;
+        cout << "╔═════════════════════════════════════╗    " << endl;
+        cout << "║           Manage Account            ║   " << endl;
+        cout << "╠═════════════════════════════════════╣    " << endl;
+        cout << "║  1. Change Password                 ║" << endl;
+        cout << "║  2. Change Email                    ║" << endl;
+        cout << "║  3. Change Phone                    ║" << endl;
+        cout << "║  4. Change Username                 ║" << endl;
+        cout << "║  5. Enable/Disable 2FA              ║" << endl;
+        cout << "║  6. Show Activity Log               ║" << endl;
+        cout << "║  7. Make User Admin                 ║" << endl;
+        cout << "║  8. Deposit                         ║" << endl;
+        cout << "║  9. Withdraw                        ║" << endl;
+        cout << "║  10. Make a Purchase                ║" << endl;
+        cout << "║  11. Bills Payment                  ║" << endl;
+        cout << "║  12. Back to Profile                ║" << endl;
+        cout << "╚═════════════════════════════════════╝   " << endl;
+        cout << " " << endl;
 
-    case 2:
-        cout << "\nEnter new email: ";
-        cin >> newemail;
-        ChangeEmail(username, newemail);
-        break;
+        int mchoice;
+        cout << "\nEnter: ";
+        cin >> mchoice;
+        switch (mchoice)
+        {
+        case 1:
+            cout << "\nEnter new password: ";
+            cin >> newpass;
+            ChangePassword(username, newpass);
+            break;
 
-    case 3:
-        cout << "\nEnter new phone: ";
-        cin >> newphone;
-        ChangePhone(username, newphone);
-        break;
+        case 2:
+            cout << "\nEnter new email: ";
+            cin >> newemail;
+            ChangeEmail(username, newemail);
+            break;
 
-    case 4:
-        cout << "\nEnter new username: ";
-        cin >> newusername;
-        ChangeUsername(username, newusername);
-        break;
+        case 3:
+            cout << "\nEnter new phone: ";
+            cin >> newphone;
+            ChangePhone(username, newphone);
+            break;
 
-    case 5:
-        cout << "\nDo you want to enable 2FA?(Y/N): ";
-        cin >> new2FA;
-        DE2FA(username, new2FA);
-        break;
+        case 4:
+            cout << "\nEnter new username: ";
+            cin >> newusername;
+            ChangeUsername(username, newusername);
+            break;
 
-    case 6:
-        displayActivityLog(username);
-        break;
+        case 5:
+            cout << "\nDo you want to enable 2FA?(Y/N): ";
+            cin >> new2FA;
+            DE2FA(username, new2FA);
+            break;
 
-    case 7:
-        makeUserAdmin(username);
-        break;
-    case 8:
-        return;
+        case 6:
+            displayActivityLog(username);
+            break;
 
-    default:
-        cout << "*Invalid choice. Please select a valid option." << endl;
-        break;
+        case 7:
+            makeUserAdmin(username);
+            break;
+        case 8:
+            admindepositFunds();
+            break;
+        case 9:
+            adminwithdrawFunds();
+            break;
+        case 10:
+            adminmakePurchase();
+            break;
+        case 11:
+            adminpayBills();
+            break;
+        case 12:
+            cout << "Press Enter to continue..." << endl;
+            return;
+
+        default:
+            cout << "*Invalid choice. Please select a valid option." << endl;
+            break;
+        }
     }
 }
 
