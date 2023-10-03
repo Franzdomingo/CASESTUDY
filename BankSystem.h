@@ -984,7 +984,7 @@
                         helpandresourcesJson["helpandresourcesID"] = resources.helpID;
                         helpandresourcesJson["helpandresourcesType"] = resources.helpandresourcesType;
                         helpandresourcesJson["helpandresourcesDescription"] = resources.helpandresourcesDescription;
-                        userJson["resources"].push_back(helpandresourcesJson);
+                        userJson["helpandresources"].push_back(helpandresourcesJson);
                     }
                     j.push_back(userJson);
                 }
