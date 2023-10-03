@@ -58,8 +58,11 @@ inline void BankSystem::processWithdrawal(const string &username)
 inline void BankSystem::processPurchase(const string &username)
 {
     double purchaseAmount;
+    string purchaseDescription;
     cout << "\nEnter the purchase amount: $";
     cin >> purchaseAmount;
+    cout << "\nEnter the purchase description: ";
+    cin >> purchaseDescription;
     if (cin.fail())
     {
         cin.clear();
@@ -71,13 +74,13 @@ inline void BankSystem::processPurchase(const string &username)
     {
         cout << "*Invalid transaction amount. Please enter a positive amount." << endl;
     }
-    if (makePurchase(username, purchaseAmount, "Purchase description"))
+    if (makePurchase(username, purchaseAmount, purchaseDescription))
     {
-        cout << "Purchase of $" << purchaseAmount << " successful." << endl;
+        cout << endl;
     }
     else
     {
-        cout << "*Purchase failed. Please try again." << endl;
+        cout << endl;
     }
     cout << " " << endl;
     cout << "Press Enter to continue...";
@@ -87,8 +90,11 @@ inline void BankSystem::processPurchase(const string &username)
 inline void BankSystem::processPayBills(const string &username)
 {
     double billAmount;
+    string billdescription;
     cout << "\nEnter the bill amount: $";
     cin >> billAmount;
+    cout << "\nEnter the bill description: ";
+    cin >> billdescription;
     if (cin.fail())
     {
         cin.clear();
@@ -100,13 +106,13 @@ inline void BankSystem::processPayBills(const string &username)
     {
         cout << "*Invalid amount. Please enter a positive amount." << endl;
     }
-    if (payBills(username, billAmount, "Bill description"))
+    if (payBills(username, billAmount, billdescription))
     {
-        cout << "Bill payment of $" << billAmount << " successful." << endl;
+        cout << endl;
     }
     else
     {
-        cout << "*Bill payment failed. Please try again." << endl;
+        cout << endl;
     }
 
     cout << " " << endl;
@@ -140,6 +146,7 @@ inline void BankSystem::applyForProduct()
             cout << " " << endl;
             cout << "Press Enter to continue...";
             cin.get();
+            ::system("cls");
             continue;
         }
 
@@ -197,6 +204,7 @@ inline void BankSystem::handleAccountSettings(const string &username)
 {
     string newpass, newemail, newphone, newusername;
     char new2FA;
+    ::system("cls");
     cout << " " << endl;
     cout << "╔═════════════════════════════════════╗    " << endl;
     cout << "║           Manage Account            ║   " << endl;
@@ -267,6 +275,7 @@ inline void BankSystem::displayProfile(const string &username)
         {
             for (const Profile &profile : user.profiles)
             {
+                ::system("cls");
                 string show2FAStatus = profile.isTwoFactorEnabled ? "Enabled" : "Disabled";
                 cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" << endl;
                 cout << "                      User Profile                            " << endl;
@@ -338,12 +347,14 @@ inline void BankSystem::displayActivityLog(const string &username)
     switch (achoice)
     {
     case 1:
+        ::system("cls");
         displayTransactionHistory(username);
         break;
     case 2:
         displaySessions(username);
         break;
     case 3:
+        ::system("cls");
         displayHelpHistory(username);
         break;
     default:
@@ -358,6 +369,7 @@ inline void BankSystem::displaySessions(const string &username)
     {
         if (user.username == username)
         {
+            ::system("cls");
             cout << " " << endl;
             cout << "╔════════════════════════════════════════════╗    " << endl;
             cout << "║               Session History              ║    " << endl;
@@ -525,12 +537,14 @@ inline bool BankSystem::makePurchase(const string &username, double amount,
 
             // Save the updated user data to the file
             saveDataToFile();
-
-            cout << "Purchase of $" << amount << " successful. Description: " << purchaseDescription << endl;
+            cout << endl;
+            cout << "Purchase of $" << amount << " successful. " << endl;
+            cout << "Description: " << purchaseDescription << endl;
 
             return true;
         }
     }
+    cout << endl;
     cout << "*User not found. Purchase failed." << endl;
     return false;
 }
@@ -581,11 +595,15 @@ inline bool BankSystem::payBills(const string &username,
                 user.balance += amount;
                 // Save the updated user data to the file
                 saveDataToFile();
-                cout << "Bill payment of $" << amount << " successful. Description: " << billDescription << endl;
+
+                cout << endl;
+                cout << "Bill payment of $" << amount << " successful. " << endl;
+                cout << " Description: " << billDescription << endl;
                 return true;
             }
             else
             {
+                cout << endl;
                 cout << "*Insufficient balance. Bill payment failed." << endl;
                 return false;
             }

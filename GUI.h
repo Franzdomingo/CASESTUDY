@@ -10,15 +10,14 @@
 inline void BankSystem::displayMainMenu()
 {
     SetConsoleOutputCP(CP_UTF8);
-    cout << "\n"
-         << endl;
-    cout << "════════════════════════════════════════    " << endl;
-    cout << "┌──────────────────────────────────────┐ " << endl;
-    cout << "│             Bank System              │   " << endl;
-    cout << "└──────────────────────────────────────┘   " << endl;
-    cout << "════════════════════════════════════════    " << endl;
-    cout << "                                            " << endl;
-    cout << "┌──────────────────────────────────────┐ " << endl;
+    cout << "\n" << endl;
+    cout << "╔══════════════════════════════════════╗   " << endl;
+    cout << "║      ╔═══════════════════════╗       ║   " << endl;
+    cout << "║      ║   CENTRAL TRUST BANK  ║       ║   " << endl;
+    cout << "║      ╚═══════════════════════╝       ║   " << endl;
+    cout << "╚══════════════════════════════════════╝   " << endl;
+    cout << "                                           " << endl;
+    cout << "┌──────────────────────────────────────┐   " << endl;
     cout << "│ ┌──────────────────────────────────┐ │   " << endl;
     cout << "│ │  1. Login                        │ │   " << endl;
     cout << "│ │  2. Product Application          │ │   " << endl;
@@ -32,9 +31,17 @@ inline void BankSystem::displayMainMenu()
 
 inline bool BankSystem::loginUser(string &loggedInUsername)
 {
-    cout << "╔═════════════════════════════════════╗    " << endl;
-    cout << "║                Login                ║    " << endl;
-    cout << "╚═════════════════════════════════════╝    " << endl;
+    ::system("cls");
+    cout << "\n" << endl;
+    cout << "╔══════════════════════════════════════╗   " << endl;
+    cout << "║      ╔═══════════════════════╗       ║   " << endl;
+    cout << "║      ║   CENTRAL TRUST BANK  ║       ║   " << endl;
+    cout << "║      ╚═══════════════════════╝       ║   " << endl;
+    cout << "╚══════════════════════════════════════╝   " << endl;
+    cout << "                                       "<< endl;
+    cout << "╔══════════════════════════════════════╗    " << endl;
+    cout << "║                Login                 ║    " << endl;
+    cout << "╚══════════════════════════════════════╝    " << endl;
     cout << "  " << endl;
     string username, password;
     cout << "Enter username: ";
@@ -61,6 +68,7 @@ inline bool BankSystem::loginUser(string &loggedInUsername)
         cout << " " << endl;
         cout << "Press Enter to continue...";
         cin.get();
+        ::system("cls");
         return false;
     }
 }
@@ -75,11 +83,13 @@ inline void BankSystem::logout(const string &username)
     {
         SaveSession(username, "Logout");
         cout << "Logged out successfully." << endl;
+        
     }
 }
 
 inline void BankSystem::forgotPassword()
 {
+    ::system("cls");
     cout << "╭────────────────────────────────────────────────────────────╮" << endl;
     cout << "│                     Forgot Password                        │" << endl;
     cout << "╰────────────────────────────────────────────────────────────╯" << endl;
@@ -126,8 +136,7 @@ inline void BankSystem::forgotPassword()
         cout << "\n*Email not found. Please try again." << endl;
     }
     cout << " " << endl;
-    cout << "Press Enter to continue...";
-    cin.get();
+
 }
 
 inline void BankSystem::displayDashboardMenu(const string &username)
@@ -138,6 +147,7 @@ inline void BankSystem::displayDashboardMenu(const string &username)
         {
             if (isadmin(username))
             {
+                ::system("cls");
                 cout << "╔═════════════════════════════════════╗    " << endl;
                 cout << "║            Administrator            ║    " << endl;
                 cout << "╚═════════════════════════════════════╝    " << endl;
@@ -154,6 +164,7 @@ inline void BankSystem::displayDashboardMenu(const string &username)
             }
             else if (iscustomerservice(username))
             {
+                ::system("cls");
                 cout << "╔═════════════════════════════════════╗    " << endl;
                 cout << "║          Customer Service           ║    " << endl;
                 cout << "╚═════════════════════════════════════╝    " << endl;
@@ -169,12 +180,12 @@ inline void BankSystem::displayDashboardMenu(const string &username)
             }
             else
             {
+                ::system("cls");
                 SetConsoleOutputCP(CP_UTF8);
                 cout << " " << endl;
-
-                cout << "╭──────────────────────────────────────╮" << endl;
-                cout << "│             Bank System              │" << endl;
-                cout << "╰──────────────────────────────────────╯" << endl;
+                cout << "╭─────────────────────────────────────╮" << endl;
+                cout << "│         CENTRAL TRUST BANK          │" << endl;
+                cout << "╰─────────────────────────────────────╯" << endl;
                 cout << " " << endl;
                 cout << " Welcome " << user.name << "!" << endl;
                 cout << "  " << endl;
@@ -206,6 +217,7 @@ inline void BankSystem::handleDashboardOptions(const string &username)
         int choice;
         cin >> choice;
         cin.ignore(); // Clear the newline character
+        cout << " " << endl;
         if (isadmin(username))
         {
             switch (choice)
@@ -215,6 +227,7 @@ inline void BankSystem::handleDashboardOptions(const string &username)
                 cin.get();
                 break;
             case 2:
+                ::system("cls");
                 displayAllHelpAndResources();
                 replyHelpAndResources();
                 break;
@@ -223,8 +236,10 @@ inline void BankSystem::handleDashboardOptions(const string &username)
                 cout << "Logging out..." << endl;
                 logout(username);
                 setCurrentLoggedInUser("");
+                cout << " " << endl;
                 cout << "Press Enter to continue...";
                 cin.get();
+                ::system("cls");
                 return;
             default:
                 cout << "*Invalid choice. Please select a valid option." << endl;
@@ -235,6 +250,7 @@ inline void BankSystem::handleDashboardOptions(const string &username)
             switch (choice)
             {
             case 1:
+                ::system("cls");
                 displayAllHelpAndResources();
                 replyHelpAndResources();
                 break;
@@ -243,8 +259,10 @@ inline void BankSystem::handleDashboardOptions(const string &username)
                 cout << "Logging out..." << endl;
                 logout(username);
                 setCurrentLoggedInUser("");
+                cout << " " << endl;
                 cout << "Press Enter to continue...";
                 cin.get();
+                ::system("cls");
                 return;
             default:
                 cout << "*Invalid choice. Please select a valid option." << endl;
@@ -268,11 +286,13 @@ inline void BankSystem::handleDashboardOptions(const string &username)
                 break;
             case 5:
                 // Logout the user
-                cout << "Logging out..." << endl;
+                cout << "\nLogging out..." << endl;
                 logout(username);
                 setCurrentLoggedInUser("");
+                cout << "──────────────────────────────────" << endl;
                 cout << "Press Enter to continue...";
                 cin.get();
+                ::system("cls");
                 return;
             default:
                 cout << "*Invalid choice. Please select a valid option." << endl;
@@ -305,6 +325,7 @@ inline void BankSystem::displayCreditMenu(const string &username)
 
 inline void BankSystem::displayTransactionMenu(const string &username)
 {
+    ::system("cls");
     cout << " " << endl;
     cout << "╔═════════════════════════════════════╗    " << endl;
     cout << "║         Transaction Center:         ║    " << endl;
@@ -321,6 +342,7 @@ inline void BankSystem::displayTransactionMenu(const string &username)
 
 inline void BankSystem::displayTransactionCredit(const string &username)
 {
+    ::system("cls");
     cout << " " << endl;
     cout << "╔═════════════════════════════════════╗    " << endl;
     cout << "║         Transaction Center:         ║    " << endl;
@@ -376,9 +398,12 @@ inline void BankSystem::handleTransactionCenter(const string &username)
         case 2:
             processWithdrawal(username);
             break;
-        case 3:
+        case 3:;
+            ::system("cls");
             displayTransactionHistory(username);
             cout << " " << endl;
+            cout << "Press Enter to continue...";
+            cin.get();
             break;
         case 4:
             return; // Return to the dashboard
@@ -402,11 +427,14 @@ inline void BankSystem::handleCreditCenter(const string &username)
         {
         case 1:
             processPurchase(username);
+            ::system("cls");
             break;
         case 2:
             processPayBills(username);
+            ::system("cls");
             break;
         case 3:
+            ::system("cls");
             displayTransactionHistory(username);
             cout << " " << endl;
             cout << "Press Enter to continue...";
@@ -422,6 +450,7 @@ inline void BankSystem::handleCreditCenter(const string &username)
 
 inline void BankSystem::handleHelpAndResources(const string &username)
 {
+    ::system("cls");
     cout << " " << endl;
     cout << "╔═════════════════════════════════════╗    " << endl;
     cout << "║          Help & Resources           ║    " << endl;
@@ -443,10 +472,15 @@ inline void BankSystem::handleHelpAndResources(const string &username)
     case 1:
         cout << "\nHi! I'm your AI Assistant. How may I help you?\n"
              << endl;
+        cout << "Enter inquiry: ";
         getline(cin, message);
         chatBot(message, username);
+        cout << " " << endl;
+        cout << "Press Enter to continue...";
+        cin.get();
         break;
     case 2:
+        ::system("cls");
         cout << " " << endl;
         cout << "╭────────────────────────────────────────────────╮" << endl;
         cout << "│                  Contact Us                    │" << endl;
@@ -455,16 +489,23 @@ inline void BankSystem::handleHelpAndResources(const string &username)
         cout << "│  Phone: 1-800-123-4567                         │" << endl;
         cout << "│  Address: 123 Main St, New York, NY 10001      │" << endl;
         cout << "╰────────────────────────────────────────────────╯" << endl;
-        cout << endl;
-        cout << "1. Send a message" << endl;
-        cout << "2. Back to Dashboard" << endl;
+        cout << "                                                  " << endl;
+        cout << "╭────────────────────────────────────────────────╮         " << endl;
+        cout << "│  1. Send a message                             │         " << endl;
+        cout << "│  2. Back to Dashboard                          │         " << endl;
+        cout << "╰────────────────────────────────────────────────╯         " << endl;
         cout << " " << endl;
         int schoice;
+        cout << "Enter your choice: " ;
         cin >> schoice;
+        cout << " " << endl;
         if (schoice == 1)
         {
             askHelp(username);
-            cout << "Message sent successfully!" << endl;
+            cout << "\nMessage sent successfully!" << endl;
+            cout << " " << endl;
+            cout << "Press Enter to continue...";
+            cin.get();
         }
         else if (schoice == 2)
         {
@@ -491,6 +532,7 @@ inline void BankSystem::viewAnalyticsDashBoard(const string &username)
     {
         if (user.username == username)
         {
+            ::system("cls");
             cout << " " << endl;
             cout << "╔═════════════════════════════════════╗    " << endl;
             cout << "║           Data Analytics            ║   " << endl;
