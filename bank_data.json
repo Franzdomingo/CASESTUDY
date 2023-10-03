@@ -55,6 +55,16 @@
                 "sessionID": "LGT169627456418467",
                 "timestamp": 1696274564,
                 "username": "Admin"
+            },
+            {
+                "sessionID": "LGN169633743241",
+                "timestamp": 1696337432,
+                "username": "Admin"
+            },
+            {
+                "sessionID": "LGT169633746418467",
+                "timestamp": 1696337464,
+                "username": "Admin"
             }
         ],
         "username": "Admin"
@@ -121,6 +131,13 @@
     },
     {
         "balance": 0.0,
+        "helpandresources": [
+            {
+                "helpandresourcesDescription": "Tanginamo",
+                "helpandresourcesID": "HLP169633747826500",
+                "helpandresourcesType": "Help"
+            }
+        ],
         "id": "USR16962739606334",
         "isadmin": false,
         "iscustomerservice": false,
@@ -189,6 +206,16 @@
             {
                 "sessionID": "LGN169627513541",
                 "timestamp": 1696275135,
+                "username": "Customer1"
+            },
+            {
+                "sessionID": "LGN16963374706334",
+                "timestamp": 1696337470,
+                "username": "Customer1"
+            },
+            {
+                "sessionID": "LGT169633749219169",
+                "timestamp": 1696337492,
                 "username": "Customer1"
             }
         ],
@@ -274,5 +301,54 @@
             }
         ],
         "username": "SavingsCustomer"
+    },
+    {
+        "balance": -200.0,
+        "id": "USR169633850741",
+        "isadmin": false,
+        "iscustomerservice": false,
+        "name": "1",
+        "password": "3",
+        "productapplications": [
+            {
+                "productID": "CRD169633850718467",
+                "producttype": "Credit Account"
+            }
+        ],
+        "producttype": "Credit Account",
+        "profiles": [
+            {
+                "email": "1",
+                "isTwoFactorEnabled": false,
+                "phone": "1"
+            }
+        ],
+        "sessions": [
+            {
+                "sessionID": "LGN16963385096334",
+                "timestamp": 1696338509,
+                "username": "1"
+            },
+            {
+                "sessionID": "LGN169633873041",
+                "timestamp": 1696338730,
+                "username": "1"
+            }
+        ],
+        "transactionhistory": [
+            {
+                "amount": 100.0,
+                "timestamp": 1696338515,
+                "transactionID": "TXN169633851526500",
+                "transactionType": "Purchase"
+            },
+            {
+                "amount": 100.0,
+                "timestamp": 1696338735,
+                "transactionID": "TXN169633873518467",
+                "transactionType": "Purchase"
+            }
+        ],
+        "username": "1"
     }
 ]

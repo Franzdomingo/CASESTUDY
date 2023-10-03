@@ -101,7 +101,6 @@ inline void BankSystem::adminhandleAccountSettings(const string &username)
         cout << " " << endl;
         ::system("pause");
         ::system("cls");
-        
     }
 }
 
@@ -202,13 +201,13 @@ inline bool BankSystem::deleteUserByUsername(const std::string &usernameToDelete
     if (userToDelete != users.end())
     {
         users.erase(userToDelete, users.end());
-        cout << "User with username '" << usernameToDelete << "' has been deleted." << endl;
+
         saveDataToFile(); // Save data after deletion
         return true;
     }
     else
     {
-        cout << "User with username '" << usernameToDelete << "' not found." << endl;
+
         return false;
     }
 }
@@ -300,10 +299,10 @@ inline void BankSystem::displayHelpHistory(const string &username)
             cout << "╔═════════════════════════════════════════════════════════════╗    " << endl;
             cout << "║                        Help History                         ║    " << endl;
             cout << "╚═════════════════════════════════════════════════════════════╝    " << endl;
-            cout << "───────────────────────────────────────────────────────────────"<< endl;
+            cout << "───────────────────────────────────────────────────────────────" << endl;
             for (const HelpandResources &resources : user.helpandresources)
             {
-                
+
                 cout << "Help ID: " << resources.helpID << endl;
                 cout << "Type: " << resources.helpandresourcesType << endl;
                 cout << "Description: " << resources.helpandresourcesDescription << endl;
@@ -315,7 +314,7 @@ inline void BankSystem::displayHelpHistory(const string &username)
                 {
                     cout << "Feedback: No feedback yet." << endl;
                 }
-                cout << "───────────────────────────────────────────────────────────────"<< endl;
+                cout << "───────────────────────────────────────────────────────────────" << endl;
 
                 helpFound = true; // Set the flag to true if Help history is found
             }
@@ -343,7 +342,7 @@ inline void BankSystem::displayAllHelpAndResources()
         for (const HelpandResources &resources : user.helpandresources)
         {
             if (resources.helpandresourcesType == desiredType)
-            {   
+            {
                 cout << "Help ID: " << resources.helpID << endl;
                 cout << "Type: " << resources.helpandresourcesType << endl;
                 cout << "Description: " << resources.helpandresourcesDescription << endl;
@@ -399,7 +398,7 @@ inline void BankSystem::displayUserDataByUsername(const std::string &usernameToD
         {
             cout << endl;
             cout << "──────────────────────────────────────────────────────────────────" << endl;
-            cout << "                          Information:"<< endl;
+            cout << "                          Information:" << endl;
             cout << "──────────────────────────────────────────────────────────────────" << endl;
             cout << "  User ID                : " << user.userID << endl;
             cout << "  Name                   : " << user.name << endl;
@@ -413,47 +412,47 @@ inline void BankSystem::displayUserDataByUsername(const std::string &usernameToD
             cout << "──────────────────────────────────────────────────────────────────" << endl;
             for (const Profile &profile : user.profiles)
             {
-            cout << "  Email                  : " << profile.email << endl;
-            cout << "  Phone                  : " << profile.phone << endl;
-            cout << "  Two-Factor Enabled     : " << (profile.isTwoFactorEnabled ? "Yes" : "No") << endl;
+                cout << "  Email                  : " << profile.email << endl;
+                cout << "  Phone                  : " << profile.phone << endl;
+                cout << "  Two-Factor Enabled     : " << (profile.isTwoFactorEnabled ? "Yes" : "No") << endl;
             }
             cout << "──────────────────────────────────────────────────────────────────" << endl;
             cout << "                      Transaction History:" << endl;
             cout << "──────────────────────────────────────────────────────────────────" << endl;
             for (const Transaction &transaction : user.transactionhistory)
             {
-            cout << "  Transaction ID         : " << transaction.transactionID << endl;
-            cout << "  Transaction Type       : " << transaction.transactionType << endl;
-            cout << "  Amount                 : " << transaction.amount << endl;
-            cout << "  Timestamp              : " << transaction.timestamp << endl;
+                cout << "  Transaction ID         : " << transaction.transactionID << endl;
+                cout << "  Transaction Type       : " << transaction.transactionType << endl;
+                cout << "  Amount                 : " << transaction.amount << endl;
+                cout << "  Timestamp              : " << transaction.timestamp << endl;
             }
             cout << "──────────────────────────────────────────────────────────────────" << endl;
             cout << "                          Sessions:" << endl;
             cout << "──────────────────────────────────────────────────────────────────" << endl;
             for (const Session &session : user.sessions)
             {
-            cout << "  Session ID             : " << session.sessionID << endl;
-            cout << "  Username               : " << session.username << endl;
-            cout << "  Timestamp              : " << session.timestamp << endl;
+                cout << "  Session ID             : " << session.sessionID << endl;
+                cout << "  Username               : " << session.username << endl;
+                cout << "  Timestamp              : " << session.timestamp << endl;
             }
             cout << "──────────────────────────────────────────────────────────────────" << endl;
             cout << "                     Product Applications:" << endl;
             cout << "──────────────────────────────────────────────────────────────────" << endl;
             for (const ProductApplication &productApp : user.productapplications)
             {
-            cout << "  Product Type           : " << productApp.producttype << endl;
-            cout << "  Product ID             : " << productApp.productID << endl;
+                cout << "  Product Type           : " << productApp.producttype << endl;
+                cout << "  Product ID             : " << productApp.productID << endl;
             }
             cout << "──────────────────────────────────────────────────────────────────" << endl;
             cout << "                      Help and Resources:" << endl;
-            cout << "──────────────────────────────────────────────────────────────────"<< endl;
+            cout << "──────────────────────────────────────────────────────────────────" << endl;
             for (const HelpandResources &resources : user.helpandresources)
             {
-            cout << "  Help ID                : " << resources.helpID << endl;
-            cout << "  Type                   : " << resources.helpandresourcesType << endl;
-            cout << "  Description            : " << resources.helpandresourcesDescription << endl;
-            cout << "  Feedback               : " << resources.feedback << endl;
-            cout << "──────────────────────────────────────────────────────────────────"<< endl;
+                cout << "  Help ID                : " << resources.helpID << endl;
+                cout << "  Type                   : " << resources.helpandresourcesType << endl;
+                cout << "  Description            : " << resources.helpandresourcesDescription << endl;
+                cout << "  Feedback               : " << resources.feedback << endl;
+                cout << "──────────────────────────────────────────────────────────────────" << endl;
             }
 
             return; // Exit the loop once the user is found and displayed
@@ -466,9 +465,9 @@ inline void BankSystem::displayUserDataByUsername(const std::string &usernameToD
 inline void BankSystem::displayAllUserData() const
 {
     ::system("cls");
-        cout << "╔════════════════════════════════════════════════════════╗     " << endl;
-        cout << "║                   View Users Data                      ║     " << endl;
-        cout << "╚════════════════════════════════════════════════════════╝     " << endl;
+    cout << "╔════════════════════════════════════════════════════════╗     " << endl;
+    cout << "║                   View Users Data                      ║     " << endl;
+    cout << "╚════════════════════════════════════════════════════════╝     " << endl;
     cout << " " << endl;
     for (const User &user : users)
     {
@@ -488,10 +487,10 @@ inline void BankSystem::displayAllUserData() const
         cout << "────────────────────────────────────────────────────────" << endl;
         for (const Profile &profile : user.profiles)
         {
-        cout << "  Email                    : " << profile.email << endl;
-        cout << "  Phone                    : " << profile.phone << endl;
-        cout << "  Two-Factor Enabled       : " << (profile.isTwoFactorEnabled ? "Yes" : "No") << endl;
-        cout << " " << endl;
+            cout << "  Email                    : " << profile.email << endl;
+            cout << "  Phone                    : " << profile.phone << endl;
+            cout << "  Two-Factor Enabled       : " << (profile.isTwoFactorEnabled ? "Yes" : "No") << endl;
+            cout << " " << endl;
         }
         cout << "────────────────────────────────────────────────────────" << endl;
         cout << "                 Transaction History:                   " << endl;
@@ -538,8 +537,7 @@ inline void BankSystem::displayAllUserData() const
         cout << "║╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳╳║     " << endl;
         cout << "╚═══════════════════════════════════════════════════════════════════════════╝     " << endl;
     }
-    cout << "\nPress enter to continue..." ;
-
+    cout << "\nPress enter to continue...";
 }
 
 #endif
