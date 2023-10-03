@@ -69,7 +69,6 @@ struct Administrator
     string username;
     string password;
 };
-
 struct User
 {
     string userID;
@@ -879,6 +878,7 @@ public:
                     transaction.transactionType = transactionItem.value("transactionType", "");
                     transaction.amount = transactionItem.value("amount", 0.0);
                     transaction.timestamp = transactionItem.value("timestamp", 0);
+                    transaction.description = transactionItem.value("description", "");
                     user.transactionhistory.emplace_back(transaction);
                 }
             }
@@ -961,6 +961,7 @@ public:
                     transactionJson["transactionType"] = transaction.transactionType;
                     transactionJson["amount"] = transaction.amount;
                     transactionJson["timestamp"] = transaction.timestamp;
+                    transactionJson["description"] = transaction.description;
                     userJson["transactionhistory"].push_back(transactionJson);
                 }
                 for (const Session &session : user.sessions)

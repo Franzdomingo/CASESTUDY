@@ -303,7 +303,7 @@
         "username": "SavingsCustomer"
     },
     {
-        "balance": -200.0,
+        "balance": -199.0,
         "id": "USR169633850741",
         "isadmin": false,
         "iscustomerservice": false,
@@ -333,6 +333,11 @@
                 "sessionID": "LGN169633873041",
                 "timestamp": 1696338730,
                 "username": "1"
+            },
+            {
+                "sessionID": "LGN169633893441",
+                "timestamp": 1696338934,
+                "username": "1"
             }
         ],
         "transactionhistory": [
@@ -347,6 +352,18 @@
                 "timestamp": 1696338735,
                 "transactionID": "TXN169633873518467",
                 "transactionType": "Purchase"
+            },
+            {
+                "amount": 1.0,
+                "timestamp": 1696338939,
+                "transactionID": "TXN169633893918467",
+                "transactionType": "Purchase"
+            },
+            {
+                "amount": 2.0,
+                "timestamp": 1696338948,
+                "transactionID": "TXN16963389486334",
+                "transactionType": "Bill Payment"
             }
         ],
         "username": "1"

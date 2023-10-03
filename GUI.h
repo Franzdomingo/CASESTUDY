@@ -10,7 +10,8 @@
 inline void BankSystem::displayMainMenu()
 {
     SetConsoleOutputCP(CP_UTF8);
-    cout << "\n" << endl;
+    cout << "\n"
+         << endl;
     cout << "╔══════════════════════════════════════╗   " << endl;
     cout << "║      ╔═══════════════════════╗       ║   " << endl;
     cout << "║      ║   CENTRAL TRUST BANK  ║       ║   " << endl;
@@ -32,13 +33,14 @@ inline void BankSystem::displayMainMenu()
 inline bool BankSystem::loginUser(string &loggedInUsername)
 {
     ::system("cls");
-    cout << "\n" << endl;
+    cout << "\n"
+         << endl;
     cout << "╔══════════════════════════════════════╗   " << endl;
     cout << "║      ╔═══════════════════════╗       ║   " << endl;
     cout << "║      ║   CENTRAL TRUST BANK  ║       ║   " << endl;
     cout << "║      ╚═══════════════════════╝       ║   " << endl;
     cout << "╚══════════════════════════════════════╝   " << endl;
-    cout << "                                       "<< endl;
+    cout << "                                       " << endl;
     cout << "╔══════════════════════════════════════╗    " << endl;
     cout << "║                Login                 ║    " << endl;
     cout << "╚══════════════════════════════════════╝    " << endl;
@@ -83,7 +85,6 @@ inline void BankSystem::logout(const string &username)
     {
         SaveSession(username, "Logout");
         cout << "Logged out successfully." << endl;
-        
     }
 }
 
@@ -136,7 +137,6 @@ inline void BankSystem::forgotPassword()
         cout << "\n*Email not found. Please try again." << endl;
     }
     cout << " " << endl;
-
 }
 
 inline void BankSystem::displayDashboardMenu(const string &username)
@@ -374,6 +374,7 @@ inline void BankSystem::displayTransactionHistory(const string &username)
                 cout << "Transaction Type: " << transaction.transactionType << endl;
                 cout << "Amount: $" << transaction.amount << endl;
                 cout << "Timestamp: " << ctime(&transaction.timestamp);
+                cout << "Description: " << transaction.description << endl;
                 cout << "───────────────────────────────────────" << endl;
             }
         }
@@ -496,7 +497,7 @@ inline void BankSystem::handleHelpAndResources(const string &username)
         cout << "╰────────────────────────────────────────────────╯         " << endl;
         cout << " " << endl;
         int schoice;
-        cout << "Enter your choice: " ;
+        cout << "Enter your choice: ";
         cin >> schoice;
         cout << " " << endl;
         if (schoice == 1)
