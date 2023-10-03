@@ -22,12 +22,17 @@ int main()
             }
             break;
         case 2:
+            ::system("cls");
             bank.applyForProduct();
+            ::system("cls");
             break;
         case 3:
             bank.forgotPassword();
+            ::system("pause");
+            ::system("cls");
             break;
         case 4:
+            ::system("cls");
             return 0;
         default:
             cout << "Invalid choice. Please select a valid option." << endl;

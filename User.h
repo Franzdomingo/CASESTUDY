@@ -140,6 +140,7 @@ inline void BankSystem::applyForProduct()
             cout << " " << endl;
             cout << "Press Enter to continue...";
             cin.get();
+            ::system("cls");
             continue;
         }
 
@@ -197,6 +198,7 @@ inline void BankSystem::handleAccountSettings(const string &username)
 {
     string newpass, newemail, newphone, newusername;
     char new2FA;
+    ::system("cls");
     cout << " " << endl;
     cout << "╔═════════════════════════════════════╗    " << endl;
     cout << "║           Manage Account            ║   " << endl;
@@ -267,6 +269,7 @@ inline void BankSystem::displayProfile(const string &username)
         {
             for (const Profile &profile : user.profiles)
             {
+                ::system("cls");
                 string show2FAStatus = profile.isTwoFactorEnabled ? "Enabled" : "Disabled";
                 cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" << endl;
                 cout << "                      User Profile                            " << endl;
@@ -338,12 +341,14 @@ inline void BankSystem::displayActivityLog(const string &username)
     switch (achoice)
     {
     case 1:
+        ::system("cls");
         displayTransactionHistory(username);
         break;
     case 2:
         displaySessions(username);
         break;
     case 3:
+        ::system("cls");
         displayHelpHistory(username);
         break;
     default:
@@ -358,6 +363,7 @@ inline void BankSystem::displaySessions(const string &username)
     {
         if (user.username == username)
         {
+            ::system("cls");
             cout << " " << endl;
             cout << "╔════════════════════════════════════════════╗    " << endl;
             cout << "║               Session History              ║    " << endl;
