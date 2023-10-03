@@ -35,7 +35,10 @@ int main()
             ::system("cls");
             return 0;
         default:
-            cout << "Invalid choice. Please select a valid option." << endl;
+            cout << "\n*Invalid choice. Please select a valid option." << endl;
+            cout << " " << endl;
+            ::system("pause");
+            ::system("cls");
         }
     }
 }
